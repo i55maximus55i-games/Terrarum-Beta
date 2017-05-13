@@ -36,7 +36,7 @@ public class GameScreen implements Screen {
         this.game = game;
         shapeRenderer = new ShapeRenderer();
         controlHandler = new TerrarumControlHandler();
-        musicPlayer = new MusicPlayer();
+        musicPlayer = new MusicPlayer(0.2f);
     }
 
     @Override
@@ -48,6 +48,7 @@ public class GameScreen implements Screen {
     public void render(float delta) {
         Gdx.gl20.glClearColor(0, 0.16f, 1, 1);
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        controlHandler.stickControl(shapeRenderer);
     }
 
     @Override

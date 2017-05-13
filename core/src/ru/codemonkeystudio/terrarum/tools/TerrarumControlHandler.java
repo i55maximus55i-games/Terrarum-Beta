@@ -18,8 +18,8 @@ public class TerrarumControlHandler {
         x = -1;
         y = -1;
 
-        stickSizeBig = 40;
-        stickSizeSmall = 5;
+        stickSizeBig = 150;
+        stickSizeSmall = 40;
     }
 
     public Vector2 touchControl() {

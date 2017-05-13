@@ -73,5 +73,8 @@ public class MusicPlayer implements Disposable{
         for (Music m : playList) {
             m.dispose();
         }
+        while (playList.size() > 0) {
+            playList.remove(0);
+        }
     }
 }
