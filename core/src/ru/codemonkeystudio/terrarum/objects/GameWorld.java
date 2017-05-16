@@ -15,7 +15,7 @@ import java.util.List;
  */
 
 public class GameWorld implements Disposable{
-    public static final int WORLD_SIZE = 8;
+    public static final int WORLD_SIZE = 16;
 
     public final int[][] grid;
 
@@ -25,17 +25,17 @@ public class GameWorld implements Disposable{
         world = new World(new Vector2(0, 0), true);
 
         grid = new int[WORLD_SIZE][WORLD_SIZE];
-        List cells = new ArrayList();
+        List<Integer> cells = new ArrayList<Integer>();
         for (int i = 0; i < (int)(WORLD_SIZE * WORLD_SIZE * 2.625 / 12); i++) {
             for (int j = 0; j < 12; j++) {
                 cells.add(j);
             }
         }
 
-        createWall(-4, 64 * WORLD_SIZE / 2,4, 64 * WORLD_SIZE / 2 + 8);
-        createWall(4 + 64 * WORLD_SIZE, 64 * WORLD_SIZE / 2,4, 64 * WORLD_SIZE / 2 + 8);
-        createWall(64 * WORLD_SIZE / 2, - 4,64 * WORLD_SIZE / 2, 4);
-        createWall(64 * WORLD_SIZE / 2, 4 + 64 * WORLD_SIZE,64 * WORLD_SIZE / 2, 4);
+        createWall(-4, 32 * WORLD_SIZE, 4, 32 * WORLD_SIZE + 8);
+        createWall(4 + 64 * WORLD_SIZE, 32 * WORLD_SIZE,4, 32 * WORLD_SIZE + 8);
+        createWall(32 * WORLD_SIZE, - 4,32 * WORLD_SIZE, 4);
+        createWall(32 * WORLD_SIZE, 4 + 64 * WORLD_SIZE, 32 * WORLD_SIZE, 4);
 
         for (int y = 0; y < WORLD_SIZE; y++) {
             for (int x = 0; x < WORLD_SIZE; x++) {
@@ -55,44 +55,48 @@ public class GameWorld implements Disposable{
                         createWall(x * 64 + 32, y * 64 + 46, 4, 18);
                         break;
                     case 3:
-                        createWall(x * 64 + 32, y * 64 + 18,4, 18);
-                        createWall(x * 64 + 14, y * 64 + 4,14, 4);
+                        createWall(x * 64 + 32, y * 64 + 18, 4, 18);
+                        createWall(x * 64 + 14, y * 64 + 4, 14, 4);
                         break;
                     case 4:
                         createWall(x * 64 + 32, y * 64 + 46, 4, 18);
                         createWall(x * 64 + 14, y * 64 + 60, 14, 4);
                         break;
                     case 5:
-                        createWall(x * 64 + 32, y * 64 + 46,4, 18);
-                        createWall(x * 64 + 50, y * 64 + 60,14, 4);
-                        createWall(x * 64 + 14, y * 64 + 32,14, 4);
+                        createWall(x * 64 + 32, y * 64 + 46, 4, 18);
+                        createWall(x * 64 + 50, y * 64 + 60, 14, 4);
+                        createWall(x * 64 + 14, y * 64 + 32, 14, 4);
                         break;
                     case 6:
-                        createWall(x * 64 + 50, y * 64 + 60,14, 4);
-                        createWall(x * 64 + 32, y * 64 + 46,4, 18);
+                        createWall(x * 64 + 50, y * 64 + 60, 14, 4);
+                        createWall(x * 64 + 32, y * 64 + 46, 4, 18);
                         break;
                     case 7:
-                        createWall(x * 64 + 32, y * 64 + 60,32, 4);
+                        createWall(x * 64 + 32, y * 64 + 60, 32, 4);
                         break;
                     case 8:
-                        createWall(x * 64 + 32, y * 64 + 46,4, 18);
-                        createWall(x * 64 + 14, y * 64 + 60,14, 4);
+                        createWall(x * 64 + 32, y * 64 + 46, 4, 18);
+                        createWall(x * 64 + 14, y * 64 + 60, 14, 4);
                         break;
                     case 9:
-                        createWall(x * 64 + 14, y * 64 + 32,14, 4);
+                        createWall(x * 64 + 14, y * 64 + 32, 14, 4);
                         createWall(x * 64 + 32, y * 64 + 46, 4, 18);
                         break;
                     case 10:
-                        createWall(x * 64 + 14, y * 64 + 32,14, 4);
-                        createWall(x * 64 + 32, y * 64 + 46,4, 18);
+                        createWall(x * 64 + 14, y * 64 + 32, 14, 4);
+                        createWall(x * 64 + 32, y * 64 + 46, 4, 18);
                         break;
                     case 11:
-                        createWall(x * 64 + 42, y * 64 + 32,14, 4);
-                        createWall(x * 64 + 60, y * 64 + 46,4, 18);
+                        createWall(x * 64 + 42, y * 64 + 32, 14, 4);
+                        createWall(x * 64 + 60, y * 64 + 46, 4, 18);
                         break;
                 }
             }
         }
+    }
+
+    public void update(float delta) {
+        world.step(delta, 4, 2);
     }
 
     private void createWall(float x, float y, float sizeX, float sizeY) {

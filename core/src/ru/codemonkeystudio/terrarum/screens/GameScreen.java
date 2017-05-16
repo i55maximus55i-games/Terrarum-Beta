@@ -1,17 +1,19 @@
 package ru.codemonkeystudio.terrarum.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 
-import java.util.ArrayList;
-
+import box2dLight.PointLight;
 import ru.codemonkeystudio.terrarum.Terrarum;
+import ru.codemonkeystudio.terrarum.objects.GameWorld;
+import ru.codemonkeystudio.terrarum.objects.Player;
+import ru.codemonkeystudio.terrarum.tools.GameRenderer;
 import ru.codemonkeystudio.terrarum.tools.MusicPlayer;
 import ru.codemonkeystudio.terrarum.tools.TerrarumControlHandler;
 
@@ -22,21 +24,26 @@ import ru.codemonkeystudio.terrarum.tools.TerrarumControlHandler;
 public class GameScreen implements Screen {
     private final Terrarum game;
 
-    //box2D world
-
-    //game assets
-
-    //game objects
     private TerrarumControlHandler controlHandler;
     private MusicPlayer musicPlayer;
 
-    private ShapeRenderer shapeRenderer;
+    private GameWorld gameWorld;
+    private GameRenderer renderer;
+
+    private Player player;
+    private PointLight playerLight;
 
     public GameScreen(Terrarum game) {
         this.game = game;
-        shapeRenderer = new ShapeRenderer();
+        gameWorld = new GameWorld();
+
+        renderer = new GameRenderer(game.batch, gameWorld);
         controlHandler = new TerrarumControlHandler();
-        musicPlayer = new MusicPlayer(0.2f);
+        musicPlayer = new MusicPlayer(0f);
+
+        player = new Player(gameWorld.getWorld(), controlHandler, true);
+        playerLight = new PointLight(renderer.getRayHandler(), 500, Color.RED, 100, 20, 20);
+        playerLight.attachToBody(player.getBody());
     }
 
     @Override
@@ -48,12 +55,20 @@ public class GameScreen implements Screen {
     public void render(float delta) {
         Gdx.gl20.glClearColor(0, 0.16f, 1, 1);
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        controlHandler.stickControl(shapeRenderer);
+        renderer.render();
+        update(delta);
+    }
+
+    private void update(float delta) {
+        gameWorld.update(delta);
+        player.update(delta);
+        renderer.update(delta, player.getBody().getPosition().x, player.getBody().getPosition().y);
     }
 
     @Override
     public void resize(int width, int height) {
-
+        renderer.resize(width, height);
+        controlHandler.resize(width, height);
     }
 
     @Override
@@ -74,6 +89,5 @@ public class GameScreen implements Screen {
     @Override
     public void dispose() {
         musicPlayer.dispose();
-        shapeRenderer.dispose();
     }
 }
