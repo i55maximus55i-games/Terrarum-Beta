@@ -1,5 +1,6 @@
 package ru.codemonkeystudio.terrarum.tools;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -9,7 +10,6 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.utils.Disposable;
 
-import box2dLight.PointLight;
 import box2dLight.RayHandler;
 import ru.codemonkeystudio.terrarum.objects.GameWorld;
 import ru.codemonkeystudio.terrarum.objects.Player;
@@ -97,7 +97,10 @@ public class GameRenderer implements Disposable {
 
     @Override
     public void dispose() {
-
+        shapeRenderer.dispose();
+        debugRenderer.dispose();
+        rayHandler.dispose();
+        worldTexture.dispose();
     }
 
     public void update(float delta, float camX, float camY) {

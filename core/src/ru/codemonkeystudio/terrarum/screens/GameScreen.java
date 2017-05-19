@@ -2,19 +2,17 @@ package ru.codemonkeystudio.terrarum.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 
-import box2dLight.PointLight;
+import java.util.ArrayList;
+
 import ru.codemonkeystudio.terrarum.Terrarum;
+import ru.codemonkeystudio.terrarum.objects.Food;
 import ru.codemonkeystudio.terrarum.objects.GameWorld;
 import ru.codemonkeystudio.terrarum.objects.Player;
 import ru.codemonkeystudio.terrarum.tools.GameRenderer;
 import ru.codemonkeystudio.terrarum.tools.MusicPlayer;
+import ru.codemonkeystudio.terrarum.tools.TerrarumContactListener;
 import ru.codemonkeystudio.terrarum.tools.TerrarumControlHandler;
 
 /**
@@ -31,7 +29,7 @@ public class GameScreen implements Screen {
     private GameRenderer renderer;
 
     private Player player;
-    private PointLight playerLight;
+    private ArrayList<Food> foodList;
 
     public GameScreen(Terrarum game) {
         this.game = game;
@@ -39,11 +37,15 @@ public class GameScreen implements Screen {
 
         renderer = new GameRenderer(game.batch, gameWorld);
         controlHandler = new TerrarumControlHandler();
-        musicPlayer = new MusicPlayer(0f);
+        musicPlayer = new MusicPlayer(0.2f);
 
-        player = new Player(gameWorld.getWorld(), controlHandler, true);
-        playerLight = new PointLight(renderer.getRayHandler(), 500, Color.RED, 100, 20, 20);
-        playerLight.attachToBody(player.getBody());
+        player = new Player(gameWorld.getWorld(), controlHandler, true, renderer.getRayHandler());
+        foodList = new ArrayList<Food>();
+        for (int i = 0; i < GameWorld.WORLD_SIZE; i++) {
+            foodList.add(new Food(gameWorld.getWorld(), renderer.getRayHandler(), GameWorld.WORLD_SIZE * 64 - 16, i * 64 + 16));
+            foodList.add(new Food(gameWorld.getWorld(), renderer.getRayHandler(), GameWorld.WORLD_SIZE * 64 - 16, i * 64 + 48));
+        }
+        gameWorld.getWorld().setContactListener(new TerrarumContactListener(player));
     }
 
     @Override
@@ -63,6 +65,30 @@ public class GameScreen implements Screen {
         gameWorld.update(delta);
         player.update(delta);
         renderer.update(delta, player.getBody().getPosition().x, player.getBody().getPosition().y);
+        int alive = 0;
+        for (int i = 0; i < foodList.size(); i++) {
+            foodList.get(i).update(delta);
+            if (foodList.get(i).isAlive() && foodList.get(i).getBody().getPosition().dst(player.getBody().getPosition()) < 10) {
+                foodList.get(i).die(gameWorld.getWorld());
+            }
+            if (foodList.get(i).isAlive()) alive++;
+        }
+        if (alive <= 0) {
+            win();
+        }
+        else if (player.getLives() < 0) {
+            lose();
+        }
+    }
+
+    private void lose() {
+        musicPlayer.dispose();
+        game.setScreen(new GameScreen(game));
+    }
+
+    private void win() {
+        musicPlayer.dispose();
+        game.setScreen(new GameScreen(game));
     }
 
     @Override
@@ -88,6 +114,12 @@ public class GameScreen implements Screen {
 
     @Override
     public void dispose() {
+        renderer.dispose();
+        player.dispose();
+        controlHandler.dispose();
         musicPlayer.dispose();
+        for (int i = 0; i < foodList.size(); i++) {
+            foodList.get(i).dispose();
+        }
     }
 }

@@ -15,7 +15,7 @@ import java.util.List;
  */
 
 public class GameWorld implements Disposable{
-    public static final int WORLD_SIZE = 16;
+    public static final int WORLD_SIZE = 4;
 
     public final int[][] grid;
 
@@ -96,7 +96,7 @@ public class GameWorld implements Disposable{
     }
 
     public void update(float delta) {
-        world.step(delta, 4, 2);
+        world.step(delta, 10, 5);
     }
 
     private void createWall(float x, float y, float sizeX, float sizeY) {

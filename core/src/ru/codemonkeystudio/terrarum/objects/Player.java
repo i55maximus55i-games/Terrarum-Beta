@@ -1,26 +1,31 @@
 package ru.codemonkeystudio.terrarum.objects;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Disposable;
 
+import box2dLight.PointLight;
+import box2dLight.RayHandler;
 import ru.codemonkeystudio.terrarum.tools.TerrarumControlHandler;
 
 /**
  * Created by maximus on 16.05.2017.
  */
 
-public class Player {
+public class Player implements Disposable{
     public static final float SIZE = 3;
+    private final PointLight playerLight;
     private boolean isStickControl;
     private Body body;
     private int lives;
     private TerrarumControlHandler controlHandler;
 
-    public Player(World world, TerrarumControlHandler controlHandler, boolean isStickControl) {
+    public Player(World world, TerrarumControlHandler controlHandler, boolean isStickControl, RayHandler rayHandler) {
         this.isStickControl = isStickControl;
         this.controlHandler = controlHandler;
         lives = 5;
@@ -40,11 +45,22 @@ public class Player {
         fDef.density = 0;
 
         body.createFixture(fDef);
+
+        playerLight = new PointLight(rayHandler, 500, Color.RED, 100, 20, 20);
+        playerLight.attachToBody(body);
     }
 
     public void update(float delta) {
         control();
         friction();
+
+        if (playerLight.getDistance() <= 100) {
+            playerLight.setColor(Color.RED);
+            playerLight.setDistance(100);
+        }
+        else {
+            playerLight.setDistance(playerLight.getDistance() - 20);
+        }
     }
 
     private void friction() {
@@ -82,5 +98,20 @@ public class Player {
 
     public void setStickControl(boolean s) {
         isStickControl = s;
+    }
+
+    public void hit() {
+        lives--;
+        playerLight.setDistance(1000);
+        playerLight.setColor(Color.WHITE);
+    }
+
+    public int getLives() {
+        return lives;
+    }
+
+    @Override
+    public void dispose() {
+        playerLight.dispose();
     }
 }

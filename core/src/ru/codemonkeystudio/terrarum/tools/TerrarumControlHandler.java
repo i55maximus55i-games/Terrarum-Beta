@@ -5,12 +5,13 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Disposable;
 
 /**
  * Created by maximus on 10.05.2017.
  */
 
-public class TerrarumControlHandler {
+public class TerrarumControlHandler implements Disposable {
     private ShapeRenderer shapeRenderer;
 
     private int x, y;
@@ -22,14 +23,14 @@ public class TerrarumControlHandler {
         y = -1;
 
         stickSizeBig = 150;
-        stickSizeSmall = 40;
+        stickSizeSmall = stickSizeBig / 3;
         shapeRenderer = new ShapeRenderer();
     }
 
     public Vector2 touchControl() {
         Vector2 ctrl = new Vector2();
-        if (Gdx.input.isTouched()) {
-            ctrl.set(Gdx.input.getX() - Gdx.graphics.getWidth() / 2, Gdx.input.getY() - Gdx.graphics.getHeight() / 2);
+        if (Gdx.input.isTouched(0)) {
+            ctrl.set(Gdx.input.getX(0) - Gdx.graphics.getWidth() / 2, Gdx.input.getY(0) - Gdx.graphics.getHeight() / 2);
         }
         else {
             ctrl.set(0, 0);
@@ -39,10 +40,10 @@ public class TerrarumControlHandler {
     }
 
     public Vector2 stickControl() {
-        if (Gdx.input.isTouched()) {
+        if (Gdx.input.isTouched(0)) {
             if (x == -1) {
-                x = Gdx.input.getX();
-                y = Gdx.graphics.getHeight() - Gdx.input.getY();
+                x = Gdx.input.getX(0);
+                y = Gdx.graphics.getHeight() - Gdx.input.getY(0);
             }
             Gdx.gl.glEnable(GL20.GL_BLEND);
             shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
@@ -50,7 +51,7 @@ public class TerrarumControlHandler {
             shapeRenderer.circle(x, y, stickSizeBig);
             shapeRenderer.setColor(0.5f, 0.5f, 0.5f, 0.6f);
             Vector2 ctrl = new Vector2();
-            ctrl.set(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY());
+            ctrl.set(Gdx.input.getX(0), Gdx.graphics.getHeight() - Gdx.input.getY(0));
             Vector2 c = new Vector2(ctrl.x - x, ctrl.y - y);
             if (ctrl.dst(x, y) < stickSizeBig - stickSizeSmall - 3) {
                 shapeRenderer.circle(ctrl.x, ctrl.y, stickSizeSmall);
@@ -63,9 +64,9 @@ public class TerrarumControlHandler {
             shapeRenderer.end();
             c.y = -c.y;
             c = vectorSum(c);
-            if (ctrl.dst(x, y) < stickSizeBig + stickSizeSmall * 2) {
-                c.x *= ctrl.dst(x, y) / (stickSizeBig + stickSizeSmall * 2);
-                c.y *= ctrl.dst(x, y) / (stickSizeBig + stickSizeSmall * 2);
+            if (ctrl.dst(x, y) < stickSizeBig) {
+                c.x *= ctrl.dst(x, y) / (stickSizeBig);
+                c.y *= ctrl.dst(x, y) / (stickSizeBig);
                 return c;
             } else {
                 return c;
@@ -133,5 +134,10 @@ public class TerrarumControlHandler {
             return new Vector2(xx, yy);
         }
         return null;
+    }
+
+    @Override
+    public void dispose() {
+        shapeRenderer.dispose();
     }
 }

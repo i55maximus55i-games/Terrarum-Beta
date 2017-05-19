@@ -10,7 +10,7 @@ import java.util.ArrayList;
  * Created by maximus on 10.05.2017.
  */
 
-public class MusicPlayer implements Disposable{
+public class MusicPlayer implements Disposable {
     private ArrayList<Music> playList;
     private Music music;
     private int mus;
