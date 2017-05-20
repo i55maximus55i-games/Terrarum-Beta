@@ -2,11 +2,13 @@ package ru.codemonkeystudio.terrarum.tools;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.utils.Disposable;
 
@@ -31,6 +33,8 @@ public class GameRenderer implements Disposable {
     //assets
     private Texture worldTexture;
     private TextureRegion[] worldTiles;
+    private boolean isNear;
+    private Vector2 near;
 
     public GameRenderer(SpriteBatch batch, GameWorld gameWorld) {
         this.world = gameWorld;
@@ -78,6 +82,13 @@ public class GameRenderer implements Disposable {
         shapeRenderer.circle(cam.position.x, cam.position.y, Player.SIZE);
         shapeRenderer.end();
         rayHandler.updateAndRender();
+        Gdx.gl.glEnable(GL20.GL_BLEND);
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        shapeRenderer.setColor(0.3f, 0.3f, 0.3f, 0.3f);
+        if (isNear) {
+            shapeRenderer.circle(cam.position.x + near.x * 10, cam.position.y + near.y * 10, 0.5f);
+        }
+        shapeRenderer.end();
 //        debugRenderer.render(world.getWorld(), cam.combined);
     }
 
@@ -103,7 +114,9 @@ public class GameRenderer implements Disposable {
         worldTexture.dispose();
     }
 
-    public void update(float delta, float camX, float camY) {
+    public void update(float delta, float camX, float camY, boolean isNear, Vector2 near) {
+        this.isNear = isNear;
+        this.near = near;
         cam.position.x = camX;
         cam.position.y = camY;
         rayHandler.setCombinedMatrix(cam);

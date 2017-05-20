@@ -52,11 +52,14 @@ public class Hud implements Disposable {
         this.game = game;
         viewport = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), new OrthographicCamera());
         stage = new Stage(viewport);
+<<<<<<< HEAD
         Gdx.input.setInputProcessor(stage);
 
         skin = new Skin();
         atlas = new TextureAtlas(Gdx.files.internal("textures/textureUI.pack"));
         skin.addRegions(atlas);
+=======
+>>>>>>> dev
 
         font_16 = new BitmapFont(Gdx.files.internal("fonts/Terrarum_16.fnt"), Gdx.files.internal("fonts/Terrarum_16.png"), false);
         font_24 = new BitmapFont(Gdx.files.internal("fonts/Terrarum_24.fnt"), Gdx.files.internal("fonts/Terrarum_24.png"), false);
@@ -73,6 +76,7 @@ public class Hud implements Disposable {
         livesLabel = new Label("", new Label.LabelStyle(font_32, Color.WHITE));
         foodLabel = new Label("Food", new Label.LabelStyle(font_32, Color.WHITE));
         foodsLabel = new Label("", new Label.LabelStyle(font_32, Color.WHITE));
+<<<<<<< HEAD
         heart_alive = new Image(skin, "icon_heart_alive");
         heart_dead = new Image(skin, "icon_heart_dead");
         heart_alive.setSize(60, 60);
@@ -101,6 +105,8 @@ public class Hud implements Disposable {
 
 
         stage.addActor(Exit);
+=======
+>>>>>>> dev
 
         table.add(liveLabel).expandX().padTop(10);
         table.add(timeLabel).expandX().padTop(10);

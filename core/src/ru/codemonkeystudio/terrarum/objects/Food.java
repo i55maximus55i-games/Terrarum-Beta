@@ -1,5 +1,7 @@
 package ru.codemonkeystudio.terrarum.objects;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -18,6 +20,7 @@ import box2dLight.RayHandler;
 public class Food implements Disposable {
     private PointLight light;
     private Body body;
+    private Sound eatSound;
 
     private boolean isAlive;
 
@@ -40,6 +43,8 @@ public class Food implements Disposable {
 
         light = new PointLight(rayHandler, 500, Color.YELLOW, 25, 0, 0);
         isAlive = true;
+
+        eatSound = Gdx.audio.newSound(Gdx.files.internal("sounds/eat.wav"));
     }
 
     public void update(float delta) {
@@ -65,10 +70,11 @@ public class Food implements Disposable {
         }
     }
 
-    public void die(World world) {
+    public void die(World world, float volume) {
         if (isAlive) {
             isAlive = false;
             world.destroyBody(body);
+            eatSound.play(volume);
         }
     }
 
