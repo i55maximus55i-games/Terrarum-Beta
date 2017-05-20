@@ -33,6 +33,10 @@ public class GameScreen implements Screen {
     private Player player;
     private ArrayList<Food> foodList;
 
+    public MusicPlayer getMusicPlayer() {
+        return musicPlayer;
+    }
+
     public GameScreen(Terrarum game) {
         this.game = game;
         gameWorld = new GameWorld();
@@ -48,7 +52,7 @@ public class GameScreen implements Screen {
             foodList.add(new Food(gameWorld.getWorld(), renderer.getRayHandler(), GameWorld.WORLD_SIZE * 64 - 16, i * 64 + 48));
         }
         gameWorld.getWorld().setContactListener(new TerrarumContactListener(player));
-        hud = new Hud(game.batch);
+        hud = new Hud(game.batch, game, this);
     }
 
     @Override
@@ -120,12 +124,12 @@ public class GameScreen implements Screen {
 
     @Override
     public void dispose() {
-        renderer.dispose();
-        player.dispose();
-        controlHandler.dispose();
-        for (int i = 0; i < foodList.size(); i++) {
-            foodList.get(i).dispose();
-        }
-        musicPlayer.dispose();
+//        renderer.dispose();
+//        player.dispose();
+//        controlHandler.dispose();
+//        for (int i = 0; i < foodList.size(); i++) {
+//            foodList.get(i).dispose();
+//        }
+//        musicPlayer.dispose();
     }
 }

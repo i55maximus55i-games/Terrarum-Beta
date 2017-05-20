@@ -20,6 +20,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import ru.codemonkeystudio.terrarum.Terrarum;
+import ru.codemonkeystudio.terrarum.screens.GameScreen;
 import ru.codemonkeystudio.terrarum.screens.PauseScreen;
 
 /**
@@ -47,7 +48,8 @@ public class Hud implements Disposable {
 
     private BitmapFont font_16,font_24,font_32;
 
-    public Hud(SpriteBatch batch) {
+    public Hud(SpriteBatch batch, final Terrarum game, final GameScreen screen) {
+        this.game = game;
         viewport = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), new OrthographicCamera());
         stage = new Stage(viewport);
         Gdx.input.setInputProcessor(stage);
@@ -92,6 +94,7 @@ public class Hud implements Disposable {
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 sound.play();
+                screen.musicPlayer.setPlaying(false);
                 game.setScreen(new PauseScreen(game));
             }
         });

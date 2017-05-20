@@ -46,7 +46,7 @@ public class PauseScreen implements Screen {
     public PauseScreen(Terrarum game) {
         stage = new Stage();
         this.game = game;
-        this.batch = game.batch;
+        batch = game.batch;
         gamecam = new OrthographicCamera();
 
         gamePort = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), gamecam);
