@@ -1,5 +1,7 @@
 package ru.codemonkeystudio.terrarum.objects;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -24,6 +26,7 @@ public class Player implements Disposable{
     private Body body;
     private int lives;
     private TerrarumControlHandler controlHandler;
+    private Sound hitSound;
 
     public Player(World world, TerrarumControlHandler controlHandler, boolean isStickControl, RayHandler rayHandler) {
         this.isStickControl = isStickControl;
@@ -48,6 +51,8 @@ public class Player implements Disposable{
 
         playerLight = new PointLight(rayHandler, 500, Color.RED, 100, 20, 20);
         playerLight.attachToBody(body);
+
+        hitSound = Gdx.audio.newSound(Gdx.files.internal("sounds/hit.wav"));
     }
 
     public void update(float delta) {
@@ -104,6 +109,7 @@ public class Player implements Disposable{
         lives--;
         playerLight.setDistance(1000);
         playerLight.setColor(Color.WHITE);
+        hitSound.play();
     }
 
     public int getLives() {

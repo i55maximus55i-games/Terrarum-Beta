@@ -10,8 +10,8 @@ import ru.codemonkeystudio.terrarum.Terrarum;
 import ru.codemonkeystudio.terrarum.objects.Food;
 import ru.codemonkeystudio.terrarum.objects.GameWorld;
 import ru.codemonkeystudio.terrarum.objects.Player;
+import ru.codemonkeystudio.terrarum.scenes.Hud;
 import ru.codemonkeystudio.terrarum.tools.GameRenderer;
-import ru.codemonkeystudio.terrarum.tools.MusicPlayer;
 import ru.codemonkeystudio.terrarum.tools.TerrarumContactListener;
 import ru.codemonkeystudio.terrarum.tools.TerrarumControlHandler;
 
@@ -23,10 +23,10 @@ public class GameScreen implements Screen {
     private final Terrarum game;
 
     private TerrarumControlHandler controlHandler;
-    private MusicPlayer musicPlayer;
 
     private GameWorld gameWorld;
     private GameRenderer renderer;
+    private Hud hud;
 
     private Player player;
     private ArrayList<Food> foodList;
@@ -37,7 +37,6 @@ public class GameScreen implements Screen {
 
         renderer = new GameRenderer(game.batch, gameWorld);
         controlHandler = new TerrarumControlHandler();
-        musicPlayer = new MusicPlayer(0.2f);
 
         player = new Player(gameWorld.getWorld(), controlHandler, true, renderer.getRayHandler());
         foodList = new ArrayList<Food>();
@@ -46,6 +45,7 @@ public class GameScreen implements Screen {
             foodList.add(new Food(gameWorld.getWorld(), renderer.getRayHandler(), GameWorld.WORLD_SIZE * 64 - 16, i * 64 + 48));
         }
         gameWorld.getWorld().setContactListener(new TerrarumContactListener(player));
+        hud = new Hud(game.batch);
     }
 
     @Override
@@ -59,6 +59,7 @@ public class GameScreen implements Screen {
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
         renderer.render();
         update(delta);
+        hud.stage.draw();
     }
 
     private void update(float delta) {
@@ -79,15 +80,14 @@ public class GameScreen implements Screen {
         else if (player.getLives() < 0) {
             lose();
         }
+        hud.update(delta, player.getLives(), alive);
     }
 
     private void lose() {
-        musicPlayer.dispose();
         game.setScreen(new GameScreen(game));
     }
 
     private void win() {
-        musicPlayer.dispose();
         game.setScreen(new GameScreen(game));
     }
 
@@ -117,7 +117,6 @@ public class GameScreen implements Screen {
         renderer.dispose();
         player.dispose();
         controlHandler.dispose();
-        musicPlayer.dispose();
         for (int i = 0; i < foodList.size(); i++) {
             foodList.get(i).dispose();
         }
