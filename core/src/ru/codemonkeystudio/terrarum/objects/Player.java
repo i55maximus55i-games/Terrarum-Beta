@@ -22,15 +22,17 @@ import ru.codemonkeystudio.terrarum.tools.TerrarumControlHandler;
 public class Player implements Disposable{
     public static final float SIZE = 3;
     private final PointLight playerLight;
+    private float volume;
     private boolean isStickControl;
     private Body body;
     private int lives;
     private TerrarumControlHandler controlHandler;
     private Sound hitSound;
 
-    public Player(World world, TerrarumControlHandler controlHandler, boolean isStickControl, RayHandler rayHandler) {
+    public Player(World world, TerrarumControlHandler controlHandler, boolean isStickControl, RayHandler rayHandler, float volume) {
         this.isStickControl = isStickControl;
         this.controlHandler = controlHandler;
+        this.volume = volume;
         lives = 5;
 
         BodyDef bDef = new BodyDef();
@@ -109,7 +111,7 @@ public class Player implements Disposable{
         lives--;
         playerLight.setDistance(1000);
         playerLight.setColor(Color.WHITE);
-        hitSound.play(0.2f);
+        hitSound.play(volume);
     }
 
     public int getLives() {

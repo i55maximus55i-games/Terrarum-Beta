@@ -45,7 +45,7 @@ public class SettingsScreen implements Screen {
         gamecam = new OrthographicCamera();
         gamePort = new FitViewport(800, 600, gamecam);
 
-        batch = new SpriteBatch();
+        this.batch = game.batch;
         font_16 = new BitmapFont(Gdx.files.internal("fonts/Terrarum_16.fnt"), Gdx.files.internal("fonts/Terrarum_16.png"), false);
         font_24 = new BitmapFont(Gdx.files.internal("fonts/Terrarum_24.fnt"), Gdx.files.internal("fonts/Terrarum_24.png"), false);
         font_32 = new BitmapFont(Gdx.files.internal("fonts/Terrarum_32.fnt"), Gdx.files.internal("fonts/Terrarum_32.png"), false);
@@ -80,7 +80,6 @@ public class SettingsScreen implements Screen {
         Exit.addListener(new ClickListener(){
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                game.dispose();
                 sound.play();
                 game.setScreen(new MainMenuScreen(game));
             }

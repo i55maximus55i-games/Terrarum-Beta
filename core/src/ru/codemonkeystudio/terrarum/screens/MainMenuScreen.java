@@ -41,7 +41,7 @@ public class MainMenuScreen implements Screen {
 	public MainMenuScreen(Terrarum game) {
 		stage = new Stage();
 		this.game = game;
-		batch = new SpriteBatch();
+		this.batch = game.batch;
 		gamecam = new OrthographicCamera();
 
 		gamePort = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), gamecam);

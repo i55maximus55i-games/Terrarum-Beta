@@ -23,10 +23,6 @@ public class MusicPlayer implements Disposable {
         setVolume(volume);
     }
 
-    public MusicPlayer() {
-        new MusicPlayer(1f);
-    }
-
     private void initMusic() {
         ArrayList<Music> m = new ArrayList<Music>();
         for (int i = 0; i < Gdx.files.internal("music").list().length; i++) {

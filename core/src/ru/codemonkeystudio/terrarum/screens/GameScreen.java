@@ -39,9 +39,9 @@ public class GameScreen implements Screen {
 
         renderer = new GameRenderer(game.batch, gameWorld);
         controlHandler = new TerrarumControlHandler();
-        musicPlayer = new MusicPlayer(0.2f);
+        musicPlayer = new MusicPlayer(game.musicVolume);
 
-        player = new Player(gameWorld.getWorld(), controlHandler, true, renderer.getRayHandler());
+        player = new Player(gameWorld.getWorld(), controlHandler, true, renderer.getRayHandler(), game.soundVolume);
         foodList = new ArrayList<Food>();
         for (int i = 0; i < GameWorld.WORLD_SIZE; i++) {
             foodList.add(new Food(gameWorld.getWorld(), renderer.getRayHandler(), GameWorld.WORLD_SIZE * 64 - 16, i * 64 + 16));
