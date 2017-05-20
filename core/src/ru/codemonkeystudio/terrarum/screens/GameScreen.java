@@ -3,6 +3,7 @@ package ru.codemonkeystudio.terrarum.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.math.Vector2;
 
 import java.util.ArrayList;
 
@@ -68,12 +69,25 @@ public class GameScreen implements Screen {
     private void update(float delta) {
         gameWorld.update(delta);
         player.update(delta);
-        renderer.update(delta, player.getBody().getPosition().x, player.getBody().getPosition().y);
+        int nearest = -1;
+        for (int i = 0; i < foodList.size(); i++) {
+            if (foodList.get(i).isAlive()) {
+                if (nearest == -1) {
+                    nearest = i;
+                }
+                else {
+                    if (player.getBody().getPosition().dst(foodList.get(i).getBody().getPosition()) < player.getBody().getPosition().dst(foodList.get(nearest).getBody().getPosition())) {
+                        nearest = i;
+                    }
+                }
+            }
+        }
+        renderer.update(delta, player.getBody().getPosition().x, player.getBody().getPosition().y, nearest != -1, (nearest == -1 ? new Vector2(0, 0) : controlHandler.vectorSum(foodList.get(nearest).getBody().getPosition().sub(player.getBody().getPosition()))));
         int alive = 0;
         for (int i = 0; i < foodList.size(); i++) {
             foodList.get(i).update(delta);
             if (foodList.get(i).isAlive() && foodList.get(i).getBody().getPosition().dst(player.getBody().getPosition()) < 10) {
-                foodList.get(i).die(gameWorld.getWorld());
+                foodList.get(i).die(gameWorld.getWorld(), game.soundVolume);
             }
             if (foodList.get(i).isAlive()) alive++;
         }

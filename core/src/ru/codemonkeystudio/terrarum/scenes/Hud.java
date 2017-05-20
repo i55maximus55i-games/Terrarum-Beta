@@ -33,7 +33,7 @@ public class Hud implements Disposable {
 
     public Hud(SpriteBatch batch) {
         viewport = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), new OrthographicCamera());
-        stage = new Stage(viewport, batch);
+        stage = new Stage(viewport);
 
         font_16 = new BitmapFont(Gdx.files.internal("fonts/Terrarum_16.fnt"), Gdx.files.internal("fonts/Terrarum_16.png"), false);
         font_24 = new BitmapFont(Gdx.files.internal("fonts/Terrarum_24.fnt"), Gdx.files.internal("fonts/Terrarum_24.png"), false);
@@ -43,12 +43,12 @@ public class Hud implements Disposable {
         table.top();
         table.setFillParent(true);
 
-        timeLabel = new Label("Time", new Label.LabelStyle(font_24, Color.WHITE));
-        timerLabel = new Label("", new Label.LabelStyle(font_24, Color.WHITE));
-        liveLabel = new Label("Lives", new Label.LabelStyle(font_24, Color.WHITE));
-        livesLabel = new Label("", new Label.LabelStyle(font_24, Color.WHITE));
-        foodLabel = new Label("Food", new Label.LabelStyle(font_24, Color.WHITE));
-        foodsLabel = new Label("", new Label.LabelStyle(font_24, Color.WHITE));
+        timeLabel = new Label("Time", new Label.LabelStyle(font_32, Color.WHITE));
+        timerLabel = new Label("", new Label.LabelStyle(font_32, Color.WHITE));
+        liveLabel = new Label("Lives", new Label.LabelStyle(font_32, Color.WHITE));
+        livesLabel = new Label("", new Label.LabelStyle(font_32, Color.WHITE));
+        foodLabel = new Label("Food", new Label.LabelStyle(font_32, Color.WHITE));
+        foodsLabel = new Label("", new Label.LabelStyle(font_32, Color.WHITE));
 
         table.add(liveLabel).expandX().padTop(10);
         table.add(timeLabel).expandX().padTop(10);
