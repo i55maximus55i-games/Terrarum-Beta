@@ -109,7 +109,7 @@ public class Player implements Disposable{
         lives--;
         playerLight.setDistance(1000);
         playerLight.setColor(Color.WHITE);
-        hitSound.play();
+        hitSound.play(0.2f);
     }
 
     public int getLives() {

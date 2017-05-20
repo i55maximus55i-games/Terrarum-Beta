@@ -16,6 +16,8 @@ public class MusicPlayer implements Disposable {
     private int mus;
     private float volume;
 
+    private boolean isPlaying;
+
     public MusicPlayer(float volume) {
         initMusic();
         setVolume(volume);
@@ -43,6 +45,7 @@ public class MusicPlayer implements Disposable {
             music = playList.get(mus);
         }
         changeMusic();
+        isPlaying = true;
     }
 
     public void changeMusic() {
@@ -64,6 +67,22 @@ public class MusicPlayer implements Disposable {
     public void setVolume(float volume) {
         this.volume = volume;
         music.setVolume(volume);
+    }
+
+    public void update() {
+        if (isPlaying && !music.isPlaying()) {
+            changeMusic();
+        }
+        else if (!isPlaying && music.isPlaying()) {
+            music.stop();
+        }
+    }
+
+    public void setPlaying(boolean isPlaying) {
+        this.isPlaying = isPlaying;
+        if (!isPlaying && music.isPlaying()) {
+            music.stop();
+        }
     }
 
     @Override

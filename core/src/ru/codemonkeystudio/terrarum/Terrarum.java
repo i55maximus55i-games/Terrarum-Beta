@@ -3,12 +3,9 @@ package ru.codemonkeystudio.terrarum;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-import ru.codemonkeystudio.terrarum.screens.GameScreen;
-import ru.codemonkeystudio.terrarum.tools.MusicPlayer;
+import ru.codemonkeystudio.terrarum.screens.MainMenuScreen;
 
 public class Terrarum extends Game {
-	public MusicPlayer musicPlayer;
-
 	@Override
 	public void render() {
 		super.render();
@@ -19,14 +16,12 @@ public class Terrarum extends Game {
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
-		musicPlayer = new MusicPlayer(0.2f);
-		setScreen(new GameScreen(this));
+		setScreen(new MainMenuScreen(this));
 	}
 
 	@Override
 	public void dispose() {
 		super.dispose();
 		batch.dispose();
-		musicPlayer.dispose();
 	}
 }

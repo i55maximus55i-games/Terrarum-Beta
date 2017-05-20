@@ -12,6 +12,7 @@ import ru.codemonkeystudio.terrarum.objects.GameWorld;
 import ru.codemonkeystudio.terrarum.objects.Player;
 import ru.codemonkeystudio.terrarum.scenes.Hud;
 import ru.codemonkeystudio.terrarum.tools.GameRenderer;
+import ru.codemonkeystudio.terrarum.tools.MusicPlayer;
 import ru.codemonkeystudio.terrarum.tools.TerrarumContactListener;
 import ru.codemonkeystudio.terrarum.tools.TerrarumControlHandler;
 
@@ -23,6 +24,7 @@ public class GameScreen implements Screen {
     private final Terrarum game;
 
     private TerrarumControlHandler controlHandler;
+    public MusicPlayer musicPlayer;
 
     private GameWorld gameWorld;
     private GameRenderer renderer;
@@ -37,6 +39,7 @@ public class GameScreen implements Screen {
 
         renderer = new GameRenderer(game.batch, gameWorld);
         controlHandler = new TerrarumControlHandler();
+        musicPlayer = new MusicPlayer(0.2f);
 
         player = new Player(gameWorld.getWorld(), controlHandler, true, renderer.getRayHandler());
         foodList = new ArrayList<Food>();
@@ -81,14 +84,17 @@ public class GameScreen implements Screen {
             lose();
         }
         hud.update(delta, player.getLives(), alive);
+        musicPlayer.update();
     }
 
     private void lose() {
-        game.setScreen(new GameScreen(game));
+        musicPlayer.setPlaying(false);
+        game.setScreen(new MainMenuScreen(game));
     }
 
     private void win() {
-        game.setScreen(new GameScreen(game));
+        musicPlayer.setPlaying(false);
+        game.setScreen(new MainMenuScreen(game));
     }
 
     @Override
@@ -120,5 +126,6 @@ public class GameScreen implements Screen {
         for (int i = 0; i < foodList.size(); i++) {
             foodList.get(i).dispose();
         }
+        musicPlayer.dispose();
     }
 }
