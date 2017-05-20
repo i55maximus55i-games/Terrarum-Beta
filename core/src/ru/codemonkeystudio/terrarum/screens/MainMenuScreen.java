@@ -48,6 +48,10 @@ public class MainMenuScreen implements Screen {
 
 		sound = Gdx.audio.newSound(Gdx.files.internal("sounds/select.wav"));
 
+		Table table = new Table();
+		table.top();
+		table.setFillParent(true);
+
 		font_16 = new BitmapFont(Gdx.files.internal("fonts/Terrarum_16.fnt"), Gdx.files.internal("fonts/Terrarum_16.png"), false);
 		font_24 = new BitmapFont(Gdx.files.internal("fonts/Terrarum_24.fnt"), Gdx.files.internal("fonts/Terrarum_24.png"), false);
 		font_32 = new BitmapFont(Gdx.files.internal("fonts/Terrarum_32.fnt"), Gdx.files.internal("fonts/Terrarum_32.png"), false);
@@ -74,7 +78,7 @@ public class MainMenuScreen implements Screen {
 		NewGameStyle.pressedOffsetY = -1;
 
 		AchievementsStyle = new TextButton.TextButtonStyle();
-		AchievementsStyle.font = font_16;
+		AchievementsStyle.font = font_24;
 		AchievementsStyle.up = skin.getDrawable("btn_default");
 		AchievementsStyle.over = skin.getDrawable("btn_active");
 		AchievementsStyle.down = skin.getDrawable("btn_pressed");
@@ -98,11 +102,11 @@ public class MainMenuScreen implements Screen {
 		ExitStyle.pressedOffsetY = -1;
 
 		icon = new ImageButton(iconstyle);
-		icon.setSize(156, 54);
+		icon.setSize(364, 126);
 		icon.setPosition(stage.getWidth()/2, (stage.getHeight()/6)*5, 1);
 
-		NewGame = new TextButton("New Game", NewGameStyle);
-		NewGame.setSize(156, 54);
+		NewGame = new TextButton("New game", NewGameStyle);
+		NewGame.setSize(260, 90);
 		NewGame.setPosition(stage.getWidth()/2, (stage.getHeight()/6)*4, 1);
 		NewGame.addListener(new ClickListener() {
 			@Override
@@ -114,7 +118,7 @@ public class MainMenuScreen implements Screen {
 		});
 
 		Achievements = new TextButton("Achievements", AchievementsStyle);
-		Achievements.setSize(156, 54);
+		Achievements.setSize(260, 90);
 		Achievements.setPosition(stage.getWidth()/2, (stage.getHeight()/6)*3, 1);
 		Achievements.addListener(new ClickListener() {
 			@Override
@@ -126,7 +130,7 @@ public class MainMenuScreen implements Screen {
 		});
 
 		Settings = new TextButton("Settings", SettingsStyle);
-		Settings.setSize(156, 54);
+		Settings.setSize(260, 90);
 		Settings.setPosition(stage.getWidth()/2, (stage.getHeight()/6)*2, 1);
 		Settings.addListener(new ClickListener() {
 			@Override
@@ -138,7 +142,7 @@ public class MainMenuScreen implements Screen {
 		});
 
 		Exit = new TextButton("Exit", ExitStyle);
-		Exit.setSize(156, 54);
+		Exit.setSize(260, 90);
 		Exit.setPosition(stage.getWidth()/2, (stage.getHeight()/6)*1, 1);
 		Exit.addListener(new ClickListener() {
 			@Override
