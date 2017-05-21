@@ -62,11 +62,13 @@ public class MusicPlayer implements Disposable {
 
     public void setVolume(float volume) {
         this.volume = volume;
-        music.setVolume(volume);
+        if (music != null) {
+            music.setVolume(volume);
+        }
     }
 
     public void update() {
-        if (isPlaying && !music.isPlaying()) {
+        if (isPlaying && music != null && !music.isPlaying()) {
             changeMusic();
         }
         else if (!isPlaying && music.isPlaying()) {

@@ -1,0 +1,131 @@
+
+textureUI.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+btn_active
+  rotate: false
+  xy: 1, 13
+  size: 52, 18
+  orig: 52, 18
+  offset: 0, 0
+  index: -1
+btn_default
+  rotate: false
+  xy: 55, 13
+  size: 52, 18
+  orig: 52, 18
+  offset: 0, 0
+  index: -1
+btn_pressed
+  rotate: false
+  xy: 109, 13
+  size: 52, 18
+  orig: 52, 18
+  offset: 0, 0
+  index: -1
+icon_paused
+  rotate: false
+  xy: 163, 13
+  size: 49, 18
+  orig: 49, 18
+  offset: 0, 0
+  index: -1
+icon_terrarum
+  rotate: false
+  xy: 214, 13
+  size: 49, 18
+  orig: 49, 18
+  offset: 0, 0
+  index: -1
+slide
+  rotate: false
+  xy: 1, 5
+  size: 44, 6
+  orig: 44, 6
+  offset: 0, 0
+  index: -1
+btn_back
+  rotate: false
+  xy: 265, 13
+  size: 18, 18
+  orig: 18, 18
+  offset: 0, 0
+  index: -1
+btn_back_pressed
+  rotate: false
+  xy: 285, 13
+  size: 18, 18
+  orig: 18, 18
+  offset: 0, 0
+  index: -1
+btn_checkBox_in
+  rotate: false
+  xy: 305, 13
+  size: 18, 18
+  orig: 18, 18
+  offset: 0, 0
+  index: -1
+btn_checkBox_out
+  rotate: false
+  xy: 325, 13
+  size: 18, 18
+  orig: 18, 18
+  offset: 0, 0
+  index: -1
+btn_pause
+  rotate: false
+  xy: 345, 13
+  size: 18, 18
+  orig: 18, 18
+  offset: 0, 0
+  index: -1
+btn_pause_pressed
+  rotate: false
+  xy: 365, 13
+  size: 18, 18
+  orig: 18, 18
+  offset: 0, 0
+  index: -1
+btn_play
+  rotate: false
+  xy: 385, 13
+  size: 18, 18
+  orig: 18, 18
+  offset: 0, 0
+  index: -1
+btn_play_pressed
+  rotate: false
+  xy: 405, 13
+  size: 18, 18
+  orig: 18, 18
+  offset: 0, 0
+  index: -1
+icon_heart_alive
+  rotate: false
+  xy: 425, 16
+  size: 15, 15
+  orig: 15, 15
+  offset: 0, 0
+  index: -1
+icon_heart_dead
+  rotate: false
+  xy: 442, 16
+  size: 15, 15
+  orig: 15, 15
+  offset: 0, 0
+  index: -1
+knob
+  rotate: false
+  xy: 47, 1
+  size: 10, 10
+  orig: 10, 10
+  offset: 0, 0
+  index: -1
+icon_logo
+  rotate: false
+  xy: 459, 19
+  size: 12, 12
+  orig: 12, 12
+  offset: 0, 0
+  index: -1

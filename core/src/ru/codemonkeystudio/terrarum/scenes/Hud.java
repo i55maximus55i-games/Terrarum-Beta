@@ -93,9 +93,9 @@ public class Hud implements Disposable {
         Exit.addListener(new ClickListener(){
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                sound.play();
-                screen.musicPlayer.setPlaying(false);
-                game.setScreen(new PauseScreen(game));
+//                sound.play();
+//                screen.musicPlayer.setPlaying(false);
+//                game.setScreen(new PauseScreen(game));
             }
         });
 
