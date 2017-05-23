@@ -6,11 +6,14 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.math.Vector2;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import ru.codemonkeystudio.terrarum.Terrarum;
 import ru.codemonkeystudio.terrarum.objects.Food;
 import ru.codemonkeystudio.terrarum.objects.GameWorld;
 import ru.codemonkeystudio.terrarum.objects.Player;
+import ru.codemonkeystudio.terrarum.objects.Tail;
 import ru.codemonkeystudio.terrarum.scenes.Hud;
 import ru.codemonkeystudio.terrarum.tools.GameRenderer;
 import ru.codemonkeystudio.terrarum.tools.MusicPlayer;
@@ -33,6 +36,7 @@ public class GameScreen implements Screen {
 
     private Player player;
     private ArrayList<Food> foodList;
+    private ArrayList<Tail> tail;
 
     public MusicPlayer getMusicPlayer() {
         return musicPlayer;
@@ -42,7 +46,8 @@ public class GameScreen implements Screen {
         this.game = game;
         gameWorld = new GameWorld();
 
-        renderer = new GameRenderer(game.batch, gameWorld);
+        tail = new ArrayList<Tail>();
+        renderer = new GameRenderer(game.batch, gameWorld, tail);
         controlHandler = new TerrarumControlHandler();
         musicPlayer = new MusicPlayer(game.musicVolume);
 
@@ -95,14 +100,24 @@ public class GameScreen implements Screen {
             }
             if (foodList.get(i).isAlive()) alive++;
         }
+        hud.update(delta, player.getLives(), alive);
         if (alive <= 0) {
             win();
         }
         else if (player.getLives() < 0) {
             lose();
         }
-        hud.update(delta, player.getLives(), alive);
         musicPlayer.update();
+        tail.add(new Tail(15, player.getBody().getPosition().x, player.getBody().getPosition().y));
+        Tail a;
+        Iterator iterator = tail.iterator();
+        while (iterator.hasNext()) {
+            a = (Tail) iterator.next();
+            a.update();
+            if (a.getLive() <= 0) {
+                iterator.remove();
+            }
+        }
     }
 
     private void lose() {

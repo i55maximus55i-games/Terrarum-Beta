@@ -19,8 +19,8 @@ public class Terrarum extends Game {
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
-		musicVolume = 0.5f;
-		soundVolume = 0.5f;
+		musicVolume = 0.05f;
+		soundVolume = 0.05f;
 		setScreen(new MainMenuScreen(this));
 	}
 

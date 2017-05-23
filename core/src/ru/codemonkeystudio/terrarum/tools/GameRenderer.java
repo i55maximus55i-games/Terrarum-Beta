@@ -12,9 +12,13 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.utils.Disposable;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+
 import box2dLight.RayHandler;
 import ru.codemonkeystudio.terrarum.objects.GameWorld;
 import ru.codemonkeystudio.terrarum.objects.Player;
+import ru.codemonkeystudio.terrarum.objects.Tail;
 
 /**
  * Created by maximus on 13.05.2017.
@@ -29,6 +33,7 @@ public class GameRenderer implements Disposable {
     private Box2DDebugRenderer debugRenderer;
 
     private RayHandler rayHandler;
+    private ArrayList tail;
 
     //assets
     private Texture worldTexture;
@@ -36,10 +41,11 @@ public class GameRenderer implements Disposable {
     private boolean isNear;
     private Vector2 near;
 
-    public GameRenderer(SpriteBatch batch, GameWorld gameWorld) {
+    public GameRenderer(SpriteBatch batch, GameWorld gameWorld, ArrayList tail) {
         this.world = gameWorld;
-
         this.batch = batch;
+
+        this.tail = tail;
         shapeRenderer = new ShapeRenderer();
 
         cam = new OrthographicCamera();
@@ -80,6 +86,12 @@ public class GameRenderer implements Disposable {
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(Color.RED);
         shapeRenderer.circle(cam.position.x, cam.position.y, Player.SIZE);
+        Tail a;
+        Iterator iterator = tail.iterator();
+        while (iterator.hasNext()) {
+            a = (Tail) iterator.next();
+            shapeRenderer.circle(a.getPos().x, a.getPos().y, 1.5f);
+        }
         shapeRenderer.end();
         rayHandler.updateAndRender();
         Gdx.gl.glEnable(GL20.GL_BLEND);
