@@ -110,7 +110,7 @@ public class SettingsScreen implements Screen {
         musicVolumeSlider.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                game.updatePref(musicVolume, musicVolumeSlider.getValue(), stickControl);
+                game.updatePref(musicVolumeSlider.getValue(), soundVolume, stickControl);
                 musicVolumeSlider.addListener(new ClickListener() {
                     @Override
                     public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
