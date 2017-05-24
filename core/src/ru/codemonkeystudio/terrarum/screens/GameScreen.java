@@ -108,7 +108,7 @@ public class GameScreen implements Screen {
             lose();
         }
         musicPlayer.update();
-        tail.add(new Tail(15, player.getBody().getPosition().x, player.getBody().getPosition().y));
+        tail.add(new Tail(60, player.getBody().getPosition().x, player.getBody().getPosition().y));
         Tail a;
         Iterator iterator = tail.iterator();
         while (iterator.hasNext()) {

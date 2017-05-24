@@ -156,12 +156,11 @@ public class SettingsScreen implements Screen {
         controlHeadingStyle.checkboxOff = skin.getDrawable("btn_default");
         controlHeadingStyle.checkboxOn = skin.getDrawable("btn_active");
 
-        controlHeading = new CheckBox("Touch", controlHeadingStyle);
-        controlHeading.setChecked(false);
+        controlHeading = new CheckBox(game.isStickControl() ? "Stick" : "Touch", controlHeadingStyle);
+        controlHeading.setChecked(game.isStickControl());
         controlHeading.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.updatePref(musicVolume, soundVolume, stickControl);
                 if(controlHeading.isChecked()){
                     controlHeading.setText("Stick");
                     stickControl = true;
@@ -170,6 +169,7 @@ public class SettingsScreen implements Screen {
                     controlHeading.setText("Touch");
                     stickControl = false;
                 }
+                game.updatePref(musicVolume, soundVolume, stickControl);
             }
         });
 
