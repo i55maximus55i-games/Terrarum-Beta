@@ -57,6 +57,7 @@ public class SettingsScreen implements Screen {
     private Viewport gamePort;
     private Label MusicFx;
     private Label SoundFx;
+    private Label handle;
     private CheckBox controlHeading;
     private CheckBox.CheckBoxStyle controlHeadingStyle;
 
@@ -113,8 +114,6 @@ public class SettingsScreen implements Screen {
         musicVolumeSliderStyle.knob = skin.getDrawable("knob");
 
         musicVolumeSlider = new Slider(0, 1f, 0.005f, false, musicVolumeSliderStyle);
-        musicVolumeSlider.setSize(176, 24);
-//        musicVolumeSlider.setPosition(500, 550);
         musicVolumeSlider.setValue(game.getMusicVolume());
         musicVolumeSlider.addListener(new ChangeListener() {
             @Override
@@ -134,9 +133,8 @@ public class SettingsScreen implements Screen {
         soundVolumeSliderStyle.background = skin.getDrawable("slide");
         soundVolumeSliderStyle.knob = skin.getDrawable("knob");
 
+
         soundVolumeSlider = new Slider(0, 1f, 0.005f, false, soundVolumeSliderStyle);
-        soundVolumeSlider.setSize(220, 30);
-//        soundVolumeSlider.setPosition(500, 500);
         soundVolumeSlider.setValue(game.getSoundVolume());
         soundVolumeSlider.addListener(new ChangeListener() {
             @Override
@@ -152,9 +150,10 @@ public class SettingsScreen implements Screen {
         });
 
         controlHeadingStyle = new CheckBox.CheckBoxStyle();
-        controlHeadingStyle.font = font_16;
-        controlHeadingStyle.checkboxOff = skin.getDrawable("btn_default");
-        controlHeadingStyle.checkboxOn = skin.getDrawable("btn_active");
+        controlHeadingStyle.font = font_32;
+        controlHeadingStyle.downFontColor = Color.RED;
+        controlHeadingStyle.checkedFontColor = Color.CYAN;
+        controlHeadingStyle.disabledFontColor = Color.CYAN;
 
         controlHeading = new CheckBox(game.isStickControl() ? "Stick" : "Touch", controlHeadingStyle);
         controlHeading.setChecked(game.isStickControl());
@@ -175,6 +174,7 @@ public class SettingsScreen implements Screen {
 
         SoundFx = new Label("Sound", new Label.LabelStyle(font_32, Color.WHITE));
         MusicFx = new Label("Music", new Label.LabelStyle(font_32, Color.WHITE));
+        handle = new Label("Control  : ", new Label.LabelStyle(font_32, Color.WHITE));
 
         stage.addActor(exit);
 
@@ -184,7 +184,8 @@ public class SettingsScreen implements Screen {
         table.add(SoundFx).expandX().padTop(10);
         table.add(soundVolumeSlider).expandX().padTop(10);
         table.row();
-        table.add(controlHeading);
+        table.add(handle).expandX().padTop(10);
+        table.add(controlHeading).expandX().padTop(10);
 
         stage.addActor(table);
     }

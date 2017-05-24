@@ -33,7 +33,7 @@ public class Player implements Disposable{
         this.isStickControl = isStickControl;
         this.controlHandler = controlHandler;
         this.volume = volume;
-        lives = 5;
+        lives = 10;
 
         BodyDef bDef = new BodyDef();
         bDef.type = BodyDef.BodyType.DynamicBody;
