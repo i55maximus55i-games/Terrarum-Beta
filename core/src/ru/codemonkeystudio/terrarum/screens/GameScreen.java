@@ -49,9 +49,9 @@ public class GameScreen implements Screen {
         tail = new ArrayList<Tail>();
         renderer = new GameRenderer(game.batch, gameWorld, tail);
         controlHandler = new TerrarumControlHandler();
-        musicPlayer = new MusicPlayer(game.musicVolume);
+        musicPlayer = new MusicPlayer(game.getMusicVolume());
 
-        player = new Player(gameWorld.getWorld(), controlHandler, true, renderer.getRayHandler(), game.soundVolume);
+        player = new Player(gameWorld.getWorld(), controlHandler, game.isStickControl(), renderer.getRayHandler(), game.getSoundVolume());
         foodList = new ArrayList<Food>();
         for (int i = 0; i < GameWorld.WORLD_SIZE; i++) {
             foodList.add(new Food(gameWorld.getWorld(), renderer.getRayHandler(), GameWorld.WORLD_SIZE * 64 - 16, i * 64 + 16));
@@ -96,7 +96,7 @@ public class GameScreen implements Screen {
         for (int i = 0; i < foodList.size(); i++) {
             foodList.get(i).update(delta);
             if (foodList.get(i).isAlive() && foodList.get(i).getBody().getPosition().dst(player.getBody().getPosition()) < 10) {
-                foodList.get(i).die(gameWorld.getWorld(), game.soundVolume);
+                foodList.get(i).die(gameWorld.getWorld(), game.getSoundVolume());
             }
             if (foodList.get(i).isAlive()) alive++;
         }

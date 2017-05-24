@@ -112,7 +112,7 @@ public class MainMenuScreen implements Screen {
 			@Override
 			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
 				stage.dispose();
-				sound.play(game.soundVolume);
+				sound.play(game.getSoundVolume());
 				game.setScreen(new GameScreen(game));
 			}
 		});
@@ -124,7 +124,7 @@ public class MainMenuScreen implements Screen {
 			@Override
 			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
 //				stage.dispose();
-				sound.play(game.soundVolume);
+				sound.play(game.getSoundVolume());
 //				game.setScreen(new Achievements(game));
 			}
 		});
@@ -136,7 +136,7 @@ public class MainMenuScreen implements Screen {
 			@Override
 			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
 				stage.dispose();
-				sound.play(game.soundVolume);
+				sound.play(game.getSoundVolume());
 				game.setScreen(new SettingsScreen(game));
 			}
 		});
@@ -147,8 +147,8 @@ public class MainMenuScreen implements Screen {
 		Exit.addListener(new ClickListener() {
 			@Override
 			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+				sound.play(game.getSoundVolume());
 				stage.dispose();
-				sound.play(game.soundVolume);
 				Gdx.app.exit();
 			}
 		});

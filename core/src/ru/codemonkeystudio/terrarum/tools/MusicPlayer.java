@@ -51,8 +51,8 @@ public class MusicPlayer implements Disposable {
                 mus = 0;
             music.stop();
             music = playList.get(mus);
-            music.play();
             music.setVolume(volume);
+            music.play();
         }
     }
 
