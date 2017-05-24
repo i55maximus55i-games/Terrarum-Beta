@@ -34,7 +34,6 @@ public class SettingsScreen implements Screen {
     private Label label;
     private TextureAtlas atlas;
     private Skin skin;
-    private Table table;
     private Button exit;
     private Button.ButtonStyle exitStyle;
     private Slider musicVolumeSlider;
@@ -49,6 +48,8 @@ public class SettingsScreen implements Screen {
 
     private OrthographicCamera gamecam;
     private Viewport gamePort;
+    private Label MusicFx;
+    private Label SoundFx;
 
     public SettingsScreen(Terrarum game) {
         this.game = game;
@@ -59,6 +60,8 @@ public class SettingsScreen implements Screen {
         font_24 = new BitmapFont(Gdx.files.internal("fonts/Terrarum_24.fnt"), Gdx.files.internal("fonts/Terrarum_24.png"), false);
         font_32 = new BitmapFont(Gdx.files.internal("fonts/Terrarum_32.fnt"), Gdx.files.internal("fonts/Terrarum_32.png"), false);
         sound = Gdx.audio.newSound(Gdx.files.internal("sounds/select.wav"));
+
+
     }
 
     @Override
@@ -69,6 +72,10 @@ public class SettingsScreen implements Screen {
         label = new Label("Settings", new Label.LabelStyle(font_32, Color.WHITE));
         label.setPosition(400, 600 - label.getHeight() / 2, 1);
         stage.addActor(label);
+
+        Table table = new Table();
+        table.center();
+        table.setFillParent(true);
 
         skin = new Skin();
         atlas = new TextureAtlas("textures/textureUI.pack");
@@ -90,7 +97,7 @@ public class SettingsScreen implements Screen {
                 game.setScreen(new MainMenuScreen(game));
             }
         });
-        stage.addActor(exit);
+
 
         musicVolumeSliderStyle = new Slider.SliderStyle();
         musicVolumeSliderStyle.background = skin.getDrawable("slide");
@@ -98,31 +105,57 @@ public class SettingsScreen implements Screen {
 
         musicVolumeSlider = new Slider(0, 1f, 0.005f, false, musicVolumeSliderStyle);
         musicVolumeSlider.setSize(176, 24);
-        musicVolumeSlider.setPosition(500, 500);
+//        musicVolumeSlider.setPosition(500, 550);
         musicVolumeSlider.setValue(game.getMusicVolume());
         musicVolumeSlider.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                game.updatePref(musicVolumeSlider.getValue(), soundVolume, stickControl);
+                game.updatePref(musicVolume, musicVolumeSlider.getValue(), stickControl);
+                musicVolumeSlider.addListener(new ClickListener() {
+                    @Override
+                    public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                        sound.play(musicVolume);
+                    }
+                });
             }
         });
-        stage.addActor(musicVolumeSlider);
-        
+
+        sound.play(soundVolume);
         soundVolumeSliderStyle = new Slider.SliderStyle();
         soundVolumeSliderStyle.background = skin.getDrawable("slide");
         soundVolumeSliderStyle.knob = skin.getDrawable("knob");
 
         soundVolumeSlider = new Slider(0, 1f, 0.005f, false, soundVolumeSliderStyle);
-        soundVolumeSlider.setSize(176, 24);
-        soundVolumeSlider.setPosition(500, 550);
+        soundVolumeSlider.setSize(220, 30);
+//        soundVolumeSlider.setPosition(500, 500);
         soundVolumeSlider.setValue(game.getSoundVolume());
         soundVolumeSlider.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 game.updatePref(musicVolume, soundVolumeSlider.getValue(), stickControl);
+                soundVolumeSlider.addListener(new ClickListener() {
+                    @Override
+                    public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                        sound.play(soundVolume);
+                    }
+                });
             }
         });
-        stage.addActor(soundVolumeSlider);
+
+
+
+        SoundFx = new Label("Sound", new Label.LabelStyle(font_32, Color.WHITE));
+        MusicFx = new Label("Music", new Label.LabelStyle(font_32, Color.WHITE));
+
+        stage.addActor(exit);
+
+        table.add(MusicFx).expandX().padTop(10);
+        table.add(musicVolumeSlider).expandX().padTop(10);
+        table.row();
+        table.add(SoundFx).expandX().padTop(10);
+        table.add(soundVolumeSlider).expandX().padTop(10);
+
+        stage.addActor(table);
     }
 
     @Override
