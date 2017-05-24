@@ -13,11 +13,18 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Slider;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+
 import ru.codemonkeystudio.terrarum.Terrarum;
 
 /**
@@ -50,6 +57,8 @@ public class SettingsScreen implements Screen {
     private Viewport gamePort;
     private Label MusicFx;
     private Label SoundFx;
+    private CheckBox controlHeading;
+    private CheckBox.CheckBoxStyle controlHeadingStyle;
 
     public SettingsScreen(Terrarum game) {
         this.game = game;
@@ -142,7 +151,27 @@ public class SettingsScreen implements Screen {
             }
         });
 
+        controlHeadingStyle = new CheckBox.CheckBoxStyle();
+        controlHeadingStyle.font = font_16;
+        controlHeadingStyle.checkboxOff = skin.getDrawable("btn_default");
+        controlHeadingStyle.checkboxOn = skin.getDrawable("btn_active");
 
+        controlHeading = new CheckBox("Touch", controlHeadingStyle);
+        controlHeading.setChecked(false);
+        controlHeading.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.updatePref(musicVolume, soundVolume, stickControl);
+                if(controlHeading.isChecked()){
+                    controlHeading.setText("Stick");
+                    stickControl = true;
+                }
+                else {
+                    controlHeading.setText("Touch");
+                    stickControl = false;
+                }
+            }
+        });
 
         SoundFx = new Label("Sound", new Label.LabelStyle(font_32, Color.WHITE));
         MusicFx = new Label("Music", new Label.LabelStyle(font_32, Color.WHITE));
@@ -154,6 +183,8 @@ public class SettingsScreen implements Screen {
         table.row();
         table.add(SoundFx).expandX().padTop(10);
         table.add(soundVolumeSlider).expandX().padTop(10);
+        table.row();
+        table.add(controlHeading);
 
         stage.addActor(table);
     }
