@@ -107,11 +107,13 @@ public class Player implements Disposable{
         isStickControl = s;
     }
 
-    public void hit() {
+    public void hit(boolean s) {
         lives--;
         playerLight.setDistance(1000);
         playerLight.setColor(Color.WHITE);
-        hitSound.play(volume);
+        if (s) {
+            hitSound.play(volume);
+        }
     }
 
     public int getLives() {

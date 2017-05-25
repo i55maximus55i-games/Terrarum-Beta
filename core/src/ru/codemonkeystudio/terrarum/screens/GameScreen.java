@@ -60,9 +60,9 @@ public class GameScreen implements Screen {
         }
 
         enemyList = new ArrayList<Enemy>();
-        for(int i = 0; i < GameWorld.WORLD_SIZE; i++) {
-            enemyList.add(new Enemy(gameWorld.getWorld(), renderer.getRayHandler(), GameWorld.WORLD_SIZE * 64 - 16, i * 64 + 16));
-            enemyList.add(new Enemy(gameWorld.getWorld(), renderer.getRayHandler(), GameWorld.WORLD_SIZE * 64 - 16, i * 64 + 48));
+        for(int i = 0; i < GameWorld.WORLD_SIZE - 1; i++) {
+            enemyList.add(new Enemy(gameWorld.getWorld(), renderer.getRayHandler(), i * 64 + 16, GameWorld.WORLD_SIZE * 64 - 16));
+            enemyList.add(new Enemy(gameWorld.getWorld(), renderer.getRayHandler(), i * 64 + 48, GameWorld.WORLD_SIZE * 64 - 16));
         }
 
         gameWorld.getWorld().setContactListener(new TerrarumContactListener(player));
@@ -107,6 +107,13 @@ public class GameScreen implements Screen {
                 foodList.get(i).die(gameWorld.getWorld(), game.getSoundVolume());
             }
             if (foodList.get(i).isAlive()) alive++;
+        }
+        for (int i = 0; i < enemyList.size(); i++) {
+            enemyList.get(i).update(delta);
+            if (enemyList.get(i).isAlive() && enemyList.get(i).getBody().getPosition().dst(player.getBody().getPosition()) < 10) {
+                enemyList.get(i).die(gameWorld.getWorld(), game.getSoundVolume());
+                player.hit(false);
+            }
         }
         hud.update(delta, player.getLives(), alive);
         if (alive <= 0) {

@@ -36,7 +36,7 @@ public class TerrarumContactListener implements ContactListener {
     @Override
     public void postSolve(Contact contact, ContactImpulse impulse) {
         if (contact.getFixtureA().getBody().equals(player.getBody()) || contact.getFixtureB().getBody().equals(player.getBody())) {
-            player.hit();
+            player.hit(true);
         }
     }
 }
