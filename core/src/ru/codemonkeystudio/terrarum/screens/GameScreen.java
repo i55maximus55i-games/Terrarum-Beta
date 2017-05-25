@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import ru.codemonkeystudio.terrarum.Terrarum;
+import ru.codemonkeystudio.terrarum.objects.Enemy;
 import ru.codemonkeystudio.terrarum.objects.Food;
 import ru.codemonkeystudio.terrarum.objects.GameWorld;
 import ru.codemonkeystudio.terrarum.objects.Player;
@@ -35,6 +36,7 @@ public class GameScreen implements Screen {
 
     private Player player;
     private ArrayList<Food> foodList;
+    private ArrayList<Enemy> enemyList;
     private ArrayList<Tail> tail;
 
     public MusicPlayer getMusicPlayer() {
@@ -56,6 +58,13 @@ public class GameScreen implements Screen {
             foodList.add(new Food(gameWorld.getWorld(), renderer.getRayHandler(), GameWorld.WORLD_SIZE * 64 - 16, i * 64 + 16));
             foodList.add(new Food(gameWorld.getWorld(), renderer.getRayHandler(), GameWorld.WORLD_SIZE * 64 - 16, i * 64 + 48));
         }
+
+        enemyList = new ArrayList<Enemy>();
+        for(int i = 0; i < GameWorld.WORLD_SIZE; i++) {
+            enemyList.add(new Enemy(gameWorld.getWorld(), renderer.getRayHandler(), GameWorld.WORLD_SIZE * 64 - 16, i * 64 + 16));
+            enemyList.add(new Enemy(gameWorld.getWorld(), renderer.getRayHandler(), GameWorld.WORLD_SIZE * 64 - 16, i * 64 + 48));
+        }
+
         gameWorld.getWorld().setContactListener(new TerrarumContactListener(player));
         hud = new Hud(game.batch, game, this);
     }
@@ -107,7 +116,7 @@ public class GameScreen implements Screen {
             lose();
         }
         musicPlayer.update();
-        tail.add(new Tail(60, player.getBody().getPosition().x, player.getBody().getPosition().y));
+        tail.add(new Tail(20, player.getBody().getPosition().x, player.getBody().getPosition().y));
         Tail a;
         Iterator iterator = tail.iterator();
         while (iterator.hasNext()) {

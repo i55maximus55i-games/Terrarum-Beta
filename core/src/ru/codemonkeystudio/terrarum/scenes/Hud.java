@@ -21,7 +21,6 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 import ru.codemonkeystudio.terrarum.Terrarum;
 import ru.codemonkeystudio.terrarum.screens.GameScreen;
-import ru.codemonkeystudio.terrarum.screens.PauseScreen;
 
 /**
  * Created by maximus on 13.05.2017.
@@ -99,8 +98,8 @@ public class Hud implements Disposable {
             }
         });
 
-        stage.addActor(Exit);
 
+        table.add(Exit).expandX().padTop(10);
         table.add(liveLabel).expandX().padTop(10);
         table.add(timeLabel).expandX().padTop(10);
         table.add(foodLabel).expandX().padTop(10);
