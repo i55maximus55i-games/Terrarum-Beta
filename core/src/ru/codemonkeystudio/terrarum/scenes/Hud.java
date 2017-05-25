@@ -85,10 +85,6 @@ public class Hud implements Disposable {
         heart_dead = new Image(skin, "icon_heart_dead");
         heart_alive.setSize(60, 60);
 
-        skin = new Skin();
-        atlas = new TextureAtlas("textures/textureUI.pack");
-        skin.addRegions(atlas);
-
         exitStyle = new Button.ButtonStyle();
         exitStyle.up = skin.getDrawable("btn_pause");
         exitStyle.down = skin.getDrawable("btn_pause_pressed");
