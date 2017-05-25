@@ -3,128 +3,128 @@ textureUI.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
+slide
+  rotate: false
+  xy: 1, 21
+  size: 64, 8
+  orig: 64, 8
+  offset: 0, 0
+  index: -1
 btn_active
   rotate: false
-  xy: 1, 13
+  xy: 1, 1
   size: 52, 18
   orig: 52, 18
   offset: 0, 0
   index: -1
 btn_default
   rotate: false
-  xy: 55, 13
+  xy: 67, 11
   size: 52, 18
   orig: 52, 18
   offset: 0, 0
   index: -1
 btn_pressed
   rotate: false
-  xy: 109, 13
+  xy: 121, 11
   size: 52, 18
   orig: 52, 18
   offset: 0, 0
   index: -1
 icon_paused
   rotate: false
-  xy: 163, 13
+  xy: 175, 11
   size: 49, 18
   orig: 49, 18
   offset: 0, 0
   index: -1
 icon_terrarum
   rotate: false
-  xy: 214, 13
+  xy: 226, 11
   size: 49, 18
   orig: 49, 18
   offset: 0, 0
   index: -1
-slide
-  rotate: false
-  xy: 1, 5
-  size: 44, 6
-  orig: 44, 6
-  offset: 0, 0
-  index: -1
 btn_back
   rotate: false
-  xy: 265, 13
+  xy: 277, 11
   size: 18, 18
   orig: 18, 18
   offset: 0, 0
   index: -1
 btn_back_pressed
   rotate: false
-  xy: 285, 13
+  xy: 297, 11
   size: 18, 18
   orig: 18, 18
   offset: 0, 0
   index: -1
 btn_checkBox_in
   rotate: false
-  xy: 305, 13
+  xy: 317, 11
   size: 18, 18
   orig: 18, 18
   offset: 0, 0
   index: -1
 btn_checkBox_out
   rotate: false
-  xy: 325, 13
+  xy: 337, 11
   size: 18, 18
   orig: 18, 18
   offset: 0, 0
   index: -1
 btn_pause
   rotate: false
-  xy: 345, 13
+  xy: 357, 11
   size: 18, 18
   orig: 18, 18
   offset: 0, 0
   index: -1
 btn_pause_pressed
   rotate: false
-  xy: 365, 13
+  xy: 377, 11
   size: 18, 18
   orig: 18, 18
   offset: 0, 0
   index: -1
 btn_play
   rotate: false
-  xy: 385, 13
+  xy: 397, 11
   size: 18, 18
   orig: 18, 18
   offset: 0, 0
   index: -1
 btn_play_pressed
   rotate: false
-  xy: 405, 13
+  xy: 417, 11
   size: 18, 18
   orig: 18, 18
   offset: 0, 0
   index: -1
 icon_heart_alive
   rotate: false
-  xy: 425, 16
+  xy: 437, 14
   size: 15, 15
   orig: 15, 15
   offset: 0, 0
   index: -1
 icon_heart_dead
   rotate: false
-  xy: 442, 16
+  xy: 454, 14
   size: 15, 15
   orig: 15, 15
   offset: 0, 0
   index: -1
 knob
   rotate: false
-  xy: 47, 1
-  size: 10, 10
-  orig: 10, 10
+  xy: 471, 15
+  size: 14, 14
+  orig: 14, 14
   offset: 0, 0
   index: -1
 icon_logo
   rotate: false
-  xy: 459, 19
+  xy: 487, 17
   size: 12, 12
   orig: 12, 12
   offset: 0, 0

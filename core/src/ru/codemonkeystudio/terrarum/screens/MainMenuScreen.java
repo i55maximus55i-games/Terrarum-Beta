@@ -63,7 +63,7 @@ public class MainMenuScreen implements Screen {
 		Gdx.input.setInputProcessor(stage);
 
 		skin = new Skin();
-		atlas = new TextureAtlas(Gdx.files.internal("textures/textureUI.pack"));
+		atlas = new TextureAtlas(Gdx.files.internal("Textures/textureUI.pack"));
 		skin.addRegions(atlas);
 
 		iconstyle = new ImageButton.ImageButtonStyle();
