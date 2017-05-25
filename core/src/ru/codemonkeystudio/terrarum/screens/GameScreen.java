@@ -58,12 +58,12 @@ public class GameScreen implements Screen {
         foodList = new ArrayList<Food>();
         for (int i = 0; i < GameWorld.WORLD_SIZE; i++) {
             foodList.add(new Food(gameWorld.getWorld(), renderer.getRayHandler(), GameWorld.WORLD_SIZE * 64 - 16, i * 64 + 16));
-            foodList.add(new Food(gameWorld.getWorld(), renderer.getRayHandler(), GameWorld.WORLD_SIZE * 64 - 16, i * 64 + 48));
+            enemyList.add(new Enemy(gameWorld.getWorld(), renderer.getRayHandler(), GameWorld.WORLD_SIZE * 64 - 16, i * 64 + 48));
         }
 
         enemyList = new ArrayList<Enemy>();
         for(int i = 0; i < GameWorld.WORLD_SIZE - 1; i++) {
-            enemyList.add(new Enemy(gameWorld.getWorld(), renderer.getRayHandler(), i * 64 + 16, GameWorld.WORLD_SIZE * 64 - 16));
+            foodList.add(new Food(gameWorld.getWorld(), renderer.getRayHandler(), i * 64 + 16, GameWorld.WORLD_SIZE * 64 - 16));
             enemyList.add(new Enemy(gameWorld.getWorld(), renderer.getRayHandler(), i * 64 + 48, GameWorld.WORLD_SIZE * 64 - 16));
         }
 
