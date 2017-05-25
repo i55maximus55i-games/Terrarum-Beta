@@ -147,7 +147,7 @@ public class PauseScreen implements Screen {
             }
         });
 
-        MainMenu = new TextButton("MainMenu", MenuStyle);
+        MainMenu = new TextButton("Main Menu", MenuStyle);
         MainMenu.setSize(260, 90);
         MainMenu.setPosition(stage.getWidth()/2, (stage.getHeight()/6)*1, 1);
         MainMenu.addListener(new ClickListener() {

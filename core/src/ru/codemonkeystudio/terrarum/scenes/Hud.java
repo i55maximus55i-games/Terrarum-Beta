@@ -11,9 +11,11 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -21,6 +23,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 import ru.codemonkeystudio.terrarum.Terrarum;
 import ru.codemonkeystudio.terrarum.screens.GameScreen;
+import ru.codemonkeystudio.terrarum.screens.MainMenuScreen;
 
 /**
  * Created by maximus on 13.05.2017.
@@ -41,14 +44,20 @@ public class Hud implements Disposable {
     private Skin skin;
     private TextureAtlas atlas;
     private Image heart_alive, heart_dead;
-    private Button Exit;
-    private Button.ButtonStyle ExitStyle;
+    private Button exit;
+    private Button.ButtonStyle exitStyle;
     private Sound sound;
+    private final GameScreen screen;
+    private Table table;
 
     private BitmapFont font_16,font_24,font_32;
+    private ImageButton icon;
+    private TextButton continueButton;
+    private TextButton mainMenuButton;
 
     public Hud(SpriteBatch batch, final Terrarum game, final GameScreen screen) {
         this.game = game;
+        this.screen = screen;
         viewport = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), new OrthographicCamera());
         stage = new Stage(viewport);
         Gdx.input.setInputProcessor(stage);
@@ -61,8 +70,8 @@ public class Hud implements Disposable {
         font_24 = new BitmapFont(Gdx.files.internal("fonts/Terrarum_24.fnt"), Gdx.files.internal("fonts/Terrarum_24.png"), false);
         font_32 = new BitmapFont(Gdx.files.internal("fonts/Terrarum_32.fnt"), Gdx.files.internal("fonts/Terrarum_32.png"), false);
         sound = Gdx.audio.newSound(Gdx.files.internal("sounds/select.wav"));
-        
-        Table table = new Table();
+
+        table = new Table();
         table.top();
         table.setFillParent(true);
 
@@ -80,30 +89,32 @@ public class Hud implements Disposable {
         atlas = new TextureAtlas("textures/textureUI.pack");
         skin.addRegions(atlas);
 
-        ExitStyle = new Button.ButtonStyle();
-        ExitStyle.up = skin.getDrawable("btn_pause");
-        ExitStyle.down = skin.getDrawable("btn_pause_pressed");
-        ExitStyle.pressedOffsetX = 1;
-        ExitStyle.pressedOffsetY = -1;
+        exitStyle = new Button.ButtonStyle();
+        exitStyle.up = skin.getDrawable("btn_pause");
+        exitStyle.down = skin.getDrawable("btn_pause_pressed");
+        exitStyle.pressedOffsetX = 1;
+        exitStyle.pressedOffsetY = -1;
 
-        Exit = new Button(ExitStyle);
-        Exit.setSize(72, 72);
-        Exit.setPosition(Exit.getWidth()/2, stage.getHeight() - Exit.getHeight()/2, 1);
-        Exit.addListener(new ClickListener(){
+        exit = new Button(exitStyle);
+        exit.setSize(72, 72);
+        exit.setPosition(exit.getWidth()/2, stage.getHeight() - exit.getHeight()/2, 1);
+        exit.addListener(new ClickListener(){
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-//                sound.play();
+                sound.play(game.getSoundVolume());
+                screen.pause();
 //                screen.musicPlayer.setPlaying(false);
 //                game.setScreen(new PauseScreen(game));
             }
         });
 
 
-        table.add(Exit).expandX().padTop(10);
+        table.add(exit).expandX().padTop(10);
         table.add(liveLabel).expandX().padTop(10);
         table.add(timeLabel).expandX().padTop(10);
         table.add(foodLabel).expandX().padTop(10);
         table.row();
+        table.add().expandX();
         table.add(livesLabel).expandX();
         table.add(timerLabel).expandX();
         table.add(foodsLabel).expandX();
@@ -117,6 +128,106 @@ public class Hud implements Disposable {
         timerLabel.setText(String.format("%02d", t / 60) + ":" + (String.format("%02d", t % 60)));
         livesLabel.setText(Integer.toString(lives));
         foodsLabel.setText(Integer.toString(food));
+    }
+
+    public void pause() {
+        timeLabel.setColor(Color.GRAY);
+        timerLabel.setColor(Color.GRAY);
+        liveLabel.setColor(Color.GRAY);
+        livesLabel.setColor(Color.GRAY);
+        foodLabel.setColor(Color.GRAY);
+        foodsLabel.setColor(Color.GRAY);
+
+        exit.setVisible(false);
+
+        ImageButton.ImageButtonStyle iconstyle = new ImageButton.ImageButtonStyle();
+        iconstyle.up = skin.getDrawable("icon_paused");
+        icon = new ImageButton(iconstyle);
+        icon.setSize(364, 126);
+        icon.setPosition(stage.getWidth()/2, (stage.getHeight()/6)*5, 1);
+        stage.addActor(icon);
+
+        TextButton.TextButtonStyle continueStyle = new TextButton.TextButtonStyle();
+        continueStyle.font = font_24;
+        continueStyle.up = skin.getDrawable("btn_default");
+        continueStyle.over = skin.getDrawable("btn_active");
+        continueStyle.down = skin.getDrawable("btn_pressed");
+        continueStyle.pressedOffsetX = 1;
+        continueStyle.pressedOffsetY = -1;
+        continueButton = new TextButton("Continue", continueStyle);
+        continueButton.setSize(260, 90);
+        continueButton.setPosition(stage.getWidth()/2, (stage.getHeight()/6)*4, 1);
+        continueButton.addListener(new ClickListener() {
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                sound.play(game.getSoundVolume());
+                screen.unpause();
+            }
+        });
+        stage.addActor(continueButton);
+
+        TextButton.TextButtonStyle mainMenuStyle = new TextButton.TextButtonStyle();
+        mainMenuStyle.font = font_24;
+        mainMenuStyle.up = skin.getDrawable("btn_default");
+        mainMenuStyle.over = skin.getDrawable("btn_active");
+        mainMenuStyle.down = skin.getDrawable("btn_pressed");
+        mainMenuStyle.pressedOffsetX = 1;
+        mainMenuStyle.pressedOffsetY = -1;
+        mainMenuButton = new TextButton("Main Menu", mainMenuStyle);
+        mainMenuButton.setSize(260, 90);
+        mainMenuButton.setPosition(stage.getWidth()/2, (stage.getHeight()/6)*3, 1);
+        mainMenuButton.addListener(new ClickListener() {
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                sound.play(game.getSoundVolume());
+                screen.musicPlayer.setPlaying(false);
+                game.setScreen(new MainMenuScreen(game));
+            }
+        });
+        stage.addActor(mainMenuButton);
+    }
+
+    public void resume() {
+        timeLabel.setColor(Color.WHITE);
+        timerLabel.setColor(Color.WHITE);
+        liveLabel.setColor(Color.WHITE);
+        livesLabel.setColor(Color.WHITE);
+        foodLabel.setColor(Color.WHITE);
+        foodsLabel.setColor(Color.WHITE);
+        
+        exitStyle = new Button.ButtonStyle();
+        exitStyle.up = skin.getDrawable("btn_pause");
+        exitStyle.down = skin.getDrawable("btn_pause_pressed");
+        exitStyle.pressedOffsetX = 1;
+        exitStyle.pressedOffsetY = -1;
+        exit = new Button(exitStyle);
+        exit.setSize(72, 72);
+        exit.setPosition(exit.getWidth()/2, stage.getHeight() - exit.getHeight()/2, 1);
+        exit.addListener(new ClickListener(){
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                sound.play(game.getSoundVolume());
+                screen.pause();
+            }
+        });
+
+        table.clear();
+        table.remove();
+        table.add(exit).expandX().padTop(10);
+        table.add(liveLabel).expandX().padTop(10);
+        table.add(timeLabel).expandX().padTop(10);
+        table.add(foodLabel).expandX().padTop(10);
+        table.row();
+        table.add().expandX();
+        table.add(livesLabel).expandX();
+        table.add(timerLabel).expandX();
+        table.add(foodsLabel).expandX();
+
+        stage.addActor(table);
+
+        icon.remove();
+        continueButton.remove();
+        mainMenuButton.remove();
     }
 
     @Override

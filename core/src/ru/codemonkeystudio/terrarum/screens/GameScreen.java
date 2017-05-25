@@ -38,6 +38,7 @@ public class GameScreen implements Screen {
     private ArrayList<Food> foodList;
     private ArrayList<Enemy> enemyList;
     private ArrayList<Tail> tail;
+    private boolean paused;
 
     public MusicPlayer getMusicPlayer() {
         return musicPlayer;
@@ -47,6 +48,7 @@ public class GameScreen implements Screen {
         this.game = game;
         gameWorld = new GameWorld();
 
+        paused = false;
         tail = new ArrayList<Tail>();
         renderer = new GameRenderer(game.batch, gameWorld, tail);
         controlHandler = new TerrarumControlHandler();
@@ -79,7 +81,10 @@ public class GameScreen implements Screen {
         Gdx.gl20.glClearColor(0, 0.16f, 1, 1);
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
         renderer.render();
-        update(delta);
+        musicPlayer.update();
+        if (!paused) {
+            update(delta);
+        }
         hud.stage.draw();
     }
 
@@ -122,7 +127,6 @@ public class GameScreen implements Screen {
         else if (player.getLives() < 0) {
             lose();
         }
-        musicPlayer.update();
         tail.add(new Tail(20, player.getBody().getPosition().x, player.getBody().getPosition().y));
         Tail a;
         Iterator iterator = tail.iterator();
@@ -153,7 +157,13 @@ public class GameScreen implements Screen {
 
     @Override
     public void pause() {
+        paused = true;
+        hud.pause();
+    }
 
+    public void unpause() {
+        paused = false;
+        hud.resume();
     }
 
     @Override
