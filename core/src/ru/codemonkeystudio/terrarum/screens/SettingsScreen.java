@@ -1,7 +1,6 @@
 package ru.codemonkeystudio.terrarum.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
@@ -77,17 +76,22 @@ public class SettingsScreen implements Screen {
         stage = new Stage(new FitViewport(800, 600, gamecam));
         Gdx.input.setInputProcessor(stage);
 
-        label = new Label("Settings", new Label.LabelStyle(font_32, Color.WHITE));
-        label.setPosition(400, 600 - label.getHeight() / 2, 1);
-        stage.addActor(label);
+
 
         Table table = new Table();
         table.center();
         table.setFillParent(true);
 
+        Table tableTop = new Table();
+        tableTop.top();
+        tableTop.setFillParent(true);
+
         skin = new Skin();
         atlas = new TextureAtlas("textures/textureUI.pack");
         skin.addRegions(atlas);
+
+        label = new Label("Settings", new Label.LabelStyle(font_32, Color.WHITE));
+        label.setPosition(400, 600 - label.getHeight() / 2, 1);
 
         exitStyle = new Button.ButtonStyle();
         exitStyle.up = skin.getDrawable("btn_back");
@@ -155,6 +159,7 @@ public class SettingsScreen implements Screen {
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 super.touchUp(event, x, y, pointer, button);
+                sound.play();
                 musicVolume = game.getMusicVolume();
                 soundVolume = game.getSoundVolume();
                 stickControl = game.isStickControl();
@@ -176,7 +181,8 @@ public class SettingsScreen implements Screen {
         MusicFx = new Label("Music", new Label.LabelStyle(font_32, Color.WHITE));
         handle = new Label("Control  : ", new Label.LabelStyle(font_32, Color.WHITE));
 
-        stage.addActor(exit);
+        tableTop.add(exit).size(72, 72).left();
+        tableTop.add(label).center().expandX();
 
         table.add(MusicFx).expandX().padTop(10);
         table.add(musicVolumeSlider).expandX().padTop(10);
@@ -187,6 +193,7 @@ public class SettingsScreen implements Screen {
         table.add(handle).expandX().padTop(10);
         table.add(controlHeading).expandX().padTop(10);
 
+        stage.addActor(tableTop);
         stage.addActor(table);
     }
 

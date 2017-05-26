@@ -10,10 +10,15 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+
 import ru.codemonkeystudio.terrarum.Terrarum;
 
 /**
@@ -30,13 +35,12 @@ public class MainMenuScreen implements Screen {
 	private ImageButton icon;
 	private ImageButton.ImageButtonStyle iconstyle;
 	private Stage stage;
-	private TextButton Exit, NewGame, Achievements, Settings;
-	private TextButton.TextButtonStyle ExitStyle, NewGameStyle, AchievementsStyle, SettingsStyle;
+	private TextButton Exit, NewGame, Statistic, Settings;
+	private TextButton.TextButtonStyle ExitStyle, NewGameStyle, StatisticStyle, SettingsStyle;
 	private BitmapFont font_16,font_24,font_32;
 	private Label label;
 	private TextureAtlas atlas;
 	private Skin skin;
-	private Table table;
 
 	public MainMenuScreen(Terrarum game) {
 		stage = new Stage();
@@ -62,6 +66,10 @@ public class MainMenuScreen implements Screen {
 		stage = new Stage(new FitViewport(800,600, gamecam));
 		Gdx.input.setInputProcessor(stage);
 
+		Table table = new Table();
+		table.center();
+		table.setFillParent(true);
+
 		skin = new Skin();
 		atlas = new TextureAtlas(Gdx.files.internal("textures/textureUI.pack"));
 		skin.addRegions(atlas);
@@ -77,13 +85,13 @@ public class MainMenuScreen implements Screen {
 		NewGameStyle.pressedOffsetX = 1;
 		NewGameStyle.pressedOffsetY = -1;
 
-		AchievementsStyle = new TextButton.TextButtonStyle();
-		AchievementsStyle.font = font_24;
-		AchievementsStyle.up = skin.getDrawable("btn_default");
-		AchievementsStyle.over = skin.getDrawable("btn_active");
-		AchievementsStyle.down = skin.getDrawable("btn_pressed");
-		AchievementsStyle.pressedOffsetX = 1;
-		AchievementsStyle.pressedOffsetY = -1;
+		StatisticStyle = new TextButton.TextButtonStyle();
+		StatisticStyle.font = font_24;
+		StatisticStyle.up = skin.getDrawable("btn_default");
+		StatisticStyle.over = skin.getDrawable("btn_active");
+		StatisticStyle.down = skin.getDrawable("btn_pressed");
+		StatisticStyle.pressedOffsetX = 1;
+		StatisticStyle.pressedOffsetY = -1;
 
 		SettingsStyle = new TextButton.TextButtonStyle();
 		SettingsStyle.font = font_24;
@@ -117,15 +125,14 @@ public class MainMenuScreen implements Screen {
 			}
 		});
 
-		Achievements = new TextButton("Achievements", AchievementsStyle);
-		Achievements.setSize(260, 90);
-		Achievements.setPosition(stage.getWidth()/2, (stage.getHeight()/6)*3, 1);
-		Achievements.addListener(new ClickListener() {
+		Statistic = new TextButton("Statistic", StatisticStyle);
+		Statistic.setSize(260, 90);
+		Statistic.setPosition(stage.getWidth()/2, (stage.getHeight()/6)*3, 1);
+		Statistic.addListener(new ClickListener() {
 			@Override
 			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-//				stage.dispose();
+				super.touchUp(event, x, y, pointer, button);
 				sound.play(game.getSoundVolume());
-//				game.setScreen(new Achievements(game));
 			}
 		});
 
@@ -153,11 +160,13 @@ public class MainMenuScreen implements Screen {
 			}
 		});
 
-		stage.addActor(icon);
-		stage.addActor(NewGame);
-		stage.addActor(Achievements);
-		stage.addActor(Settings);
-		stage.addActor(Exit);
+		table.add(icon).size(364, 126).row();
+		table.add(NewGame).size(260, 90).row();
+		table.add(Statistic).size(260, 90).row();
+		table.add(Settings).size(260, 90).row();
+		table.add(Exit).size(260, 90).row();
+
+		stage.addActor(table);
 	}
 
 	@Override
