@@ -44,8 +44,8 @@ public class Hud implements Disposable {
     private Skin skin;
     private TextureAtlas atlas;
     private Image heart_alive, heart_dead;
-    private Button exit;
-    private Button.ButtonStyle exitStyle;
+    private Button pause;
+    private Button.ButtonStyle pauseStyle;
     private Sound sound;
     private final GameScreen screen;
     private Table table;
@@ -85,16 +85,16 @@ public class Hud implements Disposable {
         heart_dead = new Image(skin, "icon_heart_dead");
         heart_alive.setSize(60, 60);
 
-        exitStyle = new Button.ButtonStyle();
-        exitStyle.up = skin.getDrawable("btn_pause");
-        exitStyle.down = skin.getDrawable("btn_pause_pressed");
-        exitStyle.pressedOffsetX = 1;
-        exitStyle.pressedOffsetY = -1;
+        pauseStyle = new Button.ButtonStyle();
+        pauseStyle.up = skin.getDrawable("btn_pause");
+        pauseStyle.down = skin.getDrawable("btn_pause_pressed");
+        pauseStyle.pressedOffsetX = 1;
+        pauseStyle.pressedOffsetY = -1;
 
-        exit = new Button(exitStyle);
-        exit.setSize(72, 72);
-        exit.setPosition(exit.getWidth()/2, stage.getHeight() - exit.getHeight()/2, 1);
-        exit.addListener(new ClickListener(){
+        pause = new Button(pauseStyle);
+        pause.setSize(72, 142);
+        pause.setPosition(pause.getWidth()/2, stage.getHeight() - pause.getHeight()/2, 1);
+        pause.addListener(new ClickListener(){
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 sound.play(game.getSoundVolume());
@@ -105,7 +105,7 @@ public class Hud implements Disposable {
         });
 
 
-        table.add(exit).expandX().padTop(10);
+        table.add(pause).expandX().padTop(10).size(72, 72);
         table.add(liveLabel).expandX().padTop(10);
         table.add(timeLabel).expandX().padTop(10);
         table.add(foodLabel).expandX().padTop(10);
@@ -134,7 +134,7 @@ public class Hud implements Disposable {
         foodLabel.setColor(Color.GRAY);
         foodsLabel.setColor(Color.GRAY);
 
-        exit.setVisible(false);
+        pause.setVisible(false);
 
         ImageButton.ImageButtonStyle iconstyle = new ImageButton.ImageButtonStyle();
         iconstyle.up = skin.getDrawable("icon_paused");
@@ -191,15 +191,15 @@ public class Hud implements Disposable {
         foodLabel.setColor(Color.WHITE);
         foodsLabel.setColor(Color.WHITE);
         
-        exitStyle = new Button.ButtonStyle();
-        exitStyle.up = skin.getDrawable("btn_pause");
-        exitStyle.down = skin.getDrawable("btn_pause_pressed");
-        exitStyle.pressedOffsetX = 1;
-        exitStyle.pressedOffsetY = -1;
-        exit = new Button(exitStyle);
-        exit.setSize(72, 72);
-        exit.setPosition(exit.getWidth()/2, stage.getHeight() - exit.getHeight()/2, 1);
-        exit.addListener(new ClickListener(){
+        pauseStyle = new Button.ButtonStyle();
+        pauseStyle.up = skin.getDrawable("btn_pause");
+        pauseStyle.down = skin.getDrawable("btn_pause_pressed");
+        pauseStyle.pressedOffsetX = 1;
+        pauseStyle.pressedOffsetY = -1;
+        pause = new Button(pauseStyle);
+        pause.setSize(72, 72);
+        pause.setPosition(pause.getWidth()/2, stage.getHeight() - pause.getHeight()/2, 1);
+        pause.addListener(new ClickListener(){
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 sound.play(game.getSoundVolume());
@@ -209,7 +209,7 @@ public class Hud implements Disposable {
 
         table.clear();
         table.remove();
-        table.add(exit).expandX().padTop(10);
+        table.add(pause).expandX().padTop(10).size(72);
         table.add(liveLabel).expandX().padTop(10);
         table.add(timeLabel).expandX().padTop(10);
         table.add(foodLabel).expandX().padTop(10);

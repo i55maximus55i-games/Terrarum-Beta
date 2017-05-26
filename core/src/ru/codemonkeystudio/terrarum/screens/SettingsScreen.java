@@ -70,8 +70,6 @@ public class SettingsScreen implements Screen {
         font_24 = new BitmapFont(Gdx.files.internal("fonts/Terrarum_24.fnt"), Gdx.files.internal("fonts/Terrarum_24.png"), false);
         font_32 = new BitmapFont(Gdx.files.internal("fonts/Terrarum_32.fnt"), Gdx.files.internal("fonts/Terrarum_32.png"), false);
         sound = Gdx.audio.newSound(Gdx.files.internal("sounds/select.wav"));
-
-
     }
 
     @Override
@@ -151,24 +149,26 @@ public class SettingsScreen implements Screen {
 
         controlHeadingStyle = new CheckBox.CheckBoxStyle();
         controlHeadingStyle.font = font_32;
-        controlHeadingStyle.downFontColor = Color.RED;
-        controlHeadingStyle.checkedFontColor = Color.CYAN;
-        controlHeadingStyle.disabledFontColor = Color.CYAN;
 
         controlHeading = new CheckBox(game.isStickControl() ? "Stick" : "Touch", controlHeadingStyle);
-        controlHeading.setChecked(game.isStickControl());
-        controlHeading.addListener(new ClickListener(){
+        controlHeading.addListener(new ClickListener() {
             @Override
-            public void clicked(InputEvent event, float x, float y) {
-                if(controlHeading.isChecked()){
-                    controlHeading.setText("Stick");
-                    stickControl = true;
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                super.touchUp(event, x, y, pointer, button);
+                musicVolume = game.getMusicVolume();
+                soundVolume = game.getSoundVolume();
+                stickControl = game.isStickControl();
+                if (stickControl) {
+                    stickControl = false;
+                    controlHeading.setText("Touch");
+                    game.updatePref(musicVolume, soundVolume, false);
                 }
                 else {
-                    controlHeading.setText("Touch");
-                    stickControl = false;
+                    stickControl = true;
+                    controlHeading.setText("Stick");
+                    game.updatePref(musicVolume, soundVolume, true);
                 }
-                game.updatePref(musicVolume, soundVolume, stickControl);
+                Gdx.app.log("ctrl", stickControl ? "Stick" : "Touch");
             }
         });
 
@@ -199,14 +199,7 @@ public class SettingsScreen implements Screen {
 
         stage.act(delta);
         stage.draw();
-
-        musicVolume = game.getMusicVolume();
-        soundVolume = game.getSoundVolume();
         stickControl = game.isStickControl();
-        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
-            stickControl = !stickControl;
-            game.updatePref(musicVolume, soundVolume, stickControl);
-        }
     }
 
     @Override

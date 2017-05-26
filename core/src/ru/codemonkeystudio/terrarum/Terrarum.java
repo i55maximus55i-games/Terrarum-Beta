@@ -53,11 +53,11 @@ public class Terrarum extends Game {
 			soundVolume = 0f;
 		}
         preferences.putFloat("musicVolume", musicVolume);
-        this.musicVolume = preferences.getFloat("musicVolume");
+        this.musicVolume = musicVolume;
         preferences.putFloat("soundVolume", soundVolume);
-        this.soundVolume = preferences.getFloat("soundVolume");
+        this.soundVolume = soundVolume;
         preferences.putBoolean("stickControl", stickControl);
-        this.stickControl = preferences.getBoolean("stickControl");
+        this.stickControl = stickControl;
 		preferences.flush();
     }
 
