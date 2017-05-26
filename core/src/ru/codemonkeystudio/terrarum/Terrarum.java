@@ -27,6 +27,7 @@ public class Terrarum extends Game {
 		updatePref();
 		batch = new SpriteBatch();
 		setScreen(new MainMenuScreen(this));
+		Gdx.input.setCatchBackKey(true);
 	}
 
     private void updatePref() {

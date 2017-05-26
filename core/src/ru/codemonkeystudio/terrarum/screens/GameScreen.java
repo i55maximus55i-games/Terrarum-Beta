@@ -156,8 +156,10 @@ public class GameScreen implements Screen {
 
     @Override
     public void pause() {
-        paused = true;
-        hud.pause();
+        if (!paused) {
+            paused = true;
+            hud.pause();
+        }
     }
 
     public void unpause() {
