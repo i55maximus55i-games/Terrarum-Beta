@@ -6,6 +6,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -31,6 +32,7 @@ import ru.codemonkeystudio.terrarum.Terrarum;
  */
 public class SettingsScreen implements Screen {
 
+    private Texture back;
     private Terrarum game;
     private Stage stage;
     private TextButton menu;
@@ -69,6 +71,7 @@ public class SettingsScreen implements Screen {
         font_24 = new BitmapFont(Gdx.files.internal("fonts/Terrarum_24.fnt"), Gdx.files.internal("fonts/Terrarum_24.png"), false);
         font_32 = new BitmapFont(Gdx.files.internal("fonts/Terrarum_32.fnt"), Gdx.files.internal("fonts/Terrarum_32.png"), false);
         sound = Gdx.audio.newSound(Gdx.files.internal("sounds/select.wav"));
+        back = new Texture("textures/back.jpg");
     }
 
     @Override
@@ -201,6 +204,9 @@ public class SettingsScreen implements Screen {
     public void render ( float delta){
         Gdx.gl.glClearColor(0,0,0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        batch.begin();
+        batch.draw(back, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        batch.end();
         gamecam.update();
         batch.setProjectionMatrix(gamecam.combined);
 

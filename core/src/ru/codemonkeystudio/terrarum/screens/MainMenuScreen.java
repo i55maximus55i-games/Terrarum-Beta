@@ -181,7 +181,7 @@ public class MainMenuScreen implements Screen {
 		batch.setProjectionMatrix(gamecam.combined);
 
 		batch.begin();
-		batch.draw();
+		batch.draw(back, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		batch.end();
 
 		stage.act(delta);
