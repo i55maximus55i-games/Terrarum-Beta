@@ -123,11 +123,11 @@ public class SettingsScreen implements Screen {
         musicVolumeSlider.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                game.updatePref(musicVolumeSlider.getValue(), soundVolume, stickControl);
+                game.updatePref(musicVolumeSlider.getValue(), game.getSoundVolume(), stickControl);
                 musicVolumeSlider.addListener(new ClickListener() {
                     @Override
                     public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                        sound.play(musicVolume);
+                        sound.play(musicVolumeSlider.getValue());
                     }
                 });
             }
@@ -144,11 +144,11 @@ public class SettingsScreen implements Screen {
         soundVolumeSlider.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                game.updatePref(musicVolume, soundVolumeSlider.getValue(), stickControl);
+                game.updatePref(game.getMusicVolume(), soundVolumeSlider.getValue(), stickControl);
                 soundVolumeSlider.addListener(new ClickListener() {
                     @Override
                     public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                        sound.play(soundVolume);
+                        sound.play(soundVolumeSlider.getValue());
                     }
                 });
             }
