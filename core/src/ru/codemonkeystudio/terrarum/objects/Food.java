@@ -14,7 +14,7 @@ import box2dLight.PointLight;
 import box2dLight.RayHandler;
 
 /**
- * Created by maximus on 19.05.2017.
+ * Еда
  */
 
 public class Food implements Disposable {
@@ -81,10 +81,7 @@ public class Food implements Disposable {
     @Override
     public void dispose() {
         light.dispose();
-    }
-
-    public PointLight getLight() {
-        return light;
+        eatSound.dispose();
     }
 
     public Body getBody() {

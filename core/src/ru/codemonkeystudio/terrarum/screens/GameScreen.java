@@ -21,7 +21,7 @@ import ru.codemonkeystudio.terrarum.tools.TerrarumContactListener;
 import ru.codemonkeystudio.terrarum.tools.TerrarumControlHandler;
 
 /**
- * Created by maximus on 05.05.2017.
+ * Основной игровой экран
  */
 
 public class GameScreen implements Screen {
@@ -40,11 +40,7 @@ public class GameScreen implements Screen {
     private ArrayList<Tail> tail;
     private boolean paused;
 
-    public MusicPlayer getMusicPlayer() {
-        return musicPlayer;
-    }
-
-    public GameScreen(Terrarum game) {
+    GameScreen(Terrarum game) {
         this.game = game;
         gameWorld = new GameWorld();
 
@@ -67,7 +63,7 @@ public class GameScreen implements Screen {
         }
 
         gameWorld.getWorld().setContactListener(new TerrarumContactListener(player));
-        hud = new Hud(game.batch, game, this);
+        hud = new Hud(game, this);
     }
 
     @Override
@@ -103,7 +99,7 @@ public class GameScreen implements Screen {
                 }
             }
         }
-        renderer.update(delta, player.getBody().getPosition().x, player.getBody().getPosition().y, nearest != -1, (nearest == -1 ? new Vector2(0, 0) : controlHandler.vectorSum(foodList.get(nearest).getBody().getPosition().sub(player.getBody().getPosition()))));
+        renderer.update(delta, player.getBody().getPosition().x, player.getBody().getPosition().y, nearest != -1, (nearest == -1 ? new Vector2(0, 0) : controlHandler.vectorSinCos(foodList.get(nearest).getBody().getPosition().sub(player.getBody().getPosition()))));
         int alive = 0;
         for (int i = 0; i < foodList.size(); i++) {
             foodList.get(i).update(delta);
@@ -151,7 +147,7 @@ public class GameScreen implements Screen {
     @Override
     public void resize(int width, int height) {
         renderer.resize(width, height);
-        controlHandler.resize(width, height);
+        controlHandler.resize();
     }
 
     @Override
@@ -179,12 +175,17 @@ public class GameScreen implements Screen {
 
     @Override
     public void dispose() {
-//        renderer.dispose();
-//        player.dispose();
-//        controlHandler.dispose();
-//        for (int i = 0; i < foodList.size(); i++) {
-//            foodList.get(i).dispose();
-//        }
-//        musicPlayer.dispose();
+        renderer.dispose();
+        player.dispose();
+        controlHandler.dispose();
+        gameWorld.dispose();
+        hud.dispose();
+        for (int i = 0; i < foodList.size(); i++) {
+            foodList.get(i).dispose();
+        }
+        for (int i = 0; i < enemyList.size(); i++) {
+            enemyList.get(i).dispose();
+        }
+        musicPlayer.dispose();
     }
 }

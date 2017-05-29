@@ -3,7 +3,7 @@ package ru.codemonkeystudio.terrarum.objects;
 import com.badlogic.gdx.math.Vector2;
 
 /**
- * Created by maximus on 23.05.2017.
+ * Частица хвоста
  */
 
 public class Tail {

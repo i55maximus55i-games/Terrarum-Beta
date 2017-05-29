@@ -16,7 +16,7 @@ import box2dLight.RayHandler;
 import ru.codemonkeystudio.terrarum.tools.TerrarumControlHandler;
 
 /**
- * Created by maximus on 16.05.2017.
+ * Игрок
  */
 
 public class Player implements Disposable{
@@ -75,7 +75,7 @@ public class Player implements Disposable{
         Vector2 velocity = new Vector2();
         velocity.set(body.getLinearVelocity());
         Vector2 v = new Vector2(velocity);
-        velocity.sub(controlHandler.vectorSum(velocity).x * s, controlHandler.vectorSum(velocity).y * s);
+        velocity.sub(controlHandler.vectorSinCos(velocity).x * s, controlHandler.vectorSinCos(velocity).y * s);
         if ((v.x > 0 && velocity.x < 0) || (v.x < 0 && velocity.x > 0) || (v.y > 0 && velocity.y < 0) || (v.y < 0 && velocity.y > 0))
         {
             velocity.set(0, 0);
@@ -92,7 +92,7 @@ public class Player implements Disposable{
             c.add(controlHandler.touchControl());
         }
         if (c.x * c.x + c.y * c.y > 1) {
-            c = controlHandler.vectorSum(c);
+            c = controlHandler.vectorSinCos(c);
         }
         c.x *= 100;
         c.y *= 100;
@@ -101,10 +101,6 @@ public class Player implements Disposable{
 
     public Body getBody() {
         return body;
-    }
-
-    public void setStickControl(boolean s) {
-        isStickControl = s;
     }
 
     public void hit(boolean s) {
@@ -123,5 +119,6 @@ public class Player implements Disposable{
     @Override
     public void dispose() {
         playerLight.dispose();
+        hitSound.dispose();
     }
 }

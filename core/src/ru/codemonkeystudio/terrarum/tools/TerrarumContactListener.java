@@ -8,7 +8,7 @@ import com.badlogic.gdx.physics.box2d.Manifold;
 import ru.codemonkeystudio.terrarum.objects.Player;
 
 /**
- * Created by maximus on 19.05.2017.
+ * Обработчик столкновений в игровом мире
  */
 
 public class TerrarumContactListener implements ContactListener {

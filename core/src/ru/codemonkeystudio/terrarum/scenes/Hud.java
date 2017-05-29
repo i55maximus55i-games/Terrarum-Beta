@@ -5,12 +5,10 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -26,12 +24,11 @@ import ru.codemonkeystudio.terrarum.screens.GameScreen;
 import ru.codemonkeystudio.terrarum.screens.MainMenuScreen;
 
 /**
- * Created by maximus on 13.05.2017.
+ * Игровой интерфейс
  */
 
 public class Hud implements Disposable {
     public Stage stage;
-    private Viewport viewport;
 
     private float timer;
     private Terrarum game;
@@ -43,7 +40,6 @@ public class Hud implements Disposable {
     private Label foodsLabel;
     private Skin skin;
     private TextureAtlas atlas;
-    private Image heart_alive, heart_dead;
     private Button pause;
     private Button.ButtonStyle pauseStyle;
     private Sound sound;
@@ -55,10 +51,10 @@ public class Hud implements Disposable {
     private TextButton continueButton;
     private TextButton mainMenuButton;
 
-    public Hud(SpriteBatch batch, final Terrarum game, final GameScreen screen) {
+    public Hud(final Terrarum game, final GameScreen screen) {
         this.game = game;
         this.screen = screen;
-        viewport = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), new OrthographicCamera());
+        Viewport viewport = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), new OrthographicCamera());
         stage = new Stage(viewport);
         Gdx.input.setInputProcessor(stage);
 
@@ -81,9 +77,6 @@ public class Hud implements Disposable {
         livesLabel = new Label("", new Label.LabelStyle(font_32, Color.WHITE));
         foodLabel = new Label("Food", new Label.LabelStyle(font_32, Color.WHITE));
         foodsLabel = new Label("", new Label.LabelStyle(font_32, Color.WHITE));
-        heart_alive = new Image(skin, "icon_heart_alive");
-        heart_dead = new Image(skin, "icon_heart_dead");
-        heart_alive.setSize(60, 60);
 
         pauseStyle = new Button.ButtonStyle();
         pauseStyle.up = skin.getDrawable("btn_pause");
@@ -229,5 +222,12 @@ public class Hud implements Disposable {
     @Override
     public void dispose() {
         stage.dispose();
+        atlas.dispose();
+        sound.dispose();
+
+        font_16.dispose();
+        font_24.dispose();
+        font_32.dispose();
+        skin.dispose();
     }
 }

@@ -7,7 +7,7 @@ import com.badlogic.gdx.utils.Disposable;
 import java.util.ArrayList;
 
 /**
- * Created by maximus on 10.05.2017.
+ * Класс, отвечающий за музыкальное сопровождение
  */
 
 public class MusicPlayer implements Disposable {
@@ -44,7 +44,7 @@ public class MusicPlayer implements Disposable {
         isPlaying = true;
     }
 
-    public void changeMusic() {
+    private void changeMusic() {
         if (playList.size() > 0) {
             mus++;
             if (mus >= playList.size())
@@ -56,11 +56,7 @@ public class MusicPlayer implements Disposable {
         }
     }
 
-    public float getVolume() {
-        return volume;
-    }
-
-    public void setVolume(float volume) {
+    private void setVolume(float volume) {
         this.volume = volume;
         if (music != null) {
             music.setVolume(volume);
@@ -85,8 +81,9 @@ public class MusicPlayer implements Disposable {
 
     @Override
     public void dispose() {
-        music.stop();
-        music.dispose();
+        if (music != null) {
+            music.stop();
+        }
         for (Music m : playList) {
             m.dispose();
         }

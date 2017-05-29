@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by maximus on 06.05.2017.
+ * Игровой мир
  */
 
 public class GameWorld implements Disposable{

@@ -8,7 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Disposable;
 
 /**
- * Created by maximus on 10.05.2017.
+ * Класс отвечающий за управление игрока
  */
 
 public class TerrarumControlHandler implements Disposable {
@@ -35,7 +35,7 @@ public class TerrarumControlHandler implements Disposable {
         else {
             ctrl.set(0, 0);
         }
-        ctrl = vectorSum(ctrl);
+        ctrl = vectorSinCos(ctrl);
         return ctrl;
     }
 
@@ -57,13 +57,13 @@ public class TerrarumControlHandler implements Disposable {
                 shapeRenderer.circle(ctrl.x, ctrl.y, stickSizeSmall);
             }
             else {
-                c = vectorSum(c);
+                c = vectorSinCos(c);
                 float a = stickSizeBig - stickSizeSmall - 4;
                 shapeRenderer.circle(x + c.x * a, y + c.y * a, stickSizeSmall);
             }
             shapeRenderer.end();
             c.y = -c.y;
-            c = vectorSum(c);
+            c = vectorSinCos(c);
             if (ctrl.dst(x, y) < stickSizeBig) {
                 c.x *= ctrl.dst(x, y) / (stickSizeBig);
                 c.y *= ctrl.dst(x, y) / (stickSizeBig);
@@ -85,14 +85,15 @@ public class TerrarumControlHandler implements Disposable {
         if (Gdx.input.isKeyPressed(Input.Keys.S) || Gdx.input.isKeyPressed(Input.Keys.DOWN)) ctrl.y += 1;
         if (Gdx.input.isKeyPressed(Input.Keys.A) || Gdx.input.isKeyPressed(Input.Keys.LEFT)) ctrl.x -= 1;
         if (Gdx.input.isKeyPressed(Input.Keys.D) || Gdx.input.isKeyPressed(Input.Keys.RIGHT)) ctrl.x += 1;
-        return vectorSum(ctrl);
+        return vectorSinCos(ctrl);
     }
 
-    public void resize(int width, int height) {
+    public void resize() {
+        shapeRenderer.dispose();
         shapeRenderer = new ShapeRenderer();
     }
 
-    public Vector2 vectorSum(Vector2 vector) {
+    public Vector2 vectorSinCos(Vector2 vector) {
         Vector2 result = new Vector2(vector);
 
         if (result.x == 0) {

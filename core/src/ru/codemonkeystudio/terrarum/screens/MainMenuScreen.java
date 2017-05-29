@@ -12,34 +12,26 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
 
 import ru.codemonkeystudio.terrarum.Terrarum;
 
 /**
- * Created by maximus on 22.04.17.
+ * Экран главного меню
  */
 public class MainMenuScreen implements Screen {
 	private SpriteBatch batch;
 	private Terrarum game;
 	private OrthographicCamera gamecam;
-	private Viewport gamePort;
 
 	//menu assets
 	private Sound sound;
-	private ImageButton icon;
-	private ImageButton.ImageButtonStyle iconstyle;
-	private Stage stage;
-	private TextButton Exit, NewGame, Statistic, Settings;
-	private TextButton.TextButtonStyle ExitStyle, NewGameStyle, StatisticStyle, SettingsStyle;
-	private BitmapFont font_16,font_24,font_32;
-	private Label label;
+    private Stage stage;
+    private BitmapFont font_16,font_24,font_32;
 	private TextureAtlas atlas;
 	private Skin skin;
     private Texture back;
@@ -49,8 +41,6 @@ public class MainMenuScreen implements Screen {
 		this.game = game;
 		this.batch = game.batch;
 		gamecam = new OrthographicCamera();
-
-		gamePort = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), gamecam);
 
 		sound = Gdx.audio.newSound(Gdx.files.internal("sounds/select.wav"));
 
@@ -78,49 +68,49 @@ public class MainMenuScreen implements Screen {
 		atlas = new TextureAtlas(Gdx.files.internal("textures/textureUI.pack"));
 		skin.addRegions(atlas);
 
-		iconstyle = new ImageButton.ImageButtonStyle();
+        ImageButton.ImageButtonStyle iconstyle = new ImageButton.ImageButtonStyle();
 		iconstyle.up = skin.getDrawable("icon_terrarum");
 
-		NewGameStyle = new TextButton.TextButtonStyle();
-		NewGameStyle.font = font_24;
-		NewGameStyle.up = skin.getDrawable("btn_default");
-		NewGameStyle.over = skin.getDrawable("btn_active");
-		NewGameStyle.down = skin.getDrawable("btn_pressed");
-		NewGameStyle.pressedOffsetX = 1;
-		NewGameStyle.pressedOffsetY = -1;
+        TextButton.TextButtonStyle newGameStyle = new TextButton.TextButtonStyle();
+		newGameStyle.font = font_24;
+		newGameStyle.up = skin.getDrawable("btn_default");
+		newGameStyle.over = skin.getDrawable("btn_active");
+		newGameStyle.down = skin.getDrawable("btn_pressed");
+		newGameStyle.pressedOffsetX = 1;
+		newGameStyle.pressedOffsetY = -1;
 
-		StatisticStyle = new TextButton.TextButtonStyle();
-		StatisticStyle.font = font_24;
-		StatisticStyle.up = skin.getDrawable("btn_default");
-		StatisticStyle.over = skin.getDrawable("btn_active");
-		StatisticStyle.down = skin.getDrawable("btn_pressed");
-		StatisticStyle.pressedOffsetX = 1;
-		StatisticStyle.pressedOffsetY = -1;
+        TextButton.TextButtonStyle statisticStyle = new TextButton.TextButtonStyle();
+		statisticStyle.font = font_24;
+		statisticStyle.up = skin.getDrawable("btn_default");
+		statisticStyle.over = skin.getDrawable("btn_active");
+		statisticStyle.down = skin.getDrawable("btn_pressed");
+		statisticStyle.pressedOffsetX = 1;
+		statisticStyle.pressedOffsetY = -1;
 
-		SettingsStyle = new TextButton.TextButtonStyle();
-		SettingsStyle.font = font_24;
-		SettingsStyle.up = skin.getDrawable("btn_default");
-		SettingsStyle.over = skin.getDrawable("btn_active");
-		SettingsStyle.down = skin.getDrawable("btn_pressed");
-		SettingsStyle.pressedOffsetX = 1;
-		SettingsStyle.pressedOffsetY = -1;
+        TextButton.TextButtonStyle settingsStyle = new TextButton.TextButtonStyle();
+		settingsStyle.font = font_24;
+		settingsStyle.up = skin.getDrawable("btn_default");
+		settingsStyle.over = skin.getDrawable("btn_active");
+		settingsStyle.down = skin.getDrawable("btn_pressed");
+		settingsStyle.pressedOffsetX = 1;
+		settingsStyle.pressedOffsetY = -1;
 
-		ExitStyle = new TextButton.TextButtonStyle();
-		ExitStyle.font = font_24;
-		ExitStyle.up = skin.getDrawable("btn_default");
-		ExitStyle.over = skin.getDrawable("btn_active");
-		ExitStyle.down = skin.getDrawable("btn_pressed");
-		ExitStyle.pressedOffsetX = 1;
-		ExitStyle.pressedOffsetY = -1;
+        TextButton.TextButtonStyle exitStyle = new TextButton.TextButtonStyle();
+		exitStyle.font = font_24;
+		exitStyle.up = skin.getDrawable("btn_default");
+		exitStyle.over = skin.getDrawable("btn_active");
+		exitStyle.down = skin.getDrawable("btn_pressed");
+		exitStyle.pressedOffsetX = 1;
+		exitStyle.pressedOffsetY = -1;
 
-		icon = new ImageButton(iconstyle);
+		ImageButton icon = new ImageButton(iconstyle);
 		icon.setSize(364, 126);
 		icon.setPosition(stage.getWidth()/2, (stage.getHeight()/6)*5, 1);
 
-		NewGame = new TextButton("New game", NewGameStyle);
-		NewGame.setSize(260, 90);
-		NewGame.setPosition(stage.getWidth()/2, (stage.getHeight()/6)*4, 1);
-		NewGame.addListener(new ClickListener() {
+        TextButton newGame = new TextButton("New game", newGameStyle);
+		newGame.setSize(260, 90);
+		newGame.setPosition(stage.getWidth()/2, (stage.getHeight()/6)*4, 1);
+		newGame.addListener(new ClickListener() {
 			@Override
 			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
 				stage.dispose();
@@ -129,10 +119,10 @@ public class MainMenuScreen implements Screen {
 			}
 		});
 
-		Statistic = new TextButton("Statistic", StatisticStyle);
-		Statistic.setSize(260, 90);
-		Statistic.setPosition(stage.getWidth()/2, (stage.getHeight()/6)*3, 1);
-		Statistic.addListener(new ClickListener() {
+        TextButton statistic = new TextButton("Statistic", statisticStyle);
+		statistic.setSize(260, 90);
+		statistic.setPosition(stage.getWidth()/2, (stage.getHeight()/6)*3, 1);
+		statistic.addListener(new ClickListener() {
 			@Override
 			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
 				super.touchUp(event, x, y, pointer, button);
@@ -140,10 +130,10 @@ public class MainMenuScreen implements Screen {
 			}
 		});
 
-		Settings = new TextButton("Settings", SettingsStyle);
-		Settings.setSize(260, 90);
-		Settings.setPosition(stage.getWidth()/2, (stage.getHeight()/6)*2, 1);
-		Settings.addListener(new ClickListener() {
+        TextButton settings = new TextButton("Settings", settingsStyle);
+		settings.setSize(260, 90);
+		settings.setPosition(stage.getWidth()/2, (stage.getHeight()/6)*2, 1);
+		settings.addListener(new ClickListener() {
 			@Override
 			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
 				stage.dispose();
@@ -152,10 +142,10 @@ public class MainMenuScreen implements Screen {
 			}
 		});
 
-		Exit = new TextButton("Exit", ExitStyle);
-		Exit.setSize(260, 90);
-		Exit.setPosition(stage.getWidth()/2, (stage.getHeight()/6)*1, 1);
-		Exit.addListener(new ClickListener() {
+        TextButton exit = new TextButton("Exit", exitStyle);
+		exit.setSize(260, 90);
+		exit.setPosition(stage.getWidth()/2, (stage.getHeight()/6)*1, 1);
+		exit.addListener(new ClickListener() {
 			@Override
 			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
 				sound.play(game.getSoundVolume());
@@ -165,10 +155,10 @@ public class MainMenuScreen implements Screen {
 		});
 
 		table.add(icon).size(364, 126).row();
-		table.add(NewGame).size(260, 90).row();
-		table.add(Statistic).size(260, 90).row();
-		table.add(Settings).size(260, 90).row();
-		table.add(Exit).size(260, 90).row();
+		table.add(newGame).size(260, 90).row();
+		table.add(statistic).size(260, 90).row();
+		table.add(settings).size(260, 90).row();
+		table.add(exit).size(260, 90).row();
 
 		stage.addActor(table);
 	}
@@ -211,6 +201,14 @@ public class MainMenuScreen implements Screen {
 
 	@Override
 	public void dispose() {
+		sound.dispose();
+		stage.dispose();
+		atlas.dispose();
+		skin.dispose();
+		back.dispose();
 
+		font_16.dispose();
+		font_24.dispose();
+		font_32.dispose();
 	}
 }

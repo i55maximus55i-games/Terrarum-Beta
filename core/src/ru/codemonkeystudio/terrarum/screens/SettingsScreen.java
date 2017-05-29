@@ -19,53 +19,38 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
 
 import ru.codemonkeystudio.terrarum.Terrarum;
 
 /**
- * Created by IOne on 23.04.2017.
+ * Экран настроек
  */
-public class SettingsScreen implements Screen {
+class SettingsScreen implements Screen {
 
     private Texture back;
     private Terrarum game;
     private Stage stage;
-    private TextButton menu;
-    private TextButton.TextButtonStyle menuStyle;
     private SpriteBatch batch;
     private BitmapFont font_16, font_24, font_32;
-    private Label label;
     private TextureAtlas atlas;
     private Skin skin;
-    private Button exit;
-    private Button.ButtonStyle exitStyle;
     private Slider musicVolumeSlider;
-    private Slider.SliderStyle musicVolumeSliderStyle;
     private Slider soundVolumeSlider;
-    private Slider.SliderStyle soundVolumeSliderStyle;
     private Sound sound;
 
     private float musicVolume;
     private float soundVolume;
     private boolean stickControl;
 
-    private OrthographicCamera gamecam;
-    private Viewport gamePort;
-    private Label MusicFx;
-    private Label SoundFx;
-    private Label handle;
+    private OrthographicCamera cam;
     private CheckBox controlHeading;
-    private CheckBox.CheckBoxStyle controlHeadingStyle;
 
-    public SettingsScreen(Terrarum game) {
+    SettingsScreen(Terrarum game) {
         this.game = game;
-        gamecam = new OrthographicCamera();
-        gamePort = new FitViewport(800, 600, gamecam);
+        cam = new OrthographicCamera();
         this.batch = game.batch;
         font_16 = new BitmapFont(Gdx.files.internal("fonts/Terrarum_16.fnt"), Gdx.files.internal("fonts/Terrarum_16.png"), false);
         font_24 = new BitmapFont(Gdx.files.internal("fonts/Terrarum_24.fnt"), Gdx.files.internal("fonts/Terrarum_24.png"), false);
@@ -76,10 +61,8 @@ public class SettingsScreen implements Screen {
 
     @Override
     public void show () {
-        stage = new Stage(new FitViewport(800, 600, gamecam));
+        stage = new Stage(new FitViewport(800, 600, cam));
         Gdx.input.setInputProcessor(stage);
-
-
 
         Table table = new Table();
         table.center();
@@ -93,16 +76,16 @@ public class SettingsScreen implements Screen {
         atlas = new TextureAtlas("textures/textureUI.pack");
         skin.addRegions(atlas);
 
-        label = new Label("Settings", new Label.LabelStyle(font_32, Color.WHITE));
+        Label label = new Label("Settings", new Label.LabelStyle(font_32, Color.WHITE));
         label.setPosition(400, 600 - label.getHeight() / 2, 1);
 
-        exitStyle = new Button.ButtonStyle();
+        Button.ButtonStyle exitStyle = new Button.ButtonStyle();
         exitStyle.up = skin.getDrawable("btn_back");
         exitStyle.down = skin.getDrawable("btn_back_pressed");
         exitStyle.pressedOffsetX = 1;
         exitStyle.pressedOffsetY = -1;
 
-        exit = new Button(exitStyle);
+        Button exit = new Button(exitStyle);
         exit.setSize(72, 72);
         exit.setPosition(exit.getWidth() / 2, stage.getHeight() - exit.getHeight() / 2, 1);
         exit.addListener(new ClickListener(){
@@ -114,7 +97,7 @@ public class SettingsScreen implements Screen {
         });
 
 
-        musicVolumeSliderStyle = new Slider.SliderStyle();
+        Slider.SliderStyle musicVolumeSliderStyle = new Slider.SliderStyle();
         musicVolumeSliderStyle.background = skin.getDrawable("slide");
         musicVolumeSliderStyle.knob = skin.getDrawable("knob");
 
@@ -134,7 +117,7 @@ public class SettingsScreen implements Screen {
         });
 
         sound.play(soundVolume);
-        soundVolumeSliderStyle = new Slider.SliderStyle();
+        Slider.SliderStyle soundVolumeSliderStyle = new Slider.SliderStyle();
         soundVolumeSliderStyle.background = skin.getDrawable("slide");
         soundVolumeSliderStyle.knob = skin.getDrawable("knob");
 
@@ -154,7 +137,7 @@ public class SettingsScreen implements Screen {
             }
         });
 
-        controlHeadingStyle = new CheckBox.CheckBoxStyle();
+        CheckBox.CheckBoxStyle controlHeadingStyle = new CheckBox.CheckBoxStyle();
         controlHeadingStyle.font = font_32;
 
         controlHeading = new CheckBox(game.isStickControl() ? "Stick" : "Touch", controlHeadingStyle);
@@ -162,10 +145,10 @@ public class SettingsScreen implements Screen {
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 super.touchUp(event, x, y, pointer, button);
-                sound.play();
                 musicVolume = game.getMusicVolume();
                 soundVolume = game.getSoundVolume();
                 stickControl = game.isStickControl();
+                sound.play(soundVolume);
                 if (stickControl) {
                     stickControl = false;
                     controlHeading.setText("Touch");
@@ -180,17 +163,17 @@ public class SettingsScreen implements Screen {
             }
         });
 
-        SoundFx = new Label("Sound", new Label.LabelStyle(font_32, Color.WHITE));
-        MusicFx = new Label("Music", new Label.LabelStyle(font_32, Color.WHITE));
-        handle = new Label("Control  : ", new Label.LabelStyle(font_32, Color.WHITE));
+        Label soundFx = new Label("Sound", new Label.LabelStyle(font_32, Color.WHITE));
+        Label musicFx = new Label("Music", new Label.LabelStyle(font_32, Color.WHITE));
+        Label handle = new Label("Control  : ", new Label.LabelStyle(font_32, Color.WHITE));
 
         tableTop.add(exit).size(72, 72).left();
         tableTop.add(label).center().expandX();
 
-        table.add(MusicFx).expandX().padTop(10);
+        table.add(musicFx).expandX().padTop(10);
         table.add(musicVolumeSlider).expandX().padTop(10);
         table.row();
-        table.add(SoundFx).expandX().padTop(10);
+        table.add(soundFx).expandX().padTop(10);
         table.add(soundVolumeSlider).expandX().padTop(10);
         table.row();
         table.add(handle).expandX().padTop(10);
@@ -207,8 +190,8 @@ public class SettingsScreen implements Screen {
         batch.begin();
         batch.draw(back, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch.end();
-        gamecam.update();
-        batch.setProjectionMatrix(gamecam.combined);
+        cam.update();
+        batch.setProjectionMatrix(cam.combined);
 
         stage.act(delta);
         stage.draw();
@@ -218,7 +201,6 @@ public class SettingsScreen implements Screen {
     @Override
     public void resize ( int width, int height){
         stage.getViewport().update(width, height, true);
-
     }
 
     @Override
@@ -238,6 +220,14 @@ public class SettingsScreen implements Screen {
 
     @Override
     public void dispose () {
+        back.dispose();
+        stage.dispose();
+        atlas.dispose();
+        skin.dispose();
+        sound.dispose();
 
+        font_16.dispose();
+        font_24.dispose();
+        font_32.dispose();
     }
 }

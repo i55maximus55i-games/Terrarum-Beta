@@ -17,40 +17,33 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
 
 import ru.codemonkeystudio.terrarum.Terrarum;
 
 /**
- * Created by vanchok on 24.05.2017.
+ * Экран победы
  */
 
-public class WinScreen implements Screen{
+class WinScreen implements Screen{
 
     private SpriteBatch batch;
     private Terrarum game;
-    private OrthographicCamera gamecam;
-    private Viewport gamePort;
+    private OrthographicCamera cam;
     private Stage stage;
     private TextureAtlas atlas;
     private Skin skin;
     private Table table;
     private BitmapFont font_16,font_24,font_32;
 
-    private Label Message;
-    private TextButton menuButton;
-    private TextButton.TextButtonStyle menuButtonStyle;
     private Sound sound;
 
 
-    public WinScreen(Terrarum game){
+    WinScreen(Terrarum game){
 
         stage = new Stage();
         this.game = game;
         this.batch = game.batch;
-        gamecam = new OrthographicCamera();
-
-        gamePort = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), gamecam);
+        cam = new OrthographicCamera();
 
         sound = Gdx.audio.newSound(Gdx.files.internal("sounds/select.wav"));
 
@@ -66,16 +59,16 @@ public class WinScreen implements Screen{
 
     @Override
     public void show() {
-        stage = new Stage(new FitViewport(800,600, gamecam));
+        stage = new Stage(new FitViewport(800,600, cam));
         Gdx.input.setInputProcessor(stage);
 
         skin = new Skin();
         atlas = new TextureAtlas(Gdx.files.internal("textures/textureUI.pack"));
         skin.addRegions(atlas);
 
-        Message = new Label("YOU WIN!", new Label.LabelStyle(font_32, Color.GREEN));
+        Label message = new Label("YOU WIN!", new Label.LabelStyle(font_32, Color.GREEN));
 
-        menuButtonStyle = new TextButton.TextButtonStyle();
+        TextButton.TextButtonStyle menuButtonStyle = new TextButton.TextButtonStyle();
         menuButtonStyle.font = font_24;
         menuButtonStyle.up = skin.getDrawable("btn_default");
         menuButtonStyle.over = skin.getDrawable("btn_active");
@@ -83,7 +76,7 @@ public class WinScreen implements Screen{
         menuButtonStyle.pressedOffsetX = 1;
         menuButtonStyle.pressedOffsetY = -1;
 
-        menuButton = new TextButton("Menu", menuButtonStyle);
+        TextButton menuButton = new TextButton("Menu", menuButtonStyle);
         menuButton.addListener(new ClickListener(){
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
@@ -93,7 +86,7 @@ public class WinScreen implements Screen{
             }
         });
 
-        table.add(Message).expandX().padTop(16);
+        table.add(message).expandX().padTop(16);
         table.row();
         table.add(menuButton).size(260, 90).expandX().padTop(16);
 
@@ -105,8 +98,8 @@ public class WinScreen implements Screen{
     public void render(float delta) {
         Gdx.gl20.glClearColor(0, 0, 0, 1);
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        gamecam.update();
-        batch.setProjectionMatrix(gamecam.combined);
+        cam.update();
+        batch.setProjectionMatrix(cam.combined);
 
         stage.act(delta);
         stage.setDebugAll(false);
@@ -135,6 +128,13 @@ public class WinScreen implements Screen{
 
     @Override
     public void dispose() {
+        stage.dispose();
+        atlas.dispose();
+        skin.dispose();
+        sound.dispose();
 
+        font_16.dispose();
+        font_24.dispose();
+        font_32.dispose();
     }
 }

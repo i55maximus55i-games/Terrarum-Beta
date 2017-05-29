@@ -14,7 +14,7 @@ import box2dLight.PointLight;
 import box2dLight.RayHandler;
 
 /**
- * Created by vanchok on 25.05.2017.
+ * Враг
  */
 
 public class Enemy implements Disposable {
@@ -81,10 +81,7 @@ public class Enemy implements Disposable {
     @Override
     public void dispose() {
         light.dispose();
-    }
-
-    public PointLight getLight() {
-        return light;
+        enemySound.dispose();
     }
 
     public Body getBody() {

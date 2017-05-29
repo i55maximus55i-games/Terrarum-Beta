@@ -13,7 +13,6 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.utils.Disposable;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import box2dLight.RayHandler;
 import ru.codemonkeystudio.terrarum.objects.GameWorld;
@@ -21,7 +20,7 @@ import ru.codemonkeystudio.terrarum.objects.Player;
 import ru.codemonkeystudio.terrarum.objects.Tail;
 
 /**
- * Created by maximus on 13.05.2017.
+ * Отрисовщик игрового мира
  */
 
 public class GameRenderer implements Disposable {
@@ -87,9 +86,8 @@ public class GameRenderer implements Disposable {
         shapeRenderer.setColor(Color.RED);
         shapeRenderer.circle(cam.position.x, cam.position.y, Player.SIZE);
         Tail a;
-        Iterator iterator = tail.iterator();
-        while (iterator.hasNext()) {
-            a = (Tail) iterator.next();
+        for (Object aTail : tail) {
+            a = (Tail) aTail;
             shapeRenderer.circle(a.getPos().x, a.getPos().y, 1.5f);
         }
         shapeRenderer.end();
