@@ -179,6 +179,7 @@ public class Hud implements Disposable {
         settingsButton.addListener(new ClickListener() {
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                super.touchUp(event, x, y, pointer, button);
                 sound.play(game.getSoundVolume());
                 table.clear();
                 table.remove();
@@ -272,6 +273,7 @@ public class Hud implements Disposable {
                         sound.play(musicVolumeSlider.getValue());
                     }
                 });
+                screen.setMusicVolume(musicVolumeSlider.getValue());
             }
         });
 
@@ -293,6 +295,7 @@ public class Hud implements Disposable {
                         sound.play(soundVolumeSlider.getValue());
                     }
                 });
+                screen.setSoundVolume(soundVolumeSlider.getValue());
             }
         });
 
@@ -312,11 +315,13 @@ public class Hud implements Disposable {
                     stickControl = false;
                     controlHeading.setText("Touch");
                     game.updatePref(musicVolume, soundVolume, false);
+                    screen.setStickControl(false);
                 }
                 else {
                     stickControl = true;
                     controlHeading.setText("Stick");
                     game.updatePref(musicVolume, soundVolume, true);
+                    screen.setStickControl(true);
                 }
             }
         });

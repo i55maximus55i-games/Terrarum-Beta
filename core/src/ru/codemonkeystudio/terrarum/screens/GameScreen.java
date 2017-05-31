@@ -39,6 +39,7 @@ public class GameScreen implements Screen {
     private ArrayList<Enemy> enemyList;
     private ArrayList<Tail> tail;
     private boolean paused;
+    private float soundVolume;
 
     GameScreen(Terrarum game) {
         this.game = game;
@@ -64,6 +65,7 @@ public class GameScreen implements Screen {
 
         gameWorld.getWorld().setContactListener(new TerrarumContactListener(player));
         hud = new Hud(game, this);
+        soundVolume = game.getSoundVolume();
     }
 
     @Override
@@ -76,7 +78,6 @@ public class GameScreen implements Screen {
         Gdx.gl20.glClearColor(0, 0.16f, 1, 1);
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
         renderer.render();
-        musicPlayer.update();
         if (!paused) {
             update(delta);
         }
@@ -84,6 +85,7 @@ public class GameScreen implements Screen {
     }
 
     private void update(float delta) {
+        musicPlayer.update();
         gameWorld.update(delta);
         player.update(delta);
         int nearest = -1;
@@ -104,14 +106,14 @@ public class GameScreen implements Screen {
         for (int i = 0; i < foodList.size(); i++) {
             foodList.get(i).update(delta);
             if (foodList.get(i).isAlive() && foodList.get(i).getBody().getPosition().dst(player.getBody().getPosition()) < 10) {
-                foodList.get(i).die(gameWorld.getWorld(), game.getSoundVolume());
+                foodList.get(i).die(gameWorld.getWorld(), soundVolume);
             }
             if (foodList.get(i).isAlive()) alive++;
         }
         for (int i = 0; i < enemyList.size(); i++) {
             enemyList.get(i).update(delta);
             if (enemyList.get(i).isAlive() && enemyList.get(i).getBody().getPosition().dst(player.getBody().getPosition()) < 10) {
-                enemyList.get(i).die(gameWorld.getWorld(), game.getSoundVolume());
+                enemyList.get(i).die(gameWorld.getWorld(), soundVolume);
                 player.hit(false);
             }
         }
@@ -155,12 +157,14 @@ public class GameScreen implements Screen {
         if (!paused) {
             paused = true;
             hud.pause();
+            musicPlayer.pause();
         }
     }
 
     public void unpause() {
         paused = false;
         hud.resume();
+        musicPlayer.unpause();
     }
 
     @Override
@@ -187,5 +191,18 @@ public class GameScreen implements Screen {
             enemyList.get(i).dispose();
         }
         musicPlayer.dispose();
+    }
+
+    public void setSoundVolume(float soundVolume) {
+        this.soundVolume = soundVolume;
+        player.setVolume(soundVolume);
+    }
+
+    public void setMusicVolume(float musicVolume) {
+        musicPlayer.setVolume(musicVolume);
+    }
+
+    public void setStickControl(boolean stickControl) {
+        player.setStickControl(stickControl);
     }
 }

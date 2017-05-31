@@ -56,7 +56,7 @@ public class MusicPlayer implements Disposable {
         }
     }
 
-    private void setVolume(float volume) {
+    public void setVolume(float volume) {
         this.volume = volume;
         if (music != null) {
             music.setVolume(volume);
@@ -89,6 +89,18 @@ public class MusicPlayer implements Disposable {
         }
         while (playList.size() > 0) {
             playList.remove(0);
+        }
+    }
+
+    public void pause() {
+        if (music != null) {
+            music.pause();
+        }
+    }
+
+    public void unpause() {
+        if (music != null) {
+            music.play();
         }
     }
 }

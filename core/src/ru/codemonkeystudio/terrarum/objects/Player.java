@@ -121,4 +121,12 @@ public class Player implements Disposable{
         playerLight.dispose();
         hitSound.dispose();
     }
+
+    public void setVolume(float volume) {
+        this.volume = volume;
+    }
+
+    public void setStickControl(boolean stickControl) {
+        isStickControl = stickControl;
+    }
 }
