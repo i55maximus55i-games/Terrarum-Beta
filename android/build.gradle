@@ -22,8 +22,12 @@ android {
         minSdkVersion 8
         targetSdkVersion 25
     }
+    buildTypes {
+        debug {
+            debuggable false
+        }
+    }
 }
-
 
 // called every time gradle gets executed, takes the native dependencies of
 // the natives configuration, and extracts them to the proper libs/ folders
