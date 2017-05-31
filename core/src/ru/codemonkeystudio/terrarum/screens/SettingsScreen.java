@@ -159,7 +159,6 @@ class SettingsScreen implements Screen {
                     controlHeading.setText("Stick");
                     game.updatePref(musicVolume, soundVolume, true);
                 }
-                Gdx.app.log("ctrl", stickControl ? "Stick" : "Touch");
             }
         });
 
