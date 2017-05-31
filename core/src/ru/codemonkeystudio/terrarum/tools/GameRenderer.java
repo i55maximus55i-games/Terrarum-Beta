@@ -105,7 +105,7 @@ public class GameRenderer implements Disposable {
     private void drawWorld() {
         for (int y = 0; y < GameWorld.WORLD_SIZE; y++) {
             for (int x = 0; x < GameWorld.WORLD_SIZE; x++) {
-                batch.draw(worldTiles[world.grid[x][y]], x * 16 * 4, y * 16 * 4, 16 * 4, 16 * 4);
+                batch.draw(worldTiles[world.getGrid()[x][y]], x * 16 * 4, y * 16 * 4, 16 * 4, 16 * 4);
             }
         }
     }

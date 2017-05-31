@@ -17,7 +17,7 @@ import java.util.List;
 public class GameWorld implements Disposable{
     public static final int WORLD_SIZE = 8;
 
-    public final int[][] grid;
+    private int[][] grid;
 
     private World world;
 
@@ -32,6 +32,67 @@ public class GameWorld implements Disposable{
             }
         }
 
+        for (int y = 0; y < WORLD_SIZE; y++) {
+            for (int x = 0; x < WORLD_SIZE; x++) {
+                int r = (int) (Math.random() * cells.size());
+                grid[x][y] = cells.get(r);
+                cells.remove(r);
+            }
+        }
+
+        for (int y = 0; y < WORLD_SIZE - 1; y++) {
+            for (int x = 0; x < WORLD_SIZE - 1; x++) {
+                if (grid[x][y] == 7 && grid[x + 1][y] == 7) {
+                    do {
+                        int r = (int) (Math.random() * cells.size());
+                        grid[x + 1][y] = cells.get(r);
+                        if (cells.get(r) == 7) {
+                            cells.remove(r);
+                        }
+                    } while (grid[x + 1][y] == 7);
+                }
+            }
+        }
+
+        for (int x = 0; x < WORLD_SIZE; x++) {
+            for (int y = 0; y < WORLD_SIZE - 1; y++) {
+                if (grid[x][y] == 0 && grid[x][y + 1] == 0) {
+                    do {
+                        int r = (int) (Math.random() * cells.size());
+                        grid[x][y + 1] = cells.get(r);
+                        if (cells.get(r) == 0) {
+                            cells.remove(r);
+                        }
+                    } while (grid[x][y + 1] == 0);
+                }
+            }
+        }
+
+        do {
+            int r = (int) (Math.random() * cells.size());
+            grid[1][0] = cells.get(r);
+            if (cells.get(r) == 0) {
+                cells.remove(r);
+            }
+        } while (grid[1][0] == 0);
+
+        int y = WORLD_SIZE - 1;
+        for (int x = 0; x < WORLD_SIZE; x++) {
+            if (grid[x][y] == 0 || grid[x][y] == 5 || grid[x][y] == 9) {
+                do {
+                    int r = (int) (Math.random() * cells.size());
+                    grid[x][y] = cells.get(r);
+                    if (grid[x][y] == 0 || grid[x][y] == 5 || grid[x][y] == 9) {
+                        cells.remove(r);
+                    }
+                } while (grid[x][y] == 0 || grid[x][y] == 5 || grid[x][y] == 9);
+            }
+        }
+
+        createWalls();
+    }
+
+    private void createWalls() {
         createWall(-4, 32 * WORLD_SIZE, 4, 32 * WORLD_SIZE + 8);
         createWall(4 + 64 * WORLD_SIZE, 32 * WORLD_SIZE,4, 32 * WORLD_SIZE + 8);
         createWall(32 * WORLD_SIZE, - 4,32 * WORLD_SIZE, 4);
@@ -39,9 +100,6 @@ public class GameWorld implements Disposable{
 
         for (int y = 0; y < WORLD_SIZE; y++) {
             for (int x = 0; x < WORLD_SIZE; x++) {
-                int r = (int) (Math.random() * 12);
-                grid[x][y] = Integer.parseInt(cells.get(r).toString());
-                cells.remove(r);
                 switch (grid[x][y]) {
                     case 0:
                         createWall(x * 64 + 4, y * 64 + 32, 4, 32);
@@ -121,5 +179,9 @@ public class GameWorld implements Disposable{
 
     public World getWorld() {
         return world;
+    }
+
+    public int[][] getGrid() {
+        return grid;
     }
 }

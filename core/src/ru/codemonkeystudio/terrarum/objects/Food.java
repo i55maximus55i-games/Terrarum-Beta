@@ -64,7 +64,7 @@ public class Food implements Disposable {
             light.setPosition(body.getPosition());
         }
         else {
-            if (light.getDistance() > 1) {
+            if (light.getDistance() > 5) {
                 light.setDistance(light.getDistance() - 3);
             }
         }
