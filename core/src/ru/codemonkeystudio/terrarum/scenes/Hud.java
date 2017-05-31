@@ -6,14 +6,18 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -42,7 +46,6 @@ public class Hud implements Disposable {
     private TextureAtlas atlas;
     private Button pause;
     private Button.ButtonStyle pauseStyle;
-    private Sound sound;
     private final GameScreen screen;
     private Table table, table2;
 
@@ -51,6 +54,14 @@ public class Hud implements Disposable {
     private TextButton continueButton;
     private TextButton mainMenuButton;
     private TextButton settingsButton;
+    private Slider musicVolumeSlider;
+    private Slider soundVolumeSlider;
+    private Sound sound;
+
+    private float musicVolume;
+    private float soundVolume;
+    private boolean stickControl;
+    private CheckBox controlHeading;
 
     public Hud(final Terrarum game, final GameScreen screen) {
         this.game = game;
@@ -169,7 +180,11 @@ public class Hud implements Disposable {
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 sound.play(game.getSoundVolume());
-
+                table.clear();
+                table.remove();
+                table2.clear();
+                table2.remove();
+                settings();
             }
         });
 
@@ -197,6 +212,133 @@ public class Hud implements Disposable {
         table2.add(mainMenuButton).size(260, 90).row();
 
         stage.addActor(table2);
+
+    }
+
+    public void settings(){
+
+        final Table table3 = new Table();
+        table3.center();
+        table3.setFillParent(true);
+
+        final Table tableTop = new Table();
+        tableTop.top();
+        tableTop.setFillParent(true);
+
+        Label label = new Label("Settings", new Label.LabelStyle(font_32, Color.WHITE));
+        label.setPosition(400, 600 - label.getHeight() / 2, 1);
+
+        Button.ButtonStyle exitStyle = new Button.ButtonStyle();
+        exitStyle.up = skin.getDrawable("btn_back");
+        exitStyle.down = skin.getDrawable("btn_back_pressed");
+        exitStyle.pressedOffsetX = 1;
+        exitStyle.pressedOffsetY = -1;
+
+        Button exit = new Button(exitStyle);
+        exit.setSize(72, 72);
+        exit.setPosition(exit.getWidth() / 2, stage.getHeight() - exit.getHeight() / 2, 1);
+        exit.addListener(new ClickListener(){
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                sound.play(game.getSoundVolume());
+
+                tableTop.clear();
+                tableTop.remove();
+                table3.clear();
+                table3.remove();
+
+                table2.add(icon).size(364, 126).row();
+                table2.add(continueButton).size(260, 90).row();
+                table2.add(settingsButton).size(260, 90).row();
+                table2.add(mainMenuButton).size(260, 90).row();
+                stage.addActor(table2);
+
+            }
+        });
+
+        Slider.SliderStyle musicVolumeSliderStyle = new Slider.SliderStyle();
+        musicVolumeSliderStyle.background = skin.getDrawable("slide");
+        musicVolumeSliderStyle.knob = skin.getDrawable("knob");
+
+        musicVolumeSlider = new Slider(0, 1f, 0.005f, false, musicVolumeSliderStyle);
+        musicVolumeSlider.setValue(game.getMusicVolume());
+        musicVolumeSlider.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                game.updatePref(musicVolumeSlider.getValue(), game.getSoundVolume(), stickControl);
+                musicVolumeSlider.addListener(new ClickListener() {
+                    @Override
+                    public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                        sound.play(musicVolumeSlider.getValue());
+                    }
+                });
+            }
+        });
+
+        sound.play(soundVolume);
+        Slider.SliderStyle soundVolumeSliderStyle = new Slider.SliderStyle();
+        soundVolumeSliderStyle.background = skin.getDrawable("slide");
+        soundVolumeSliderStyle.knob = skin.getDrawable("knob");
+
+
+        soundVolumeSlider = new Slider(0, 1f, 0.005f, false, soundVolumeSliderStyle);
+        soundVolumeSlider.setValue(game.getSoundVolume());
+        soundVolumeSlider.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                game.updatePref(game.getMusicVolume(), soundVolumeSlider.getValue(), stickControl);
+                soundVolumeSlider.addListener(new ClickListener() {
+                    @Override
+                    public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                        sound.play(soundVolumeSlider.getValue());
+                    }
+                });
+            }
+        });
+
+        CheckBox.CheckBoxStyle controlHeadingStyle = new CheckBox.CheckBoxStyle();
+        controlHeadingStyle.font = font_32;
+
+        controlHeading = new CheckBox(game.isStickControl() ? "Stick" : "Touch", controlHeadingStyle);
+        controlHeading.addListener(new ClickListener() {
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                super.touchUp(event, x, y, pointer, button);
+                musicVolume = game.getMusicVolume();
+                soundVolume = game.getSoundVolume();
+                stickControl = game.isStickControl();
+                sound.play(soundVolume);
+                if (stickControl) {
+                    stickControl = false;
+                    controlHeading.setText("Touch");
+                    game.updatePref(musicVolume, soundVolume, false);
+                }
+                else {
+                    stickControl = true;
+                    controlHeading.setText("Stick");
+                    game.updatePref(musicVolume, soundVolume, true);
+                }
+            }
+        });
+
+        Label soundFx = new Label("Sound", new Label.LabelStyle(font_32, Color.WHITE));
+        Label musicFx = new Label("Music", new Label.LabelStyle(font_32, Color.WHITE));
+        Label handle = new Label("Control  : ", new Label.LabelStyle(font_32, Color.WHITE));
+
+        tableTop.add(exit).size(72, 72).left();
+        tableTop.add(label).center().expandX();
+
+        table3.add(musicFx).expandX().padTop(10);
+        table3.add(musicVolumeSlider).expandX().padTop(10);
+        table3.row();
+        table3.add(soundFx).expandX().padTop(10);
+        table3.add(soundVolumeSlider).expandX().padTop(10);
+        table3.row();
+        table3.add(handle).expandX().padTop(10);
+        table3.add(controlHeading).expandX().padTop(10);
+
+        stage.addActor(tableTop);
+        stage.addActor(table3);
 
     }
 
