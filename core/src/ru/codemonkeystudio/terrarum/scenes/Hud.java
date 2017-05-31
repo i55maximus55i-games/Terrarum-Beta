@@ -44,12 +44,13 @@ public class Hud implements Disposable {
     private Button.ButtonStyle pauseStyle;
     private Sound sound;
     private final GameScreen screen;
-    private Table table;
+    private Table table, table2;
 
     private BitmapFont font_16,font_24,font_32;
     private ImageButton icon;
     private TextButton continueButton;
     private TextButton mainMenuButton;
+    private TextButton settingsButton;
 
     public Hud(final Terrarum game, final GameScreen screen) {
         this.game = game;
@@ -129,12 +130,16 @@ public class Hud implements Disposable {
 
         pause.setVisible(false);
 
+        table2 = new Table();
+        table2.center();
+        table2.setFillParent(true);
+
         ImageButton.ImageButtonStyle iconstyle = new ImageButton.ImageButtonStyle();
         iconstyle.up = skin.getDrawable("icon_paused");
         icon = new ImageButton(iconstyle);
         icon.setSize(364, 126);
         icon.setPosition(stage.getWidth()/2, (stage.getHeight()/6)*5, 1);
-        stage.addActor(icon);
+
 
         TextButton.TextButtonStyle continueStyle = new TextButton.TextButtonStyle();
         continueStyle.font = font_24;
@@ -144,8 +149,6 @@ public class Hud implements Disposable {
         continueStyle.pressedOffsetX = 1;
         continueStyle.pressedOffsetY = -1;
         continueButton = new TextButton("Continue", continueStyle);
-        continueButton.setSize(260, 90);
-        continueButton.setPosition(stage.getWidth()/2, (stage.getHeight()/6)*4, 1);
         continueButton.addListener(new ClickListener() {
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
@@ -153,7 +156,23 @@ public class Hud implements Disposable {
                 screen.unpause();
             }
         });
-        stage.addActor(continueButton);
+
+        TextButton.TextButtonStyle settingsStyle = new TextButton.TextButtonStyle();
+        settingsStyle.font = font_24;
+        settingsStyle.up = skin.getDrawable("btn_default");
+        settingsStyle.over = skin.getDrawable("btn_active");
+        settingsStyle.down = skin.getDrawable("btn_pressed");
+        settingsStyle.pressedOffsetX = 1;
+        settingsStyle.pressedOffsetY = -1;
+        settingsButton = new TextButton("Settings", settingsStyle);
+        settingsButton.addListener(new ClickListener() {
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                sound.play(game.getSoundVolume());
+
+            }
+        });
+
 
         TextButton.TextButtonStyle mainMenuStyle = new TextButton.TextButtonStyle();
         mainMenuStyle.font = font_24;
@@ -163,8 +182,6 @@ public class Hud implements Disposable {
         mainMenuStyle.pressedOffsetX = 1;
         mainMenuStyle.pressedOffsetY = -1;
         mainMenuButton = new TextButton("Main Menu", mainMenuStyle);
-        mainMenuButton.setSize(260, 90);
-        mainMenuButton.setPosition(stage.getWidth()/2, (stage.getHeight()/6)*3, 1);
         mainMenuButton.addListener(new ClickListener() {
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
@@ -173,7 +190,14 @@ public class Hud implements Disposable {
                 game.setScreen(new MainMenuScreen(game));
             }
         });
-        stage.addActor(mainMenuButton);
+
+        table2.add(icon).size(364, 126).row();
+        table2.add(continueButton).size(260, 90).row();
+        table2.add(settingsButton).size(260, 90).row();
+        table2.add(mainMenuButton).size(260, 90).row();
+
+        stage.addActor(table2);
+
     }
 
     public void resume() {
@@ -214,9 +238,8 @@ public class Hud implements Disposable {
 
         stage.addActor(table);
 
-        icon.remove();
-        continueButton.remove();
-        mainMenuButton.remove();
+        table2.clear();
+        table2.remove();
     }
 
     @Override
