@@ -86,7 +86,7 @@ public class GameScreen implements Screen {
 
     private void update(float delta) {
         musicPlayer.update();
-        gameWorld.update(delta);
+        gameWorld.update(delta, player.getBody().getPosition());
         player.update(delta);
         int nearest = -1;
         for (int i = 0; i < foodList.size(); i++) {

@@ -8,6 +8,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Disposable;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -17,14 +18,22 @@ import java.util.List;
 public class GameWorld implements Disposable{
     public static final int WORLD_SIZE = 8;
 
-    private int[][] grid;
+    private WorldTile[][] worldTiles;
 
     private World world;
 
-    public GameWorld() {
-        world = new World(new Vector2(0, 0), true);
+    private float timer;
 
-        grid = new int[WORLD_SIZE][WORLD_SIZE];
+    public GameWorld() {
+        timer = 0;
+        world = new World(new Vector2(0, 0), true);
+        worldTiles = new WorldTile[WORLD_SIZE][WORLD_SIZE];
+        genWorld();
+        createWalls();
+    }
+
+    private void genWorld() {
+        int[][] grid = new int[WORLD_SIZE][WORLD_SIZE];
         List<Integer> cells = new ArrayList<Integer>();
         for (int i = 0; i < (int)(WORLD_SIZE * WORLD_SIZE * 2.625 / 12); i++) {
             for (int j = 0; j < 12; j++) {
@@ -76,20 +85,31 @@ public class GameWorld implements Disposable{
             }
         } while (grid[1][0] == 0);
 
-        int y = WORLD_SIZE - 1;
+        int yy = WORLD_SIZE - 1;
         for (int x = 0; x < WORLD_SIZE; x++) {
-            if (grid[x][y] == 0 || grid[x][y] == 5 || grid[x][y] == 9) {
+            if (grid[x][yy] == 0 || grid[x][yy] == 5 || grid[x][yy] == 9 || grid[x][yy] == 10) {
                 do {
                     int r = (int) (Math.random() * cells.size());
-                    grid[x][y] = cells.get(r);
-                    if (grid[x][y] == 0 || grid[x][y] == 5 || grid[x][y] == 9) {
+                    grid[x][yy] = cells.get(r);
+                    if (grid[x][yy] == 0 || grid[x][yy] == 5 || grid[x][yy] == 9 || grid[x][yy] == 10) {
                         cells.remove(r);
                     }
-                } while (grid[x][y] == 0 || grid[x][y] == 5 || grid[x][y] == 9);
+                } while (grid[x][yy] == 0 || grid[x][yy] == 5 || grid[x][yy] == 9 || grid[x][yy] == 10);
             }
         }
+        for (int y = 0; y < WORLD_SIZE; y++) {
+            for (int x = 0; x < WORLD_SIZE; x++) {
+                worldTiles[x][y] = new WorldTile(world, grid[x][y], x, y);
+            }
+        }
+    }
 
-        createWalls();
+    private void destroyWorld() {
+        for (int y = 0; y < WORLD_SIZE; y++) {
+            for (int x = 0; x < WORLD_SIZE; x++) {
+                worldTiles[x][y].destroy(world);
+            }
+        }
     }
 
     private void createWalls() {
@@ -97,63 +117,38 @@ public class GameWorld implements Disposable{
         createWall(4 + 64 * WORLD_SIZE, 32 * WORLD_SIZE,4, 32 * WORLD_SIZE + 8);
         createWall(32 * WORLD_SIZE, - 4,32 * WORLD_SIZE, 4);
         createWall(32 * WORLD_SIZE, 4 + 64 * WORLD_SIZE, 32 * WORLD_SIZE, 4);
-
-        for (int y = 0; y < WORLD_SIZE; y++) {
-            for (int x = 0; x < WORLD_SIZE; x++) {
-                switch (grid[x][y]) {
-                    case 0:
-                        createWall(x * 64 + 4, y * 64 + 32, 4, 32);
-                        createWall(x * 64 + 22, y * 64 + 32, 14, 4);
-                        break;
-                    case 1:
-                        createWall(x * 64 + 50, y * 64 + 60, 14, 4);
-                        createWall(x * 64 + 32, y * 64 + 46, 4, 18);
-                        break;
-                    case 2:
-                        createWall(x * 64 + 32, y * 64 + 46, 4, 18);
-                        break;
-                    case 3:
-                        createWall(x * 64 + 32, y * 64 + 18, 4, 18);
-                        createWall(x * 64 + 14, y * 64 + 4, 14, 4);
-                        break;
-                    case 4:
-                        createWall(x * 64 + 32, y * 64 + 46, 4, 18);
-                        createWall(x * 64 + 14, y * 64 + 60, 14, 4);
-                        break;
-                    case 5:
-                        createWall(x * 64 + 32, y * 64 + 46, 4, 18);
-                        createWall(x * 64 + 50, y * 64 + 60, 14, 4);
-                        createWall(x * 64 + 14, y * 64 + 32, 14, 4);
-                        break;
-                    case 6:
-                        createWall(x * 64 + 50, y * 64 + 60, 14, 4);
-                        createWall(x * 64 + 32, y * 64 + 46, 4, 18);
-                        break;
-                    case 7:
-                        createWall(x * 64 + 32, y * 64 + 60, 32, 4);
-                        break;
-                    case 8:
-                        createWall(x * 64 + 32, y * 64 + 46, 4, 18);
-                        createWall(x * 64 + 14, y * 64 + 60, 14, 4);
-                        break;
-                    case 9:
-                        createWall(x * 64 + 14, y * 64 + 32, 14, 4);
-                        createWall(x * 64 + 32, y * 64 + 46, 4, 18);
-                        break;
-                    case 10:
-                        createWall(x * 64 + 14, y * 64 + 32, 14, 4);
-                        createWall(x * 64 + 32, y * 64 + 46, 4, 18);
-                        break;
-                    case 11:
-                        createWall(x * 64 + 42, y * 64 + 32, 14, 4);
-                        createWall(x * 64 + 60, y * 64 + 46, 4, 18);
-                        break;
-                }
-            }
-        }
     }
 
-    public void update(float delta) {
+    public void update(float delta, Vector2 playerPos) {
+        timer += delta;
+        if (timer > 1.5f) {
+            int xx = (int) (playerPos.x / 64);
+            int yy = (int) (playerPos.y / 64);
+            int[][] grid = new int[WORLD_SIZE][WORLD_SIZE];
+            for (int y = 0; y < WORLD_SIZE; y++) {
+                for (int x = 0; x < WORLD_SIZE; x++) {
+                    grid[x][y] = -1;
+                }
+            }
+            for (int y = yy - 1; y <= yy + 1; y++) {
+                for (int x = xx - 1; x <= xx + 1; x++) {
+                    if (x >= 0 && y >= 0 && x < WORLD_SIZE && y < WORLD_SIZE) {
+                        grid[x][y] = worldTiles[x][y].getId();
+                    }
+                }
+            }
+            destroyWorld();
+            genWorld();
+            for (int y = yy - 1; y <= yy + 1; y++) {
+                for (int x = xx - 1; x <= xx + 1; x++) {
+                    if (x >= 0 && y >= 0 && x < WORLD_SIZE && y < WORLD_SIZE) {
+                        worldTiles[x][y].destroy(world);
+                        worldTiles[x][y] = new WorldTile(world, grid[x][y], x, y);
+                    }
+                }
+            }
+            timer = 0;
+        }
         world.step(delta, 10, 5);
     }
 
@@ -181,7 +176,7 @@ public class GameWorld implements Disposable{
         return world;
     }
 
-    public int[][] getGrid() {
-        return grid;
+    public WorldTile[][] getWorldTiles() {
+        return worldTiles;
     }
 }

@@ -50,6 +50,7 @@ public class GameRenderer implements Disposable {
         cam = new OrthographicCamera();
         cam.setToOrtho(true);
         cam.zoom = 7;
+//        cam.zoom = 35;
         debugRenderer = new Box2DDebugRenderer();
         initAssets();
 
@@ -105,7 +106,7 @@ public class GameRenderer implements Disposable {
     private void drawWorld() {
         for (int y = 0; y < GameWorld.WORLD_SIZE; y++) {
             for (int x = 0; x < GameWorld.WORLD_SIZE; x++) {
-                batch.draw(worldTiles[world.getGrid()[x][y]], x * 16 * 4, y * 16 * 4, 16 * 4, 16 * 4);
+                batch.draw(worldTiles[world.getWorldTiles()[x][y].getId()], x * 16 * 4, y * 16 * 4, 16 * 4, 16 * 4);
             }
         }
     }
@@ -127,6 +128,8 @@ public class GameRenderer implements Disposable {
     public void update(float delta, float camX, float camY, boolean isNear, Vector2 near) {
         this.isNear = isNear;
         this.near = near;
+//        camX = GameWorld.WORLD_SIZE * 32;
+//        camY = GameWorld.WORLD_SIZE * 32;
         cam.position.x = camX;
         cam.position.y = camY;
         rayHandler.setCombinedMatrix(cam);
