@@ -31,12 +31,15 @@ public class Terrarum extends Game {
 	}
 
     private void updatePref() {
-        preferences.putFloat("musicVolume", preferences.getFloat("musicVolume", 0.5f));
-        musicVolume = preferences.getFloat("musicVolume");
-        preferences.putFloat("soundVolume", preferences.getFloat("soundVolume", 0.5f));
-        soundVolume = preferences.getFloat("soundVolume");
-        preferences.putBoolean("stickControl", preferences.getBoolean("stickControl", false));
-        stickControl = preferences.getBoolean("stickControl");
+        musicVolume = preferences.getFloat("musicVolume", 0.5f);
+        preferences.putFloat("musicVolume", musicVolume);
+
+        soundVolume = preferences.getFloat("soundVolume", 0.5f);
+        preferences.putFloat("soundVolume", soundVolume);
+
+        stickControl = preferences.getBoolean("stickControl", false);
+        preferences.putBoolean("stickControl", stickControl);
+
 		preferences.flush();
     }
 
