@@ -121,7 +121,7 @@ public class GameWorld implements Disposable{
 
     public void update(float delta, Vector2 playerPos) {
         timer += delta;
-        if (timer > 1.5f) {
+        if (timer > 4) {
             int xx = (int) (playerPos.x / 64);
             int yy = (int) (playerPos.y / 64);
             int[][] grid = new int[WORLD_SIZE][WORLD_SIZE];
@@ -147,7 +147,7 @@ public class GameWorld implements Disposable{
                     }
                 }
             }
-            timer = 0;
+            timer -= 4;
         }
         world.step(delta, 10, 5);
     }
