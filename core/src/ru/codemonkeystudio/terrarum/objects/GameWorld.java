@@ -149,7 +149,7 @@ public class GameWorld implements Disposable{
             }
             timer -= 4;
         }
-        world.step(delta, 10, 5);
+        world.step(delta, 50, 25);
     }
 
     private void createWall(float x, float y, float sizeX, float sizeY) {
