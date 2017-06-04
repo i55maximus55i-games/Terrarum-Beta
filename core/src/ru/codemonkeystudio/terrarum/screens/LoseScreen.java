@@ -37,7 +37,6 @@ class LoseScreen implements Screen{
 
     private Sound sound;
 
-
     LoseScreen(Terrarum game){
         stage = new Stage();
         this.game = game;
@@ -65,7 +64,7 @@ class LoseScreen implements Screen{
         atlas = new TextureAtlas(Gdx.files.internal("textures/textureUI.pack"));
         skin.addRegions(atlas);
 
-        Label message = new Label("YOU LOSE!", new Label.LabelStyle(font_32, Color.RED));
+        Label message = new Label(game.bundle.get("loseLabel"), new Label.LabelStyle(font_32, Color.RED));
 
         TextButton.TextButtonStyle menuButtonStyle = new TextButton.TextButtonStyle();
         menuButtonStyle.font = font_24;
@@ -75,7 +74,7 @@ class LoseScreen implements Screen{
         menuButtonStyle.pressedOffsetX = 1;
         menuButtonStyle.pressedOffsetY = -1;
 
-        TextButton menuButton = new TextButton("Menu", menuButtonStyle);
+        TextButton menuButton = new TextButton(game.bundle.get("menuLabel"), menuButtonStyle);
         menuButton.addListener(new ClickListener(){
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {

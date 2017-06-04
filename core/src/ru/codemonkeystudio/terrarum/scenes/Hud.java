@@ -83,11 +83,11 @@ public class Hud implements Disposable {
         table.top();
         table.setFillParent(true);
 
-        timeLabel = new Label("Time", new Label.LabelStyle(font_32, Color.WHITE));
+        timeLabel = new Label(game.bundle.get("timeLabel"), new Label.LabelStyle(font_32, Color.WHITE));
         timerLabel = new Label("", new Label.LabelStyle(font_32, Color.WHITE));
-        liveLabel = new Label("Lives", new Label.LabelStyle(font_32, Color.WHITE));
+        liveLabel = new Label(game.bundle.get("livesLabel"), new Label.LabelStyle(font_32, Color.WHITE));
         livesLabel = new Label("", new Label.LabelStyle(font_32, Color.WHITE));
-        foodLabel = new Label("Food", new Label.LabelStyle(font_32, Color.WHITE));
+        foodLabel = new Label(game.bundle.get("foodLabel"), new Label.LabelStyle(font_32, Color.WHITE));
         foodsLabel = new Label("", new Label.LabelStyle(font_32, Color.WHITE));
 
         pauseStyle = new Button.ButtonStyle();
@@ -159,7 +159,7 @@ public class Hud implements Disposable {
         continueStyle.down = skin.getDrawable("btn_pressed");
         continueStyle.pressedOffsetX = 1;
         continueStyle.pressedOffsetY = -1;
-        continueButton = new TextButton("Continue", continueStyle);
+        continueButton = new TextButton(game.bundle.get("continueLabel"), continueStyle);
         continueButton.addListener(new ClickListener() {
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
@@ -175,7 +175,7 @@ public class Hud implements Disposable {
         settingsStyle.down = skin.getDrawable("btn_pressed");
         settingsStyle.pressedOffsetX = 1;
         settingsStyle.pressedOffsetY = -1;
-        settingsButton = new TextButton("Settings", settingsStyle);
+        settingsButton = new TextButton(game.bundle.get("settingsLabel"), settingsStyle);
         settingsButton.addListener(new ClickListener() {
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
@@ -197,7 +197,7 @@ public class Hud implements Disposable {
         mainMenuStyle.down = skin.getDrawable("btn_pressed");
         mainMenuStyle.pressedOffsetX = 1;
         mainMenuStyle.pressedOffsetY = -1;
-        mainMenuButton = new TextButton("Main Menu", mainMenuStyle);
+        mainMenuButton = new TextButton(game.bundle.get("menuLabel"), mainMenuStyle);
         mainMenuButton.addListener(new ClickListener() {
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
@@ -226,7 +226,7 @@ public class Hud implements Disposable {
         tableTop.top();
         tableTop.setFillParent(true);
 
-        Label label = new Label("Settings", new Label.LabelStyle(font_32, Color.WHITE));
+        Label label = new Label(game.bundle.get("settingsLabel"), new Label.LabelStyle(font_32, Color.WHITE));
         label.setPosition(400, 600 - label.getHeight() / 2, 1);
 
         Button.ButtonStyle exitStyle = new Button.ButtonStyle();
@@ -302,7 +302,7 @@ public class Hud implements Disposable {
         CheckBox.CheckBoxStyle controlHeadingStyle = new CheckBox.CheckBoxStyle();
         controlHeadingStyle.font = font_32;
 
-        controlHeading = new CheckBox(game.isStickControl() ? "Stick" : "Touch", controlHeadingStyle);
+        controlHeading = new CheckBox(game.isStickControl() ? game.bundle.get("stickLabel") : game.bundle.get("touchLabel"), controlHeadingStyle);
         controlHeading.addListener(new ClickListener() {
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
@@ -313,22 +313,22 @@ public class Hud implements Disposable {
                 sound.play(soundVolume);
                 if (stickControl) {
                     stickControl = false;
-                    controlHeading.setText("Touch");
+                    controlHeading.setText(game.bundle.get("touchLabel"));
                     game.updatePref(musicVolume, soundVolume, false);
                     screen.setStickControl(false);
                 }
                 else {
                     stickControl = true;
-                    controlHeading.setText("Stick");
+                    controlHeading.setText(game.bundle.get("stickLabel"));
                     game.updatePref(musicVolume, soundVolume, true);
                     screen.setStickControl(true);
                 }
             }
         });
 
-        Label soundFx = new Label("Sound", new Label.LabelStyle(font_32, Color.WHITE));
-        Label musicFx = new Label("Music", new Label.LabelStyle(font_32, Color.WHITE));
-        Label handle = new Label("Control  : ", new Label.LabelStyle(font_32, Color.WHITE));
+        Label soundFx = new Label(game.bundle.get("soundVolumeLabel"), new Label.LabelStyle(font_32, Color.WHITE));
+        Label musicFx = new Label(game.bundle.get("musicVolumeLabel"), new Label.LabelStyle(font_32, Color.WHITE));
+        Label handle = new Label(game.bundle.get("controlLabel"), new Label.LabelStyle(font_32, Color.WHITE));
 
         tableTop.add(exit).size(72, 72).left();
         tableTop.add(label).center().expandX();

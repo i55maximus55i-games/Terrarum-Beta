@@ -107,7 +107,7 @@ public class MainMenuScreen implements Screen {
 		icon.setSize(364, 126);
 		icon.setPosition(stage.getWidth()/2, (stage.getHeight()/6)*5, 1);
 
-        TextButton newGame = new TextButton("New game", newGameStyle);
+        TextButton newGame = new TextButton(game.bundle.get("newGameLabel"), newGameStyle);
 		newGame.setSize(260, 90);
 		newGame.setPosition(stage.getWidth()/2, (stage.getHeight()/6)*4, 1);
 		newGame.addListener(new ClickListener() {
@@ -119,7 +119,7 @@ public class MainMenuScreen implements Screen {
 			}
 		});
 
-        TextButton statistic = new TextButton("Statistic", statisticStyle);
+        TextButton statistic = new TextButton(game.bundle.get("statisticLabel"), statisticStyle);
 		statistic.setSize(260, 90);
 		statistic.setPosition(stage.getWidth()/2, (stage.getHeight()/6)*3, 1);
 		statistic.addListener(new ClickListener() {
@@ -130,7 +130,7 @@ public class MainMenuScreen implements Screen {
 			}
 		});
 
-        TextButton settings = new TextButton("Settings", settingsStyle);
+        TextButton settings = new TextButton(game.bundle.get("settingsLabel"), settingsStyle);
 		settings.setSize(260, 90);
 		settings.setPosition(stage.getWidth()/2, (stage.getHeight()/6)*2, 1);
 		settings.addListener(new ClickListener() {
@@ -142,7 +142,7 @@ public class MainMenuScreen implements Screen {
 			}
 		});
 
-        TextButton exit = new TextButton("Exit", exitStyle);
+        TextButton exit = new TextButton(game.bundle.get("exitLabel"), exitStyle);
 		exit.setSize(260, 90);
 		exit.setPosition(stage.getWidth()/2, (stage.getHeight()/6)*1, 1);
 		exit.addListener(new ClickListener() {

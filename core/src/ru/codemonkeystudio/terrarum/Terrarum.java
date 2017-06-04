@@ -3,7 +3,11 @@ package ru.codemonkeystudio.terrarum;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.I18NBundle;
+
+import java.util.Locale;
 
 import ru.codemonkeystudio.terrarum.screens.MainMenuScreen;
 
@@ -14,7 +18,9 @@ public class Terrarum extends Game {
 
 	private Preferences preferences;
 
-    @Override
+	public I18NBundle bundle;
+
+	@Override
 	public void render() {
 		super.render();
 	}
@@ -23,6 +29,9 @@ public class Terrarum extends Game {
 
 	@Override
 	public void create () {
+		FileHandle baseFileHandle = Gdx.files.internal("i18n/TerrarumBundle");
+		Locale locale = new Locale(Locale.getDefault().toString());
+		bundle = I18NBundle.createBundle(baseFileHandle, locale);
 		preferences = Gdx.app.getPreferences("Terrarum settings");
 		updatePref();
 		batch = new SpriteBatch();

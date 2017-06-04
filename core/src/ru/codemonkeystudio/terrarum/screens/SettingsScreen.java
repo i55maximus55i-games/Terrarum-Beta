@@ -76,7 +76,7 @@ class SettingsScreen implements Screen {
         atlas = new TextureAtlas("textures/textureUI.pack");
         skin.addRegions(atlas);
 
-        Label label = new Label("Settings", new Label.LabelStyle(font_32, Color.WHITE));
+        Label label = new Label(game.bundle.get("settingsLabel"), new Label.LabelStyle(font_32, Color.WHITE));
         label.setPosition(400, 600 - label.getHeight() / 2, 1);
 
         Button.ButtonStyle exitStyle = new Button.ButtonStyle();
@@ -140,7 +140,7 @@ class SettingsScreen implements Screen {
         CheckBox.CheckBoxStyle controlHeadingStyle = new CheckBox.CheckBoxStyle();
         controlHeadingStyle.font = font_32;
 
-        controlHeading = new CheckBox(game.isStickControl() ? "Stick" : "Touch", controlHeadingStyle);
+        controlHeading = new CheckBox(game.isStickControl() ? game.bundle.get("stickLabel") : game.bundle.get("touchLabel"), controlHeadingStyle);
         controlHeading.addListener(new ClickListener() {
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
@@ -151,20 +151,20 @@ class SettingsScreen implements Screen {
                 sound.play(soundVolume);
                 if (stickControl) {
                     stickControl = false;
-                    controlHeading.setText("Touch");
+                    controlHeading.setText(game.bundle.get("touchLabel"));
                     game.updatePref(musicVolume, soundVolume, false);
                 }
                 else {
                     stickControl = true;
-                    controlHeading.setText("Stick");
+                    controlHeading.setText(game.bundle.get("stickLabel"));
                     game.updatePref(musicVolume, soundVolume, true);
                 }
             }
         });
 
-        Label soundFx = new Label("Sound", new Label.LabelStyle(font_32, Color.WHITE));
-        Label musicFx = new Label("Music", new Label.LabelStyle(font_32, Color.WHITE));
-        Label handle = new Label("Control  : ", new Label.LabelStyle(font_32, Color.WHITE));
+        Label soundFx = new Label(game.bundle.get("soundVolumeLabel"), new Label.LabelStyle(font_32, Color.WHITE));
+        Label musicFx = new Label(game.bundle.get("musicVolumeLabel"), new Label.LabelStyle(font_32, Color.WHITE));
+        Label handle = new Label(game.bundle.get("controlLabel"), new Label.LabelStyle(font_32, Color.WHITE));
 
         tableTop.add(exit).size(72, 72).left();
         tableTop.add(label).center().expandX();
