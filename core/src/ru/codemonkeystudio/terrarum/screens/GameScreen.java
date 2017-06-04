@@ -2,6 +2,7 @@ package ru.codemonkeystudio.terrarum.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.math.Vector2;
 
@@ -27,6 +28,9 @@ import ru.codemonkeystudio.terrarum.tools.TerrarumControlHandler;
 public class GameScreen implements Screen {
     private final Terrarum game;
 
+    private Sound eatSound;
+    private Sound enemySound;
+
     private TerrarumControlHandler controlHandler;
     public MusicPlayer musicPlayer;
 
@@ -40,10 +44,18 @@ public class GameScreen implements Screen {
     private ArrayList<Tail> tail;
     private boolean paused;
     private float soundVolume;
+    private int score;
+    private float timer;
+    private float foodEnemyTimer;
+    private float destroyEnemyTimer;
+    private int eat;
 
     GameScreen(Terrarum game) {
         this.game = game;
+        timer = 0;
+        foodEnemyTimer = 0;
         gameWorld = new GameWorld();
+        eat = 0;
 
         paused = false;
         tail = new ArrayList<Tail>();
@@ -54,6 +66,18 @@ public class GameScreen implements Screen {
         player = new Player(gameWorld.getWorld(), controlHandler, game.isStickControl(), renderer.getRayHandler(), game.getSoundVolume());
         foodList = new ArrayList<Food>();
         enemyList = new ArrayList<Enemy>();
+        addFoodAndEnemy();
+
+        gameWorld.getWorld().setContactListener(new TerrarumContactListener(player));
+        hud = new Hud(game, this);
+        soundVolume = game.getSoundVolume();
+        destroyEnemyTimer = 0;
+        score = 0;
+        eatSound = Gdx.audio.newSound(Gdx.files.internal("sounds/eat.wav"));
+        enemySound = Gdx.audio.newSound(Gdx.files.internal("sounds/enemy.wav"));
+    }
+
+    private void addFoodAndEnemy() {
         for (int i = 0; i < GameWorld.WORLD_SIZE; i++) {
             foodList.add(new Food(gameWorld.getWorld(), renderer.getRayHandler(), GameWorld.WORLD_SIZE * 64 - 16, i * 64 + 16));
             enemyList.add(new Enemy(gameWorld.getWorld(), renderer.getRayHandler(), GameWorld.WORLD_SIZE * 64 - 16, i * 64 + 48));
@@ -62,10 +86,6 @@ public class GameScreen implements Screen {
             foodList.add(new Food(gameWorld.getWorld(), renderer.getRayHandler(), i * 64 + 16, GameWorld.WORLD_SIZE * 64 - 16));
             enemyList.add(new Enemy(gameWorld.getWorld(), renderer.getRayHandler(), i * 64 + 48, GameWorld.WORLD_SIZE * 64 - 16));
         }
-
-        gameWorld.getWorld().setContactListener(new TerrarumContactListener(player));
-        hud = new Hud(game, this);
-        soundVolume = game.getSoundVolume();
     }
 
     @Override
@@ -85,6 +105,13 @@ public class GameScreen implements Screen {
     }
 
     private void update(float delta) {
+        timer += delta;
+        foodEnemyTimer += delta;
+        destroyEnemyTimer += delta;
+        if (foodEnemyTimer > 30) {
+            foodEnemyTimer -= 30;
+            addFoodAndEnemy();
+        }
         musicPlayer.update();
         gameWorld.update(delta, player.getBody().getPosition());
         player.update(delta);
@@ -106,31 +133,68 @@ public class GameScreen implements Screen {
         for (int i = 0; i < foodList.size(); i++) {
             foodList.get(i).update(delta);
             if (foodList.get(i).isAlive() && foodList.get(i).getBody().getPosition().dst(player.getBody().getPosition()) < 10) {
-                foodList.get(i).die(gameWorld.getWorld(), soundVolume);
+                foodList.get(i).die(gameWorld.getWorld());
+                eatSound.play(game.getSoundVolume());
+                eat++;
+                score += player.getLives() * 10;
+                if (eat >= 25) {
+                    eat -= 25;
+                    player.addLive();
+                }
             }
             if (foodList.get(i).isAlive()) alive++;
         }
         for (int i = 0; i < enemyList.size(); i++) {
             enemyList.get(i).update(delta);
             if (enemyList.get(i).isAlive() && enemyList.get(i).getBody().getPosition().dst(player.getBody().getPosition()) < 10) {
-                enemyList.get(i).die(gameWorld.getWorld(), soundVolume);
+                enemyList.get(i).die(gameWorld.getWorld());
+                enemySound.play(game.getSoundVolume());
                 player.hit(false);
             }
         }
-        hud.update(delta, player.getLives(), alive);
-        if (alive <= 0) {
-            win();
-        }
-        else if (player.getLives() < 0) {
+        hud.update(timer, player.getLives(), score);
+        if (player.getLives() < 0) {
             lose();
         }
         tail.add(new Tail(20, player.getBody().getPosition().x, player.getBody().getPosition().y));
-        Tail a;
+
+        Tail tailO;
         Iterator iterator = tail.iterator();
         while (iterator.hasNext()) {
-            a = (Tail) iterator.next();
-            a.update();
-            if (a.getLive() <= 0) {
+            tailO = (Tail) iterator.next();
+            tailO.update();
+            if (tailO.getLive() <= 0) {
+                iterator.remove();
+            }
+        }
+
+        Food foodO;
+        iterator = foodList.iterator();
+        while (iterator.hasNext()) {
+            foodO = (Food) iterator.next();
+            if (foodO.getDeathTime() > 15) {
+                foodO.destroy();
+                iterator.remove();
+            }
+        }
+
+        Enemy enemyO;
+        iterator = enemyList.iterator();
+        while (iterator.hasNext()) {
+            enemyO = (Enemy) iterator.next();
+            if (enemyO.getDeathTime() > 15) {
+                enemyO.destroy();
+                iterator.remove();
+            }
+        }
+
+        if (destroyEnemyTimer > 45) {
+            destroyEnemyTimer = 0;
+            iterator = enemyList.iterator();
+            while (iterator.hasNext()) {
+                enemyO = (Enemy) iterator.next();
+                enemyO.die(gameWorld.getWorld());
+                enemyO.destroy();
                 iterator.remove();
             }
         }
@@ -138,12 +202,7 @@ public class GameScreen implements Screen {
 
     private void lose() {
         musicPlayer.setPlaying(false);
-        game.setScreen(new LoseScreen(game));
-    }
-
-    private void win() {
-        musicPlayer.setPlaying(false);
-        game.setScreen(new WinScreen(game));
+        game.setScreen(new LoseScreen(game, hud.getTimer(), score));
     }
 
     @Override
@@ -191,6 +250,8 @@ public class GameScreen implements Screen {
             enemyList.get(i).dispose();
         }
         musicPlayer.dispose();
+        eatSound.dispose();
+        enemySound.dispose();
     }
 
     public void setSoundVolume(float soundVolume) {

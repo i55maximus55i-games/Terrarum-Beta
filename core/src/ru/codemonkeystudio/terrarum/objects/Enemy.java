@@ -20,9 +20,9 @@ import box2dLight.RayHandler;
 public class Enemy implements Disposable {
     private PointLight light;
     private Body body;
-    private Sound enemySound;
 
     private boolean isAlive;
+    private float deathTime;
 
     public Enemy(World world, RayHandler rayHandler, float x, float y) {
         BodyDef bDef = new BodyDef();
@@ -44,7 +44,7 @@ public class Enemy implements Disposable {
         light = new PointLight(rayHandler, 500, Color.BLUE, 25, 0, 0);
         isAlive = true;
 
-        enemySound = Gdx.audio.newSound(Gdx.files.internal("sounds/enemy.wav"));
+        deathTime = 0;
     }
 
     public void update(float delta) {
@@ -67,21 +67,20 @@ public class Enemy implements Disposable {
             if (light.getDistance() > 5) {
                 light.setDistance(light.getDistance() - 3);
             }
+            deathTime += delta;
         }
     }
 
-    public void die(World world, float volume) {
+    public void die(World world) {
         if (isAlive) {
             isAlive = false;
             world.destroyBody(body);
-            enemySound.play(volume);
         }
     }
 
     @Override
     public void dispose() {
         light.dispose();
-        enemySound.dispose();
     }
 
     public Body getBody() {
@@ -90,6 +89,14 @@ public class Enemy implements Disposable {
 
     public boolean isAlive() {
         return isAlive;
+    }
+
+    public float getDeathTime() {
+        return deathTime;
+    }
+
+    public void destroy() {
+        light.setActive(false);
     }
 }
 

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ResourceBundleManager">
+    <file url="file://$PROJECT_DIR$/android/assets/i18n/TerrarumBundle.properties" />
+    <file url="file://$PROJECT_DIR$/android/assets/i18n/TerrarumBundle_de.properties" />
+    <file url="file://$PROJECT_DIR$/android/assets/i18n/TerrarumBundle_en.properties" />
+    <file url="file://$PROJECT_DIR$/android/assets/i18n/TerrarumBundle_fr.properties" />
+    <file url="file://$PROJECT_DIR$/android/assets/i18n/TerrarumBundle_ru.properties" />
+    <custom-resource-bundle>
+      <file value="file://$PROJECT_DIR$/android/assets/i18n/TerrarumBundle.properties" />
+      <file value="file://$PROJECT_DIR$/android/assets/i18n/TerrarumBundle_de.properties" />
+      <file value="file://$PROJECT_DIR$/android/assets/i18n/TerrarumBundle_en.properties" />
+      <file value="file://$PROJECT_DIR$/android/assets/i18n/TerrarumBundle_es.properties" />
+      <file value="file://$PROJECT_DIR$/android/assets/i18n/TerrarumBundle_fr.properties" />
+      <file value="file://$PROJECT_DIR$/android/assets/i18n/TerrarumBundle_kk.properties" />
+      <file value="file://$PROJECT_DIR$/android/assets/i18n/TerrarumBundle_ko.properties" />
+      <file value="file://$PROJECT_DIR$/android/assets/i18n/TerrarumBundle_ru.properties" />
+      <file value="file://$PROJECT_DIR$/android/assets/i18n/TerrarumBundle_uk.properties" />
+      <base-name>TerrarumBundle</base-name>
+    </custom-resource-bundle>
+  </component>
+</project>

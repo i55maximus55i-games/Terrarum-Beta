@@ -33,7 +33,7 @@ public class Player implements Disposable{
         this.isStickControl = isStickControl;
         this.controlHandler = controlHandler;
         this.volume = volume;
-        lives = 7;
+        lives = 10;
 
         BodyDef bDef = new BodyDef();
         bDef.type = BodyDef.BodyType.DynamicBody;
@@ -94,9 +94,9 @@ public class Player implements Disposable{
         if (c.x * c.x + c.y * c.y > 1) {
             c = controlHandler.vectorSinCos(c);
         }
-        c.x *= 100;
-        c.y *= 100;
-        body.applyForceToCenter(c, true);
+        c.x *= 1.5f;
+        c.y *= 1.5f;
+        body.applyLinearImpulse(c, body.getWorldCenter(), true);
     }
 
     public Body getBody() {
@@ -128,5 +128,9 @@ public class Player implements Disposable{
 
     public void setStickControl(boolean stickControl) {
         isStickControl = stickControl;
+    }
+
+    public void addLive() {
+        lives++;
     }
 }

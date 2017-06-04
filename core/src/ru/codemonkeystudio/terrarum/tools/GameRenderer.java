@@ -50,7 +50,7 @@ public class GameRenderer implements Disposable {
         cam = new OrthographicCamera();
         cam.setToOrtho(true);
         cam.zoom = 7;
-//        cam.zoom = 15;
+//        cam.zoom = 35;
         debugRenderer = new Box2DDebugRenderer();
         initAssets();
 

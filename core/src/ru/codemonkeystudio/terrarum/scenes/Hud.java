@@ -40,8 +40,8 @@ public class Hud implements Disposable {
     private Label timerLabel;
     private Label liveLabel;
     private Label livesLabel;
-    private Label foodLabel;
-    private Label foodsLabel;
+    private Label scoresLabel;
+    private Label scoreLabel;
     private Skin skin;
     private TextureAtlas atlas;
     private Button pause;
@@ -87,8 +87,8 @@ public class Hud implements Disposable {
         timerLabel = new Label("", new Label.LabelStyle(font_32, Color.WHITE));
         liveLabel = new Label(game.bundle.get("livesLabel"), new Label.LabelStyle(font_32, Color.WHITE));
         livesLabel = new Label("", new Label.LabelStyle(font_32, Color.WHITE));
-        foodLabel = new Label(game.bundle.get("foodLabel"), new Label.LabelStyle(font_32, Color.WHITE));
-        foodsLabel = new Label("", new Label.LabelStyle(font_32, Color.WHITE));
+        scoresLabel = new Label(game.bundle.get("scoreLabel"), new Label.LabelStyle(font_32, Color.WHITE));
+        scoreLabel = new Label("", new Label.LabelStyle(font_32, Color.WHITE));
 
         pauseStyle = new Button.ButtonStyle();
         pauseStyle.up = skin.getDrawable("btn_pause");
@@ -113,22 +113,22 @@ public class Hud implements Disposable {
         table.add(pause).expandX().padTop(10).size(72, 72);
         table.add(liveLabel).expandX().padTop(10);
         table.add(timeLabel).expandX().padTop(10);
-        table.add(foodLabel).expandX().padTop(10);
+        table.add(scoresLabel).expandX().padTop(10);
         table.row();
         table.add().expandX();
         table.add(livesLabel).expandX();
         table.add(timerLabel).expandX();
-        table.add(foodsLabel).expandX();
+        table.add(scoreLabel).expandX();
 
         stage.addActor(table);
     }
 
-    public void update(float delta, int lives, int food) {
-        timer += delta;
+    public void update(float timer, int lives, int score) {
+        this.timer = timer;
         int t = (int) timer;
         timerLabel.setText(String.format("%02d", t / 60) + ":" + (String.format("%02d", t % 60)));
         livesLabel.setText(Integer.toString(lives));
-        foodsLabel.setText(Integer.toString(food));
+        scoreLabel.setText(Integer.toString(score));
     }
 
     public void pause() {
@@ -136,8 +136,8 @@ public class Hud implements Disposable {
         timerLabel.setColor(Color.GRAY);
         liveLabel.setColor(Color.GRAY);
         livesLabel.setColor(Color.GRAY);
-        foodLabel.setColor(Color.GRAY);
-        foodsLabel.setColor(Color.GRAY);
+        scoresLabel.setColor(Color.GRAY);
+        scoreLabel.setColor(Color.GRAY);
 
         pause.setVisible(false);
 
@@ -352,8 +352,8 @@ public class Hud implements Disposable {
         timerLabel.setColor(Color.WHITE);
         liveLabel.setColor(Color.WHITE);
         livesLabel.setColor(Color.WHITE);
-        foodLabel.setColor(Color.WHITE);
-        foodsLabel.setColor(Color.WHITE);
+        scoresLabel.setColor(Color.WHITE);
+        scoreLabel.setColor(Color.WHITE);
         
         pauseStyle = new Button.ButtonStyle();
         pauseStyle.up = skin.getDrawable("btn_pause");
@@ -376,12 +376,12 @@ public class Hud implements Disposable {
         table.add(pause).expandX().padTop(10).size(72);
         table.add(liveLabel).expandX().padTop(10);
         table.add(timeLabel).expandX().padTop(10);
-        table.add(foodLabel).expandX().padTop(10);
+        table.add(scoresLabel).expandX().padTop(10);
         table.row();
         table.add().expandX();
         table.add(livesLabel).expandX();
         table.add(timerLabel).expandX();
-        table.add(foodsLabel).expandX();
+        table.add(scoreLabel).expandX();
 
         stage.addActor(table);
 
@@ -399,5 +399,9 @@ public class Hud implements Disposable {
         font_24.dispose();
         font_32.dispose();
         skin.dispose();
+    }
+
+    public float getTimer() {
+        return timer;
     }
 }

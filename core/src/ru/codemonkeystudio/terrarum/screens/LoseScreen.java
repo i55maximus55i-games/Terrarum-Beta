@@ -37,7 +37,12 @@ class LoseScreen implements Screen{
 
     private Sound sound;
 
-    LoseScreen(Terrarum game){
+    private float time;
+    private int score;
+
+    LoseScreen(Terrarum game, float time, int score){
+        this.time = time;
+        this.score = score;
         stage = new Stage();
         this.game = game;
         this.batch = game.batch;
@@ -64,7 +69,7 @@ class LoseScreen implements Screen{
         atlas = new TextureAtlas(Gdx.files.internal("textures/textureUI.pack"));
         skin.addRegions(atlas);
 
-        Label message = new Label(game.bundle.get("loseLabel"), new Label.LabelStyle(font_32, Color.RED));
+        Label message = new Label(game.bundle.get("loseLabel"), new Label.LabelStyle(font_32, Color.GREEN));
 
         TextButton.TextButtonStyle menuButtonStyle = new TextButton.TextButtonStyle();
         menuButtonStyle.font = font_24;
@@ -84,7 +89,15 @@ class LoseScreen implements Screen{
             }
         });
 
-        table.add(message).expandX().padTop(16);
+        int t = (int) time;
+        Label timerLabel = new Label(game.bundle.get("timeLabel") + " " + String.format("%02d", t / 60) + ":" + (String.format("%02d", t % 60)), new Label.LabelStyle(font_32, Color.WHITE));
+        Label scoreLabel = new Label(game.bundle.get("scoreLabel") + " " + score, new Label.LabelStyle(font_32, Color.WHITE));
+
+        table.add(timerLabel);
+        table.row();
+        table.add(scoreLabel);
+        table.row();
+        table.add(message).expandX().padTop(32);
         table.row();
         table.add(menuButton).size(260, 90).expandX().padTop(16);
 

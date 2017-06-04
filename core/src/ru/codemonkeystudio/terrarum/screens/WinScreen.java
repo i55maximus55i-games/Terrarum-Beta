@@ -37,8 +37,13 @@ class WinScreen implements Screen{
 
     private Sound sound;
 
+    private float time;
+    private int lives;
+    private int score;
 
-    WinScreen(Terrarum game){
+    WinScreen(Terrarum game, float time, int lives){
+        this.time = time;
+        this.lives = lives;
 
         stage = new Stage();
         this.game = game;
@@ -86,7 +91,15 @@ class WinScreen implements Screen{
             }
         });
 
-        table.add(message).expandX().padTop(16);
+        int t = (int) time;
+        Label timerLabel = new Label(game.bundle.get("timeLabel") + " " + String.format("%02d", t / 60) + ":" + (String.format("%02d", t % 60)), new Label.LabelStyle(font_32, Color.WHITE));
+        Label liveLabel = new Label(game.bundle.get("livesLabel") + " " + lives, new Label.LabelStyle(font_32, Color.WHITE));
+
+        table.add(timerLabel);
+        table.row();
+        table.add(liveLabel);
+        table.row();
+        table.add(message).expandX().padTop(32);
         table.row();
         table.add(menuButton).size(260, 90).expandX().padTop(16);
 
