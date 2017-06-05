@@ -41,7 +41,8 @@ public class Enemy implements Disposable {
 
         body.createFixture(fDef);
 
-        light = new PointLight(rayHandler, 500, Color.BLUE, 25, 0, 0);
+        light = new PointLight(rayHandler, 150, Color.BLUE, 25, 0, 0);
+        light.attachToBody(body);
         isAlive = true;
 
         deathTime = 0;

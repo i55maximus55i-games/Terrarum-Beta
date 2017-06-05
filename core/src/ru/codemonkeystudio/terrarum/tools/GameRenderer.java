@@ -30,6 +30,7 @@ public class GameRenderer implements Disposable {
     private SpriteBatch batch;
     private ShapeRenderer shapeRenderer;
     private Box2DDebugRenderer debugRenderer;
+    private TerrarumControlHandler controlHandler;
 
     private RayHandler rayHandler;
     private ArrayList tail;
@@ -39,6 +40,7 @@ public class GameRenderer implements Disposable {
     private TextureRegion[] worldTiles;
     private boolean isNear;
     private Vector2 near;
+    private boolean isStickControl;
 
     public GameRenderer(SpriteBatch batch, GameWorld gameWorld, ArrayList tail) {
         this.world = gameWorld;
@@ -46,6 +48,7 @@ public class GameRenderer implements Disposable {
 
         this.tail = tail;
         shapeRenderer = new ShapeRenderer();
+        controlHandler = new TerrarumControlHandler();
 
         cam = new OrthographicCamera();
         cam.setToOrtho(true);
@@ -101,6 +104,9 @@ public class GameRenderer implements Disposable {
         }
         shapeRenderer.end();
 //        debugRenderer.render(world.getWorld(), cam.combined);
+        if (isStickControl) {
+            controlHandler.stickControl();
+        }
     }
 
     private void drawWorld() {
@@ -115,6 +121,7 @@ public class GameRenderer implements Disposable {
         cam.viewportWidth = 30f;
         cam.viewportHeight = 30f * height / width;
         cam.update();
+        controlHandler.resize();
     }
 
     @Override
@@ -125,7 +132,7 @@ public class GameRenderer implements Disposable {
         worldTexture.dispose();
     }
 
-    public void update(float delta, float camX, float camY, boolean isNear, Vector2 near) {
+    public void update(float delta, float camX, float camY, boolean isNear, Vector2 near, boolean isStickControl) {
         this.isNear = isNear;
         this.near = near;
 //        camX = GameWorld.WORLD_SIZE * 32;
@@ -133,9 +140,14 @@ public class GameRenderer implements Disposable {
         cam.position.x = camX;
         cam.position.y = camY;
         rayHandler.setCombinedMatrix(cam);
+        this.isStickControl = isStickControl;
     }
 
     public RayHandler getRayHandler() {
         return rayHandler;
+    }
+
+    public void update(boolean stickControl) {
+        this.isStickControl = stickControl;
     }
 }

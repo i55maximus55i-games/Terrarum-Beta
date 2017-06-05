@@ -32,6 +32,7 @@ public class Terrarum extends Game {
 		FileHandle baseFileHandle = Gdx.files.internal("i18n/TerrarumBundle");
 		Locale locale = new Locale(Locale.getDefault().toString());
 		bundle = I18NBundle.createBundle(baseFileHandle, locale);
+//		bundle = I18NBundle.createBundle(baseFileHandle, new Locale("ru"));
 		preferences = Gdx.app.getPreferences("Terrarum settings");
 		updatePref();
 		batch = new SpriteBatch();

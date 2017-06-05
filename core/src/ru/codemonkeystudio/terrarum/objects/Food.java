@@ -41,7 +41,8 @@ public class Food implements Disposable {
 
         body.createFixture(fDef);
 
-        light = new PointLight(rayHandler, 500, Color.YELLOW, 25, 0, 0);
+        light = new PointLight(rayHandler, 150, Color.YELLOW, 25, 0, 0);
+        light.attachToBody(body);
         isAlive = true;
     }
 
@@ -95,5 +96,6 @@ public class Food implements Disposable {
 
     public void destroy() {
         light.setActive(false);
+        dispose();
     }
 }
