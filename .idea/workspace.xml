@@ -33,15 +33,35 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="GameWorld.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="GameWorld.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/core/src/ru/codemonkeystudio/terrarum/objects/GameWorld.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="561">
-              <caret line="151" column="32" selection-start-line="151" selection-start-column="32" selection-end-line="151" selection-end-column="32" />
+            <state relative-caret-position="0">
+              <caret line="125" column="46" selection-start-line="125" selection-start-column="46" selection-end-line="125" selection-end-column="46" />
               <folding>
                 <element signature="method#genWorld#0;class#GameWorld#0" expanded="false" />
               </folding>
             </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AndroidManifest.xml" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/android/AndroidManifest.xml">
+          <provider editor-type-id="android-manifest">
+            <state />
+          </provider>
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="306">
+              <caret line="18" column="83" selection-start-line="18" selection-start-column="83" selection-end-line="18" selection-end-column="83" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Terrarum_24.png" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/android/assets/fonts/Terrarum_24.png">
+          <provider selected="true" editor-type-id="images">
+            <state />
           </provider>
         </entry>
       </file>
@@ -2400,7 +2420,6 @@
         <option value="$PROJECT_DIR$/android/assets/i18n/TerrarumBundle_en.properties" />
         <option value="$PROJECT_DIR$/android/assets/i18n/TerrarumBundle.properties" />
         <option value="$PROJECT_DIR$/core/src/ru/codemonkeystudio/terrarum/Terrarum.java" />
-        <option value="$PROJECT_DIR$/android/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/core/src/ru/codemonkeystudio/terrarum/screens/WinScreen.java" />
         <option value="$PROJECT_DIR$/android/assets/i18n/TerrarumBundle_ru.properties" />
         <option value="$PROJECT_DIR$/core/src/ru/codemonkeystudio/terrarum/scenes/Hud.java" />
@@ -2415,6 +2434,8 @@
         <option value="$PROJECT_DIR$/android/assets/i18n/TerrarumBundle_ja.properties" />
         <option value="$PROJECT_DIR$/android/assets/i18n/TerrarumBundle_de.properties" />
         <option value="$PROJECT_DIR$/core/src/ru/codemonkeystudio/terrarum/objects/GameWorld.java" />
+        <option value="$PROJECT_DIR$/android/AndroidManifest.xml" />
+        <option value="$PROJECT_DIR$/android/assets/i18n/TerrarumBundle_uk.properties" />
       </list>
     </option>
   </component>
@@ -2449,7 +2470,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
+      <pane id="Scope" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -2688,13 +2710,34 @@
               <option name="myItemType" value="com.intellij.lang.properties.projectView.ResourceBundleNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Terrarum" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Terrarum" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="android" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="assets" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="fonts" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
       <pane id="AndroidView">
         <subPane />
       </pane>
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -2709,7 +2752,7 @@
       <recent name="D:\Programming\GDX\2d\Terrarum\android\assets\i18n" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.desktop">
+  <component name="RunManager" selected="Android App.android">
     <configuration default="true" type="AndroidJUnit" factoryName="Android JUnit">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <module name="" />
@@ -3090,9 +3133,10 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1066" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32819384" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
@@ -3104,7 +3148,7 @@
       <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19349681" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19349681" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Android Model" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
@@ -3122,7 +3166,6 @@
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32819384" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32819384" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -3146,7 +3189,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/core/src/ru/codemonkeystudio/terrarum/screens/PauseScreen.java" />
     <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.badlogicgames.gdx/gdx/1.9.5/df0e6a52ed42009b20ab64cc81e57c3ae24d9109/gdx-1.9.5-sources.jar!/com/badlogic/gdx/scenes/scene2d/ui/Skin.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="752">
@@ -3313,17 +3355,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/android/AndroidManifest.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="33" selection-start-line="4" selection-start-column="33" selection-end-line="4" selection-end-column="33" />
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="android-manifest">
-        <state />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/core/src/ru/codemonkeystudio/terrarum/screens/WinScreen.java" />
     <entry file="file://$PROJECT_DIR$/core/src/ru/codemonkeystudio/terrarum/objects/Tail.java">
       <provider selected="true" editor-type-id="text-editor">
@@ -3456,16 +3487,6 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/android/assets/i18n/TerrarumBundle_uk.properties">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-      <provider editor-type-id="ResourceBundle">
-        <state />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/android/assets/i18n/TerrarumBundle_ko.properties">
       <provider editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -3535,11 +3556,38 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/core/src/ru/codemonkeystudio/terrarum/objects/GameWorld.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="561">
-          <caret line="151" column="32" selection-start-line="151" selection-start-column="32" selection-end-line="151" selection-end-column="32" />
+        <state relative-caret-position="0">
+          <caret line="125" column="46" selection-start-line="125" selection-start-column="46" selection-end-line="125" selection-end-column="46" />
           <folding>
             <element signature="method#genWorld#0;class#GameWorld#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/android/assets/fonts/Terrarum_24.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/android/assets/i18n/TerrarumBundle_uk.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" column="15" selection-start-line="6" selection-start-column="15" selection-end-line="6" selection-end-column="15" />
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="ResourceBundle">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/android/AndroidManifest.xml">
+      <provider editor-type-id="android-manifest">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="18" column="83" selection-start-line="18" selection-start-column="83" selection-end-line="18" selection-end-column="83" />
+          <folding />
         </state>
       </provider>
     </entry>
