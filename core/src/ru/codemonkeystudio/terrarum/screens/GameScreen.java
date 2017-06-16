@@ -132,7 +132,7 @@ public class GameScreen implements Screen {
 
         Iterator iterator;
         //обновление хвоста
-        tails.add(new Tail(20, player.getBody().getPosition().x, player.getBody().getPosition().y));
+        tails.add(new Tail(30, player.getBody().getPosition().x, player.getBody().getPosition().y));
         Tail tailO;
         iterator = tails.iterator();
         while (iterator.hasNext()) {

@@ -92,7 +92,7 @@ public class GameRenderer implements Disposable {
         Tail a;
         for (Object aTail : tail) {
             a = (Tail) aTail;
-            shapeRenderer.circle(a.getPos().x, a.getPos().y, 1.5f);
+            shapeRenderer.circle(a.getPos().x, a.getPos().y, 1.5f * a.getLive() / 30);
         }
         shapeRenderer.end();
         rayHandler.updateAndRender();
