@@ -29,11 +29,10 @@ public class TerrarumControlHandler implements Disposable {
 
     public Vector2 touchControl() {
         Vector2 ctrl = new Vector2();
-        if (Gdx.input.isTouched(0)) {
-            ctrl.set(Gdx.input.getX(0) - Gdx.graphics.getWidth() / 2, Gdx.input.getY(0) - Gdx.graphics.getHeight() / 2);
-        }
-        else {
-            ctrl.set(0, 0);
+        for (int i = 0; i < 10; i++) {
+            if (Gdx.input.isTouched(i)) {
+                ctrl.add(Gdx.input.getX(i) - Gdx.graphics.getWidth() / 2, Gdx.input.getY(i) - Gdx.graphics.getHeight() / 2);
+            }
         }
         ctrl = vectorSinCos(ctrl);
         return ctrl;

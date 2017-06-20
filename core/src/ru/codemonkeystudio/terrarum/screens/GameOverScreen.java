@@ -24,7 +24,7 @@ import ru.codemonkeystudio.terrarum.Terrarum;
  * Экран проигрыша
  */
 
-class LoseScreen implements Screen{
+class GameOverScreen implements Screen{
 
     private SpriteBatch batch;
     private Terrarum game;
@@ -40,7 +40,7 @@ class LoseScreen implements Screen{
     private float time;
     private int score;
 
-    LoseScreen(Terrarum game, float time, int score){
+    GameOverScreen(Terrarum game, float time, int score){
         this.time = time;
         this.score = score;
         stage = new Stage();

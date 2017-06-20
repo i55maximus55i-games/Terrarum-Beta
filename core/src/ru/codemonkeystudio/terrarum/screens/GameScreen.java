@@ -211,7 +211,7 @@ public class GameScreen implements Screen {
 
     private void lose() {
         musicPlayer.setPlaying(false);
-        game.setScreen(new LoseScreen(game, hud.getTimer(), score));
+        game.setScreen(new GameOverScreen(game, hud.getTimer(), score));
     }
 
     @Override
