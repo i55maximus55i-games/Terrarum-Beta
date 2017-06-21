@@ -130,6 +130,10 @@ public class Player implements Disposable{
         isStickControl = stickControl;
     }
 
+    public void setLives(int lives) {
+        this.lives = lives;
+    }
+
     public void addLive() {
         lives++;
     }

@@ -42,7 +42,13 @@ public class GameRenderer implements Disposable {
     private Vector2 near;
     private boolean isStickControl;
 
-    public GameRenderer(SpriteBatch batch, GameWorld gameWorld, ArrayList tail) {
+    //ludum easter egg
+    private ShapeRenderer healthBar;
+    private int width;
+    private int wr, wb;
+    private int lives;
+
+    public GameRenderer(SpriteBatch batch, GameWorld gameWorld, ArrayList tail, int worldSize) {
         this.world = gameWorld;
         this.batch = batch;
 
@@ -66,6 +72,11 @@ public class GameRenderer implements Disposable {
         rayHandler.setCulling(true);
 		rayHandler.setAmbientLight(0);
 //        rayHandler.setAmbientLight(0.3f);
+
+        healthBar = new ShapeRenderer();
+        width = Gdx.graphics.getWidth();
+        wr = wb = 0;
+        lives = 10;
     }
 
     private void initAssets() {
@@ -107,11 +118,24 @@ public class GameRenderer implements Disposable {
         if (isStickControl) {
             controlHandler.stickControl();
         }
+
+        if (lives * width / 5 <= wr) {
+            wr -= 10;
+        }
+        if (wb >= wr) {
+            wb -= 3;
+        }
+        healthBar.begin(ShapeRenderer.ShapeType.Filled);
+        healthBar.setColor(Color.WHITE);
+        healthBar.rect(0, 0, wb, 10);
+        healthBar.setColor(Color.RED);
+        healthBar.rect(0, 0, wr, 10);
+        healthBar.end();
     }
 
     private void drawWorld() {
-        for (int y = 0; y < GameWorld.WORLD_SIZE; y++) {
-            for (int x = 0; x < GameWorld.WORLD_SIZE; x++) {
+        for (int y = 0; y < world.WORLD_SIZE; y++) {
+            for (int x = 0; x < world.WORLD_SIZE; x++) {
                 batch.draw(worldTiles[world.getWorldTiles()[x][y].getId()], x * 16 * 4, y * 16 * 4, 16 * 4, 16 * 4);
             }
         }
@@ -122,7 +146,7 @@ public class GameRenderer implements Disposable {
         cam.viewportHeight = 30f * height / width;
         cam.update();
         controlHandler.resize();
-        rayHandler.resizeFBO(width, height);
+        rayHandler.resizeFBO(width / 2, height / 2);
     }
 
     @Override
@@ -131,6 +155,7 @@ public class GameRenderer implements Disposable {
         debugRenderer.dispose();
         rayHandler.dispose();
         worldTexture.dispose();
+        healthBar.dispose();
     }
 
     public void update(float delta, float camX, float camY, boolean isNear, Vector2 near, boolean isStickControl) {
@@ -142,6 +167,14 @@ public class GameRenderer implements Disposable {
         cam.position.y = camY;
         rayHandler.setCombinedMatrix(cam);
         this.isStickControl = isStickControl;
+    }
+
+    public void setLives(int lives) {
+        this.lives = lives;
+    }
+
+    public void createHealthBar() {
+        wr = wb = width;
     }
 
     public RayHandler getRayHandler() {

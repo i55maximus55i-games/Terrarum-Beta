@@ -16,7 +16,7 @@ import java.util.List;
  */
 
 public class GameWorld implements Disposable{
-    public static final int WORLD_SIZE = 8;
+    public final int WORLD_SIZE;
 
     private WorldTile[][] worldTiles;
 
@@ -24,7 +24,8 @@ public class GameWorld implements Disposable{
 
     private float timer;
 
-    public GameWorld() {
+    public GameWorld(int worldSize) {
+        WORLD_SIZE = worldSize;
         timer = 0;
         world = new World(new Vector2(0, 0), true);
         worldTiles = new WorldTile[WORLD_SIZE][WORLD_SIZE];

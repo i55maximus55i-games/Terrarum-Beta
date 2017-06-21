@@ -42,7 +42,7 @@ public class GameOverScreen implements Screen{
     private int score;
     private TextField textField;
 
-    public GameOverScreen(Terrarum game, float time, int score){
+    public GameOverScreen(final Terrarum game, float time, int score){
         this.time = time;
         this.score = score;
         stage = new Stage();
@@ -59,7 +59,6 @@ public class GameOverScreen implements Screen{
         font_16 = new BitmapFont(Gdx.files.internal("fonts/Terrarum_16.fnt"), Gdx.files.internal("fonts/Terrarum_16.png"), false);
         font_24 = new BitmapFont(Gdx.files.internal("fonts/Terrarum_24.fnt"), Gdx.files.internal("fonts/Terrarum_24.png"), false);
         font_32 = new BitmapFont(Gdx.files.internal("fonts/Terrarum_32.fnt"), Gdx.files.internal("fonts/Terrarum_32.png"), false);
-
     }
 
     @Override
