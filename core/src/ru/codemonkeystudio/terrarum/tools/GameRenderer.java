@@ -123,7 +123,7 @@ public class GameRenderer implements Disposable {
             wr -= 10;
         }
         if (wb >= wr) {
-            wb -= 3;
+            wb -= 6;
         }
         healthBar.begin(ShapeRenderer.ShapeType.Filled);
         healthBar.setColor(Color.WHITE);

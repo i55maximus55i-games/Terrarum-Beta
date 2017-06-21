@@ -36,7 +36,7 @@ public class Terrarum extends Game {
 		preferences = Gdx.app.getPreferences("Terrarum settings");
 		updatePref();
 		batch = new SpriteBatch();
-		setScreen(new MainMenuScreen(this));
+		setScreen(new MainMenuScreen(this, true));
 		Gdx.input.setCatchBackKey(true);
 	}
 

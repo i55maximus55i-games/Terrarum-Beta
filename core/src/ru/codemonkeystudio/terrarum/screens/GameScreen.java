@@ -2,9 +2,7 @@ package ru.codemonkeystudio.terrarum.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 
 import java.util.ArrayList;
@@ -12,9 +10,7 @@ import java.util.Iterator;
 
 import ru.codemonkeystudio.terrarum.Terrarum;
 import ru.codemonkeystudio.terrarum.gamemodes.ArcadeGamemode;
-import ru.codemonkeystudio.terrarum.gamemodes.ClassicGamemode;
 import ru.codemonkeystudio.terrarum.gamemodes.Gamemode;
-import ru.codemonkeystudio.terrarum.gamemodes.LudumGamemode;
 import ru.codemonkeystudio.terrarum.objects.Enemy;
 import ru.codemonkeystudio.terrarum.objects.Food;
 import ru.codemonkeystudio.terrarum.objects.GameWorld;
@@ -50,11 +46,13 @@ public class GameScreen implements Screen {
 
     //счётчики
     private boolean paused;
+    private boolean ludum;
 
     //инициализация игры
-    GameScreen(Terrarum game) {
+    GameScreen(Terrarum game, Gamemode gamemode, boolean ludum) {
         this.game = game;
 
+        this.ludum = ludum;
         paused = false;
 
         tails = new ArrayList<Tail>();
@@ -65,7 +63,7 @@ public class GameScreen implements Screen {
         hud = new Hud(game, this);
         musicPlayer = new MusicPlayer(game.getMusicVolume());
 
-        gm = new LudumGamemode();
+        gm = gamemode;
 
         gameWorld = new GameWorld(gm.getWorldSize());
         renderer = new GameRenderer(game.batch, gameWorld, tails, gameWorld.WORLD_SIZE);
@@ -91,7 +89,9 @@ public class GameScreen implements Screen {
             renderer.update(false);
         }
         renderer.render();
-        hud.stage.draw();
+        if (!ludum) {
+            hud.stage.draw();
+        }
     }
 
     private void update(float delta) {

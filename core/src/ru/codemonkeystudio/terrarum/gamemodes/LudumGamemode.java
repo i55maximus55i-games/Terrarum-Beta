@@ -23,6 +23,8 @@ public class LudumGamemode implements Gamemode {
 
     //звуки
     private Sound eatSound;
+    private Sound winSound;
+    private Sound loseSound;
 
     //вспомогательные объекты
     private GameRenderer renderer;
@@ -34,8 +36,6 @@ public class LudumGamemode implements Gamemode {
 
     //счётчики
     private float timer;
-    private float deathtimer;
-    private int score;
     private boolean destroyed;
 
     @Override
@@ -51,10 +51,10 @@ public class LudumGamemode implements Gamemode {
         this.foods = foods;
 
         eatSound = Gdx.audio.newSound(Gdx.files.internal("sounds/eat.wav"));
+        winSound = Gdx.audio.newSound(Gdx.files.internal("sounds/win.wav"));
+        loseSound = Gdx.audio.newSound(Gdx.files.internal("sounds/lose.mp3"));
 
-        score = 0;
         timer = 0;
-        deathtimer = 0;
         destroyed = false;
 
         foods.add(new Food(gameWorld.getWorld(), renderer.getRayHandler(), 64 * gameWorld.WORLD_SIZE - 16, 64 * gameWorld.WORLD_SIZE - 16));
@@ -69,7 +69,9 @@ public class LudumGamemode implements Gamemode {
             foods.get(i).update(delta, false);
             if (foods.get(i).isAlive() && foods.get(i).getBody().getPosition().dst(player.getBody().getPosition()) < 10) {
                 foods.get(i).die(gameWorld.getWorld());
-                eatSound.play(game.getSoundVolume());
+                if (i == 0) {
+                    eatSound.play(game.getSoundVolume());
+                }
             }
         }
         if (foods.get(0).getDeathTime() > 0.4f && !destroyed) {
@@ -93,6 +95,12 @@ public class LudumGamemode implements Gamemode {
 
     @Override
     public void endGame() {
+        if (player.getLives() < 0) {
+            loseSound.play();
+        }
+        if (destroyed && !foods.get(1).isAlive()) {
+            winSound.play();
+        }
         game.setScreen(new MainMenuScreen(game));
     }
 
@@ -114,5 +122,7 @@ public class LudumGamemode implements Gamemode {
     @Override
     public void dispose() {
         eatSound.dispose();
+        winSound.dispose();
+        loseSound.dispose();
     }
 }

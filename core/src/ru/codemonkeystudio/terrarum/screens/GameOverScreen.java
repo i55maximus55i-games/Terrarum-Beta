@@ -80,7 +80,12 @@ public class GameOverScreen implements Screen{
                 sound.play(game.getSoundVolume());
                 stage.dispose();
                 StatisticScreen.addRecord(gamemode, textField.getText(), time, score);
-                game.setScreen(new MainMenuScreen(game));
+                if (textField.getText().equals("ludum")) {
+                    game.setScreen(new MainMenuScreen(game, true));
+                }
+                else {
+                    game.setScreen(new MainMenuScreen(game));
+                }
             }
         });
 
