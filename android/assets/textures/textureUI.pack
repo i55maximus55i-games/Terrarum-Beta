@@ -1,5 +1,5 @@
 
-textureUI.png
+TextureUI.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
@@ -127,5 +127,12 @@ icon_logo
   xy: 487, 17
   size: 12, 12
   orig: 12, 12
+  offset: 0, 0
+  index: -1
+cursor
+  rotate: false
+  xy: 437, 6
+  size: 16, 6
+  orig: 16, 6
   offset: 0, 0
   index: -1

@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
@@ -39,6 +40,7 @@ public class GameOverScreen implements Screen{
 
     private float time;
     private int score;
+    private TextField textField;
 
     public GameOverScreen(Terrarum game, float time, int score){
         this.time = time;
@@ -62,7 +64,7 @@ public class GameOverScreen implements Screen{
 
     @Override
     public void show() {
-        stage = new Stage(new FitViewport(800,600, cam));
+        stage = new Stage(new FitViewport(960,540, cam));
         Gdx.input.setInputProcessor(stage);
 
         skin = new Skin();
@@ -89,20 +91,28 @@ public class GameOverScreen implements Screen{
             }
         });
 
+        TextField.TextFieldStyle textFieldStyle = new TextField.TextFieldStyle();
+        textFieldStyle.font = font_24;
+        textFieldStyle.fontColor = Color.GRAY;
+        textFieldStyle.focusedFontColor = Color.WHITE;
+        textFieldStyle.cursor = skin.getDrawable("cursor");
+
+        textField = new TextField("", textFieldStyle);
+        textField.setMessageText("Enter name");
+        textField.setMaxLength(10);
+
+
         int t = (int) time;
         Label timerLabel = new Label(game.bundle.get("timeLabel") + " " + String.format("%02d", t / 60) + ":" + (String.format("%02d", t % 60)), new Label.LabelStyle(font_32, Color.WHITE));
         Label scoreLabel = new Label(game.bundle.get("scoreLabel") + " " + score, new Label.LabelStyle(font_32, Color.WHITE));
 
-        table.add(timerLabel);
-        table.row();
-        table.add(scoreLabel);
-        table.row();
-        table.add(message).expandX().padTop(32);
-        table.row();
-        table.add(menuButton).size(260, 90).expandX().padTop(16);
+        table.add(message).expandX().padTop(32).row();
+        table.add(timerLabel).expandX().row();
+        table.add(scoreLabel).expandX().row();
+        table.add(textField).expandX().center().width(160).row();
+        table.add(menuButton).size(260, 90).expandX();
 
         stage.addActor(table);
-
     }
 
     @Override
@@ -113,7 +123,7 @@ public class GameOverScreen implements Screen{
         batch.setProjectionMatrix(cam.combined);
 
         stage.act(delta);
-        stage.setDebugAll(false);
+        stage.setDebugAll(true);
         stage.draw();
     }
 

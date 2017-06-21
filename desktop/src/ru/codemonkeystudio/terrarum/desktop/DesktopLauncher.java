@@ -8,8 +8,8 @@ import ru.codemonkeystudio.terrarum.Terrarum;
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		config.width = 1366;
-		config.height = 768;
+		config.width = 1920;
+		config.height = 1080;
 		config.fullscreen = false;
 		new LwjglApplication(new Terrarum(), config);
 	}
