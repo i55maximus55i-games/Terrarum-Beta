@@ -11,6 +11,7 @@ import ru.codemonkeystudio.terrarum.objects.Enemy;
 import ru.codemonkeystudio.terrarum.objects.Food;
 import ru.codemonkeystudio.terrarum.objects.GameWorld;
 import ru.codemonkeystudio.terrarum.objects.Player;
+import ru.codemonkeystudio.terrarum.screens.StatisticScreen;
 import ru.codemonkeystudio.terrarum.tools.GameRenderer;
 
 /**
@@ -41,11 +42,11 @@ public class ArcadeGamemode implements Gamemode {
     private boolean addFoodAndEnemy;
 
     @Override
-    public void init(Terrarum game, GameRenderer gameRenderer, GameWorld gameWorld, Player player) {
+    public void init(Terrarum game, GameRenderer gameRenderer, GameWorld gameWorld, Player player, ArrayList<Food> foods, ArrayList<Enemy> enemies) {
         this.game = game;
 
-        foods = new ArrayList<Food>();
-        enemies = new ArrayList<Enemy>();
+        this.foods = foods;
+        this.enemies = enemies;
 
         renderer = gameRenderer;
         this.gameWorld = gameWorld;
@@ -172,17 +173,7 @@ public class ArcadeGamemode implements Gamemode {
 
     @Override
     public void endGame() {
-
-    }
-
-    @Override
-    public ArrayList<Food> getFoods() {
-        return foods;
-    }
-
-    @Override
-    public ArrayList<Enemy> getEnemies() {
-        return enemies;
+        StatisticScreen.addRecord("Arcade", "lol", timer, score);
     }
 
     @Override

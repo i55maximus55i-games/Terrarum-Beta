@@ -55,6 +55,8 @@ public class GameScreen implements Screen {
         paused = false;
 
         tails = new ArrayList<Tail>();
+        foods = new ArrayList<Food>();
+        enemies = new ArrayList<Enemy>();
 
         gameWorld = new GameWorld();
         controlHandler = new TerrarumControlHandler();
@@ -66,10 +68,7 @@ public class GameScreen implements Screen {
         gameWorld.getWorld().setContactListener(new TerrarumContactListener(player));
 
         gm = new ArcadeGamemode();
-        gm.init(game, renderer, gameWorld, player);
-
-        foods = gm.getFoods();
-        enemies = gm.getEnemies();
+        gm.init(game, renderer, gameWorld, player, foods, enemies);
     }
 
     @Override
@@ -134,6 +133,7 @@ public class GameScreen implements Screen {
 
     private void gameOver() {
         musicPlayer.setPlaying(false);
+        gm.endGame();
         game.setScreen(new GameOverScreen(game, hud.getTimer(), gm.getScore()));
     }
 

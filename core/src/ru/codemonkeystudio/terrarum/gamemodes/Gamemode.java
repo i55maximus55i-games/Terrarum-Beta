@@ -14,14 +14,12 @@ import ru.codemonkeystudio.terrarum.tools.GameRenderer;
  */
 
 public interface Gamemode {
-    void init(Terrarum game, GameRenderer gameRenderer, GameWorld gameWorld, Player player);
+    void init(Terrarum game, GameRenderer gameRenderer, GameWorld gameWorld, Player player, ArrayList<Food> foods, ArrayList<Enemy> enemies);
 
     public void update(float delta);
     public boolean isGameOver();
     public void endGame();
 
-    public ArrayList<Food> getFoods();
-    public ArrayList<Enemy> getEnemies();
     public int getScore();
     public float getTimer();
 
