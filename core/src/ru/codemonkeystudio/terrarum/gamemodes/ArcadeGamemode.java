@@ -169,8 +169,7 @@ public class ArcadeGamemode implements Gamemode {
 
     @Override
     public void endGame() {
-        StatisticScreen.addRecord("Arcade", "test", timer, score);
-        game.setScreen(new GameOverScreen(game, timer, score));
+        game.setScreen(new GameOverScreen("Arcade" ,game, timer, score));
     }
 
     @Override

@@ -38,13 +38,9 @@ public class GameOverScreen implements Screen{
 
     private Sound sound;
 
-    private float time;
-    private int score;
     private TextField textField;
 
-    public GameOverScreen(final Terrarum game, float time, int score){
-        this.time = time;
-        this.score = score;
+    public GameOverScreen(final String gamemode, final Terrarum game, final float time, final int score){
         stage = new Stage();
         this.game = game;
         this.batch = game.batch;
@@ -59,10 +55,7 @@ public class GameOverScreen implements Screen{
         font_16 = new BitmapFont(Gdx.files.internal("fonts/Terrarum_16.fnt"), Gdx.files.internal("fonts/Terrarum_16.png"), false);
         font_24 = new BitmapFont(Gdx.files.internal("fonts/Terrarum_24.fnt"), Gdx.files.internal("fonts/Terrarum_24.png"), false);
         font_32 = new BitmapFont(Gdx.files.internal("fonts/Terrarum_32.fnt"), Gdx.files.internal("fonts/Terrarum_32.png"), false);
-    }
 
-    @Override
-    public void show() {
         stage = new Stage(new FitViewport(960,540, cam));
         Gdx.input.setInputProcessor(stage);
 
@@ -86,6 +79,7 @@ public class GameOverScreen implements Screen{
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 sound.play(game.getSoundVolume());
                 stage.dispose();
+                StatisticScreen.addRecord(gamemode, textField.getText(), time, score);
                 game.setScreen(new MainMenuScreen(game));
             }
         });
@@ -100,7 +94,6 @@ public class GameOverScreen implements Screen{
         textField.setMessageText("Enter name");
         textField.setMaxLength(10);
 
-
         int t = (int) time;
         Label timerLabel = new Label(game.bundle.get("timeLabel") + " " + String.format("%02d", t / 60) + ":" + (String.format("%02d", t % 60)), new Label.LabelStyle(font_32, Color.WHITE));
         Label scoreLabel = new Label(game.bundle.get("scoreLabel") + " " + score, new Label.LabelStyle(font_32, Color.WHITE));
@@ -108,10 +101,17 @@ public class GameOverScreen implements Screen{
         table.add(message).expandX().padTop(32).row();
         table.add(timerLabel).expandX().row();
         table.add(scoreLabel).expandX().row();
-        table.add(textField).expandX().center().width(160).row();
+        if (StatisticScreen.getRecords(gamemode)[9].score < score) {
+            table.add(textField).expandX().center().width(160).row();
+        }
         table.add(menuButton).size(260, 90).expandX();
 
         stage.addActor(table);
+    }
+
+    @Override
+    public void show() {
+
     }
 
     @Override

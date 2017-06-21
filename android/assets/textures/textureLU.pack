@@ -1,0 +1,68 @@
+
+textureLU.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+achievments_ac
+  rotate: false
+  xy: 1, 1
+  size: 64, 16
+  orig: 64, 16
+  offset: 0, 0
+  index: -1
+achievments_ps
+  rotate: false
+  xy: 67, 1
+  size: 64, 16
+  orig: 64, 16
+  offset: 0, 0
+  index: -1
+exit_ac
+  rotate: false
+  xy: 133, 1
+  size: 64, 16
+  orig: 64, 16
+  offset: 0, 0
+  index: -1
+exit_ps
+  rotate: false
+  xy: 199, 1
+  size: 64, 16
+  orig: 64, 16
+  offset: 0, 0
+  index: -1
+newGame_ac
+  rotate: false
+  xy: 265, 1
+  size: 64, 16
+  orig: 64, 16
+  offset: 0, 0
+  index: -1
+newGame_ps
+  rotate: false
+  xy: 331, 1
+  size: 64, 16
+  orig: 64, 16
+  offset: 0, 0
+  index: -1
+settings_ac
+  rotate: false
+  xy: 397, 1
+  size: 64, 16
+  orig: 64, 16
+  offset: 0, 0
+  index: -1
+settings_ps
+  rotate: false
+  xy: 463, 1
+  size: 64, 16
+  orig: 64, 16
+  offset: 0, 0
+  index: -1
+Terrarum
+  rotate: false
+  xy: 529, 1
+  size: 64, 16
+  orig: 64, 16
+  offset: 0, 0
+  index: -1
