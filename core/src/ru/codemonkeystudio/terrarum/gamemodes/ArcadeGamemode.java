@@ -11,6 +11,7 @@ import ru.codemonkeystudio.terrarum.objects.Enemy;
 import ru.codemonkeystudio.terrarum.objects.Food;
 import ru.codemonkeystudio.terrarum.objects.GameWorld;
 import ru.codemonkeystudio.terrarum.objects.Player;
+import ru.codemonkeystudio.terrarum.screens.GameOverScreen;
 import ru.codemonkeystudio.terrarum.screens.StatisticScreen;
 import ru.codemonkeystudio.terrarum.tools.GameRenderer;
 
@@ -42,24 +43,24 @@ public class ArcadeGamemode implements Gamemode {
     private boolean addFoodAndEnemy;
 
     @Override
-    public void init(Terrarum game, GameRenderer gameRenderer, GameWorld gameWorld, Player player, ArrayList<Food> foods, ArrayList<Enemy> enemies) {
+    public void init(Terrarum game, GameRenderer renderer, GameWorld gameWorld, Player player, ArrayList<Food> foods, ArrayList<Enemy> enemies) {
         this.game = game;
 
         this.foods = foods;
         this.enemies = enemies;
 
-        renderer = gameRenderer;
-        this.gameWorld = gameWorld;
         this.player = player;
-
-        score = 0;
-        eaten = 0;
-        timer = 0;
-        addFoodAndEnemyTimer = 0;
-        addFoodAndEnemy = true;
+        this.renderer = renderer;
+        this.gameWorld = gameWorld;
 
         eatSound = Gdx.audio.newSound(Gdx.files.internal("sounds/eat.wav"));
         enemySound = Gdx.audio.newSound(Gdx.files.internal("sounds/enemy.wav"));
+
+        score = 0;
+        timer = 0;
+        eaten = 0;
+        addFoodAndEnemyTimer = 0;
+        addFoodAndEnemy = true;
     }
 
     @Override
@@ -163,17 +164,13 @@ public class ArcadeGamemode implements Gamemode {
 
     @Override
     public boolean isGameOver() {
-        if (player.getLives() < 0) {
-            return true;
-        }
-        else {
-            return false;
-        }
+        return player.getLives() < 0;
     }
 
     @Override
     public void endGame() {
-        StatisticScreen.addRecord("Arcade", "lol", timer, score);
+        StatisticScreen.addRecord("Arcade", "test", timer, score);
+        game.setScreen(new GameOverScreen(game, timer, score));
     }
 
     @Override

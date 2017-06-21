@@ -24,7 +24,7 @@ import ru.codemonkeystudio.terrarum.Terrarum;
  * Экран проигрыша
  */
 
-class GameOverScreen implements Screen{
+public class GameOverScreen implements Screen{
 
     private SpriteBatch batch;
     private Terrarum game;
@@ -40,7 +40,7 @@ class GameOverScreen implements Screen{
     private float time;
     private int score;
 
-    GameOverScreen(Terrarum game, float time, int score){
+    public GameOverScreen(Terrarum game, float time, int score){
         this.time = time;
         this.score = score;
         stage = new Stage();
@@ -69,7 +69,7 @@ class GameOverScreen implements Screen{
         atlas = new TextureAtlas(Gdx.files.internal("textures/textureUI.pack"));
         skin.addRegions(atlas);
 
-        Label message = new Label(game.bundle.get("loseLabel"), new Label.LabelStyle(font_32, Color.GREEN));
+        Label message = new Label(game.bundle.get("gameOverLabel"), new Label.LabelStyle(font_32, Color.GREEN));
 
         TextButton.TextButtonStyle menuButtonStyle = new TextButton.TextButtonStyle();
         menuButtonStyle.font = font_24;
