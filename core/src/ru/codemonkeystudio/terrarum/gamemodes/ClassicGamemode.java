@@ -38,7 +38,6 @@ public class ClassicGamemode implements Gamemode {
     //счётчики
     private float timer;
     private int score;
-    private boolean isOver;
 
     @Override
     public void init(Terrarum game, GameRenderer renderer, GameWorld gameWorld, Player player, ArrayList<Food> foods, ArrayList<Enemy> enemies) {
@@ -56,8 +55,6 @@ public class ClassicGamemode implements Gamemode {
 
         score = 0;
         timer = 0;
-        isOver = false;
-
         addFoodAndEnemy();
     }
 
@@ -101,6 +98,7 @@ public class ClassicGamemode implements Gamemode {
 
     @Override
     public boolean isGameOver() {
+        boolean isOver = false;
         if (player.getLives() < 0) {
             isOver = true;
         }
@@ -137,18 +135,24 @@ public class ClassicGamemode implements Gamemode {
     }
 
     @Override
-    public void dispose() {
+    public int getWorldSize() {
+        return 8;
+    }
 
+    @Override
+    public void dispose() {
+        eatSound.dispose();
+        enemySound.dispose();
     }
 
     private void addFoodAndEnemy() {
-        for (int i = 0; i < GameWorld.WORLD_SIZE; i++) {
-            foods.add(new Food(gameWorld.getWorld(), renderer.getRayHandler(), GameWorld.WORLD_SIZE * 64 - 16, i * 64 + 16));
-            enemies.add(new Enemy(gameWorld.getWorld(), renderer.getRayHandler(), GameWorld.WORLD_SIZE * 64 - 16, i * 64 + 48));
+        for (int i = 0; i < gameWorld.WORLD_SIZE; i++) {
+            foods.add(new Food(gameWorld.getWorld(), renderer.getRayHandler(), gameWorld.WORLD_SIZE * 64 - 16, i * 64 + 16));
+            enemies.add(new Enemy(gameWorld.getWorld(), renderer.getRayHandler(), gameWorld.WORLD_SIZE * 64 - 16, i * 64 + 48));
         }
-        for(int i = 0; i < GameWorld.WORLD_SIZE - 1; i++) {
-            foods.add(new Food(gameWorld.getWorld(), renderer.getRayHandler(), i * 64 + 16, GameWorld.WORLD_SIZE * 64 - 16));
-            enemies.add(new Enemy(gameWorld.getWorld(), renderer.getRayHandler(), i * 64 + 48, GameWorld.WORLD_SIZE * 64 - 16));
+        for(int i = 0; i < gameWorld.WORLD_SIZE - 1; i++) {
+            foods.add(new Food(gameWorld.getWorld(), renderer.getRayHandler(), i * 64 + 16, gameWorld.WORLD_SIZE * 64 - 16));
+            enemies.add(new Enemy(gameWorld.getWorld(), renderer.getRayHandler(), i * 64 + 48, gameWorld.WORLD_SIZE * 64 - 16));
         }
     }
 }

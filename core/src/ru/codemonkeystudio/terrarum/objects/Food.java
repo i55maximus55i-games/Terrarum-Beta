@@ -98,4 +98,13 @@ public class Food implements Disposable {
         light.setActive(false);
         dispose();
     }
+
+    public void update(float delta, boolean stopped) {
+        if (!isAlive) {
+            if (light.getDistance() > 5) {
+                light.setDistance(light.getDistance() - 3);
+            }
+            deathTime += delta;
+        }
+    }
 }

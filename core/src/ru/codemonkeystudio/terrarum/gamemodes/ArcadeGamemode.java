@@ -134,31 +134,31 @@ public class ArcadeGamemode implements Gamemode {
     }
 
     private void addFood() {
-        for (int i = 0; i < GameWorld.WORLD_SIZE; i++) {
-            foods.add(new Food(gameWorld.getWorld(), renderer.getRayHandler(), GameWorld.WORLD_SIZE * 64 - 16, i * 64 + 16));
+        for (int i = 0; i < gameWorld.WORLD_SIZE; i++) {
+            foods.add(new Food(gameWorld.getWorld(), renderer.getRayHandler(), gameWorld.WORLD_SIZE * 64 - 16, i * 64 + 16));
         }
-        for(int i = 0; i < GameWorld.WORLD_SIZE - 1; i++) {
-            foods.add(new Food(gameWorld.getWorld(), renderer.getRayHandler(), i * 64 + 16, GameWorld.WORLD_SIZE * 64 - 16));
+        for(int i = 0; i < gameWorld.WORLD_SIZE - 1; i++) {
+            foods.add(new Food(gameWorld.getWorld(), renderer.getRayHandler(), i * 64 + 16, gameWorld.WORLD_SIZE * 64 - 16));
         }
     }
 
     private void addEnemy() {
-        if (player.getBody().getPosition().dst(16, 16) > player.getBody().getPosition().dst(GameWorld.WORLD_SIZE * 64 - 16, GameWorld.WORLD_SIZE * 64 - 16)) {
+        if (player.getBody().getPosition().dst(16, 16) > player.getBody().getPosition().dst(gameWorld.WORLD_SIZE * 64 - 16, gameWorld.WORLD_SIZE * 64 - 16)) {
             enemies.add(new Enemy(gameWorld.getWorld(), renderer.getRayHandler(), 16, 16));
         }
         else {
-            enemies.add(new Enemy(gameWorld.getWorld(), renderer.getRayHandler(), GameWorld.WORLD_SIZE * 64 - 16, GameWorld.WORLD_SIZE * 64 - 16));
+            enemies.add(new Enemy(gameWorld.getWorld(), renderer.getRayHandler(), gameWorld.WORLD_SIZE * 64 - 16, gameWorld.WORLD_SIZE * 64 - 16));
         }
     }
 
     private void addFoodAndEnemy() {
-        for (int i = 0; i < GameWorld.WORLD_SIZE; i++) {
-            foods.add(new Food(gameWorld.getWorld(), renderer.getRayHandler(), GameWorld.WORLD_SIZE * 64 - 16, i * 64 + 16));
-            enemies.add(new Enemy(gameWorld.getWorld(), renderer.getRayHandler(), GameWorld.WORLD_SIZE * 64 - 16, i * 64 + 48));
+        for (int i = 0; i < gameWorld.WORLD_SIZE; i++) {
+            foods.add(new Food(gameWorld.getWorld(), renderer.getRayHandler(), gameWorld.WORLD_SIZE * 64 - 16, i * 64 + 16));
+            enemies.add(new Enemy(gameWorld.getWorld(), renderer.getRayHandler(), gameWorld.WORLD_SIZE * 64 - 16, i * 64 + 48));
         }
-        for(int i = 0; i < GameWorld.WORLD_SIZE - 1; i++) {
-            foods.add(new Food(gameWorld.getWorld(), renderer.getRayHandler(), i * 64 + 16, GameWorld.WORLD_SIZE * 64 - 16));
-            enemies.add(new Enemy(gameWorld.getWorld(), renderer.getRayHandler(), i * 64 + 48, GameWorld.WORLD_SIZE * 64 - 16));
+        for(int i = 0; i < gameWorld.WORLD_SIZE - 1; i++) {
+            foods.add(new Food(gameWorld.getWorld(), renderer.getRayHandler(), i * 64 + 16, gameWorld.WORLD_SIZE * 64 - 16));
+            enemies.add(new Enemy(gameWorld.getWorld(), renderer.getRayHandler(), i * 64 + 48, gameWorld.WORLD_SIZE * 64 - 16));
         }
     }
 
@@ -181,6 +181,11 @@ public class ArcadeGamemode implements Gamemode {
     @Override
     public float getTimer() {
         return timer;
+    }
+
+    @Override
+    public int getWorldSize() {
+        return 8;
     }
 
     @Override

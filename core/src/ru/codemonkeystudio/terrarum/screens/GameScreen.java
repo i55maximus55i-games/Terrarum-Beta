@@ -2,7 +2,9 @@ package ru.codemonkeystudio.terrarum.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 
 import java.util.ArrayList;
@@ -12,6 +14,7 @@ import ru.codemonkeystudio.terrarum.Terrarum;
 import ru.codemonkeystudio.terrarum.gamemodes.ArcadeGamemode;
 import ru.codemonkeystudio.terrarum.gamemodes.ClassicGamemode;
 import ru.codemonkeystudio.terrarum.gamemodes.Gamemode;
+import ru.codemonkeystudio.terrarum.gamemodes.LudumGamemode;
 import ru.codemonkeystudio.terrarum.objects.Enemy;
 import ru.codemonkeystudio.terrarum.objects.Food;
 import ru.codemonkeystudio.terrarum.objects.GameWorld;
@@ -58,16 +61,17 @@ public class GameScreen implements Screen {
         foods = new ArrayList<Food>();
         enemies = new ArrayList<Enemy>();
 
-        gameWorld = new GameWorld();
         controlHandler = new TerrarumControlHandler();
-        renderer = new GameRenderer(game.batch, gameWorld, tails);
         hud = new Hud(game, this);
         musicPlayer = new MusicPlayer(game.getMusicVolume());
 
+        gm = new LudumGamemode();
+
+        gameWorld = new GameWorld(gm.getWorldSize());
+        renderer = new GameRenderer(game.batch, gameWorld, tails, gameWorld.WORLD_SIZE);
         player = new Player(gameWorld.getWorld(), controlHandler, game.isStickControl(), renderer.getRayHandler(), game.getSoundVolume());
         gameWorld.getWorld().setContactListener(new TerrarumContactListener(player));
 
-        gm = new ClassicGamemode();
         gm.init(game, renderer, gameWorld, player, foods, enemies);
     }
 

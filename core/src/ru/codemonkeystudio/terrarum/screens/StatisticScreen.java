@@ -85,7 +85,7 @@ public class StatisticScreen implements Screen {
         preferences.flush();
     }
 
-    private Record[] getRecords (String gamemode) {
+    public static Record[] getRecords (String gamemode) {
         Record[] records = new Record[10];
         Preferences preferences = Gdx.app.getPreferences("Terrarum records " + gamemode);
         for (int i = 0; i < 10; i++) {

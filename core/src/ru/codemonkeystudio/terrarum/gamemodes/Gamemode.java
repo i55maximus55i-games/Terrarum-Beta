@@ -14,7 +14,7 @@ import ru.codemonkeystudio.terrarum.tools.GameRenderer;
  */
 
 public interface Gamemode {
-    void init(Terrarum game, GameRenderer gameRenderer, GameWorld gameWorld, Player player, ArrayList<Food> foods, ArrayList<Enemy> enemies);
+    void init(Terrarum game, GameRenderer renderer, GameWorld gameWorld, Player player, ArrayList<Food> foods, ArrayList<Enemy> enemies);
 
     public void update(float delta);
     public boolean isGameOver();
@@ -22,6 +22,7 @@ public interface Gamemode {
 
     public int getScore();
     public float getTimer();
+    public int getWorldSize();
 
     public void dispose();
 }
