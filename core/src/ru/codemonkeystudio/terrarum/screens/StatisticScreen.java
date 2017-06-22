@@ -3,6 +3,7 @@ package ru.codemonkeystudio.terrarum.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -39,12 +40,19 @@ public class StatisticScreen implements Screen {
     private BitmapFont font_16,font_24,font_32;
 
     private TextButton leftButton;
+    private Label[] name, score, time;
 
-    public StatisticScreen(Terrarum game) {
+    private int cursor;
+    private String[] gamemodes = {"Arcade", "Classic"};
+    private Sound sound;
+
+    public StatisticScreen(final Terrarum game) {
         camera = new OrthographicCamera();
         stage = new Stage(new FitViewport(800,600, camera));
         Gdx.input.setInputProcessor(stage);
         batch = game.batch;
+
+        sound = Gdx.audio.newSound(Gdx.files.internal("sounds/select.wav"));
 
         font_16 = new BitmapFont(Gdx.files.internal("fonts/Terrarum_16.fnt"), Gdx.files.internal("fonts/Terrarum_16.png"), false);
         font_24 = new BitmapFont(Gdx.files.internal("fonts/Terrarum_24.fnt"), Gdx.files.internal("fonts/Terrarum_24.png"), false);
@@ -57,6 +65,25 @@ public class StatisticScreen implements Screen {
         skin = new Skin();
         atlas = new TextureAtlas(Gdx.files.internal("textures/textureUI.pack"));
         skin.addRegions(atlas);
+
+        Label.LabelStyle labelStyle = new Label.LabelStyle();
+        labelStyle.font = font_24;
+        labelStyle.fontColor = Color.WHITE;
+
+        final Label label1 = new Label(gamemodes[gamemodes.length - 1], labelStyle);
+        label1.setColor(Color.GRAY);
+        final Label label2 = new Label(gamemodes[0], labelStyle);
+        final Label label3 = new Label(gamemodes[1], labelStyle);
+        label3.setColor(Color.GRAY);
+
+        name = new Label[10];
+        score = new Label[10];
+        time = new Label[10];
+        for (int i = 0; i < 10; i++) {
+            name[i] = new Label("", labelStyle);
+            time[i] = new Label("", labelStyle);
+            score[i] = new Label("", labelStyle);
+        }
 
         TextButton.TextButtonStyle leftButtonStyle = new TextButton.TextButtonStyle();
         leftButtonStyle.font = font_24;
@@ -71,7 +98,26 @@ public class StatisticScreen implements Screen {
         leftButton.addListener(new ClickListener() {
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-
+                super.touchUp(event, x, y, pointer, button);
+                cursor--;
+                if (cursor < 0) {
+                    cursor = gamemodes.length - 1;
+                }
+                label2.setText(gamemodes[cursor]);
+                if (cursor <= 0) {
+                    label1.setText(gamemodes[gamemodes.length - 1]);
+                }
+                else {
+                    label1.setText(gamemodes[cursor - 1]);
+                }
+                if (cursor >= gamemodes.length - 1) {
+                    label3.setText(gamemodes[0]);
+                }
+                else {
+                    label3.setText(gamemodes[cursor + 1]);
+                }
+                updateTable(gamemodes[cursor]);
+                sound.play(game.getSoundVolume());
             }
         });
 
@@ -86,19 +132,28 @@ public class StatisticScreen implements Screen {
         rightButton.addListener(new ClickListener() {
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-
+                super.touchUp(event, x, y, pointer, button);
+                cursor++;
+                if (cursor >= gamemodes.length) {
+                    cursor = 0;
+                }
+                label2.setText(gamemodes[cursor]);
+                if (cursor <= 0) {
+                    label1.setText(gamemodes[gamemodes.length - 1]);
+                }
+                else {
+                    label1.setText(gamemodes[cursor - 1]);
+                }
+                if (cursor >= gamemodes.length - 1) {
+                    label3.setText(gamemodes[0]);
+                }
+                else {
+                    label3.setText(gamemodes[cursor + 1]);
+                }
+                updateTable(gamemodes[cursor]);
+                sound.play(game.getSoundVolume());
             }
         });
-
-        Label.LabelStyle labelStyle = new Label.LabelStyle();
-        labelStyle.font = font_24;
-        labelStyle.fontColor = Color.WHITE;
-
-        Label label1 = new Label("gamemode", labelStyle);
-        label1.setColor(Color.GRAY);
-        Label label2 = new Label("gamemode", labelStyle);
-        Label label3 = new Label("gamemode", labelStyle);
-        label3.setColor(Color.GRAY);
 
         TextButton.TextButtonStyle menuButtonStyle = new TextButton.TextButtonStyle();
         menuButtonStyle.font = font_24;
@@ -112,7 +167,9 @@ public class StatisticScreen implements Screen {
         menuButton.addListener(new ClickListener(){
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-
+                sound.play(game.getSoundVolume());
+                stage.dispose();
+                game.setScreen(new MainMenuScreen(game));
             }
         });
 
@@ -122,11 +179,28 @@ public class StatisticScreen implements Screen {
         table.add(label3).expandX();
         table.add(rightButton).padLeft(16).size(72, 72).left();
         table.row();
+
+        table.add();
+        table.add(new Label("name", labelStyle));
+        table.add(new Label("time", labelStyle));
+        table.add(new Label("score", labelStyle));
+        table.row();
+
+        for (int i = 0; i < 10; i++) {
+            table.add(new Label((i + 1) + ".", labelStyle));
+            table.add(name[i]);
+            table.add(time[i]);
+            table.add(score[i]);
+            table.row();
+        }
+
         table.add();
         table.add();
         table.add(menuButton).size(260, 90).center().expandX();
 
         stage.addActor(table);
+
+        updateTable(gamemodes[cursor]);
     }
 
     @Override
@@ -168,7 +242,14 @@ public class StatisticScreen implements Screen {
 
     @Override
     public void dispose() {
+        stage.dispose();
+        atlas.dispose();
+        skin.dispose();
+        sound.dispose();
 
+        font_16.dispose();
+        font_24.dispose();
+        font_32.dispose();
     }
 
     public static void addRecord(String gamemode, String playerName, float time, int score) {
@@ -214,5 +295,14 @@ public class StatisticScreen implements Screen {
             records[i] = new Record(preferences.getString("name" + i, ""), preferences.getFloat("time" + i, 0f), preferences.getInteger("score" + i, 0));
         }
         return records;
+    }
+
+    private void updateTable(String gamemode) {
+        Record[] records = getRecords(gamemode);
+        for (int i = 0; i < 10; i++) {
+            name[i].setText(records[i].name);
+            time[i].setText(String.format("%02d", (int)(records[i].time) / 60) + ":" + (String.format("%02d", (int)(records[i].time) % 60)));
+            score[i].setText(records[i].score + "");
+        }
     }
 }
