@@ -120,9 +120,9 @@ public class GameWorld implements Disposable{
         createWall(32 * WORLD_SIZE, 4 + 64 * WORLD_SIZE, 32 * WORLD_SIZE, 4);
     }
 
-    public void update(float delta, Vector2 playerPos) {
+    public void update(float delta, Vector2 playerPos, boolean regen) {
         timer += delta;
-        if (timer > 4) {
+        if (timer > 4 && regen) {
             int xx = (int) (playerPos.x / 64);
             int yy = (int) (playerPos.y / 64);
             int[][] grid = new int[WORLD_SIZE][WORLD_SIZE];

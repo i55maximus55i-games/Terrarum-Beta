@@ -3,7 +3,6 @@ package ru.codemonkeystudio.terrarum.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -16,7 +15,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
@@ -29,7 +27,6 @@ import ru.codemonkeystudio.terrarum.gamemodes.LudumGamemode;
  */
 public class MainMenuScreen implements Screen {
 	private SpriteBatch batch;
-	private Terrarum game;
 	private OrthographicCamera gamecam;
 
 	//menu assets
@@ -40,10 +37,11 @@ public class MainMenuScreen implements Screen {
 	private Skin skin;
     private Texture back;
 
+	private boolean ludum;
+
 	public MainMenuScreen(final Terrarum game) {
 		stage = new Stage();
-		this.game = game;
-		this.batch = game.batch;
+		batch = game.batch;
 		gamecam = new OrthographicCamera();
 
 		sound = Gdx.audio.newSound(Gdx.files.internal("sounds/select.wav"));
@@ -122,8 +120,9 @@ public class MainMenuScreen implements Screen {
 		statistic.addListener(new ClickListener() {
 			@Override
 			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-				super.touchUp(event, x, y, pointer, button);
+				stage.dispose();
 				sound.play(game.getSoundVolume());
+				game.setScreen(new StatisticScreen(game));
 			}
 		});
 
@@ -160,15 +159,14 @@ public class MainMenuScreen implements Screen {
 		stage.addActor(table);
 	}
 
-	public MainMenuScreen(final Terrarum game, boolean ludum) {
+	public MainMenuScreen(final Terrarum game, final boolean ludum) {
 		stage = new Stage();
-		this.game = game;
 		this.batch = game.batch;
 		gamecam = new OrthographicCamera();
 
-		sound = Gdx.audio.newSound(Gdx.files.internal("sounds/select.wav"));
+		this.ludum = ludum;
 
-		back = new Texture("textures/back.jpg");
+		sound = Gdx.audio.newSound(Gdx.files.internal("sounds/select.wav"));
 
 		font_16 = new BitmapFont(Gdx.files.internal("fonts/Terrarum_16.fnt"), Gdx.files.internal("fonts/Terrarum_16.png"), false);
 		font_24 = new BitmapFont(Gdx.files.internal("fonts/Terrarum_24.fnt"), Gdx.files.internal("fonts/Terrarum_24.png"), false);
@@ -228,7 +226,7 @@ public class MainMenuScreen implements Screen {
 			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
 				stage.dispose();
 				sound.play(game.getSoundVolume());
-				game.setScreen(new GameScreen(game, new LudumGamemode(), true));
+				game.setScreen(new GameScreen(game, new LudumGamemode(), ludum));
 			}
 		});
 
@@ -273,9 +271,11 @@ public class MainMenuScreen implements Screen {
 		gamecam.update();
 		batch.setProjectionMatrix(gamecam.combined);
 
-		batch.begin();
-		batch.draw(back, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		batch.end();
+		if (!ludum) {
+			batch.begin();
+			batch.draw(back, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+			batch.end();
+		}
 
 		stage.act(delta);
 		stage.setDebugAll(false);

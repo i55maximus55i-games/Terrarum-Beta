@@ -114,7 +114,7 @@ public class GameScreen implements Screen {
         //обновление объектов
         musicPlayer.update();
         player.update(delta);
-        gameWorld.update(delta, player.getBody().getPosition());
+        gameWorld.update(delta, player.getBody().getPosition(), !ludum);
         renderer.update(delta, player.getBody().getPosition().x, player.getBody().getPosition().y, nearest != -1, (nearest == -1 ? new Vector2(0, 0) : controlHandler.vectorSinCos(foods.get(nearest).getBody().getPosition().sub(player.getBody().getPosition()))), game.isStickControl());
         hud.update(gm.getTimer(), player.getLives(), gm.getScore());
 
