@@ -230,8 +230,8 @@ public class Hud implements Disposable {
         label.setPosition(400, 600 - label.getHeight() / 2, 1);
 
         Button.ButtonStyle exitStyle = new Button.ButtonStyle();
-        exitStyle.up = skin.getDrawable("btn_back");
-        exitStyle.down = skin.getDrawable("btn_back_pressed");
+        exitStyle.up = skin.getDrawable("btn_left");
+        exitStyle.down = skin.getDrawable("btn_left_pressed");
         exitStyle.pressedOffsetX = 1;
         exitStyle.pressedOffsetY = -1;
 

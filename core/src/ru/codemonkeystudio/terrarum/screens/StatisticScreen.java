@@ -72,9 +72,12 @@ public class StatisticScreen implements Screen {
 
         final Label label1 = new Label(gamemodes[gamemodes.length - 1], labelStyle);
         label1.setColor(Color.GRAY);
+        label1.setAlignment(1);
         final Label label2 = new Label(gamemodes[0], labelStyle);
+        label2.setAlignment(1);
         final Label label3 = new Label(gamemodes[1], labelStyle);
         label3.setColor(Color.GRAY);
+        label3.setAlignment(1);
 
         name = new Label[10];
         score = new Label[10];
@@ -174,23 +177,23 @@ public class StatisticScreen implements Screen {
         });
 
         table.add(leftButton).padRight(16).size(72, 72).left();
-        table.add(label1).expandX();
-        table.add(label2).expandX();
-        table.add(label3).expandX();
-        table.add(rightButton).padLeft(16).size(72, 72).left();
+        table.add(label1).center().expandX();
+        table.add(label2).center().expandX();
+        table.add(label3).center().expandX();
+        table.add(rightButton).padLeft(16).size(72, 72).right();
         table.row();
 
         table.add();
-        table.add(new Label("name", labelStyle));
-        table.add(new Label("time", labelStyle));
-        table.add(new Label("score", labelStyle));
+        table.add(new Label("name", labelStyle)).center().expandX();
+        table.add(new Label("time", labelStyle)).center().expandX();
+        table.add(new Label("score", labelStyle)).center().expandX();
         table.row();
 
         for (int i = 0; i < 10; i++) {
-            table.add(new Label((i + 1) + ".", labelStyle));
-            table.add(name[i]);
-            table.add(time[i]);
-            table.add(score[i]);
+            table.add(new Label((i + 1) + ".", labelStyle)).center().expandX();
+            table.add(name[i]).center().expandX();
+            table.add(time[i]).center().expandX();
+            table.add(score[i]).center().expandX();
             table.row();
         }
 
@@ -216,7 +219,7 @@ public class StatisticScreen implements Screen {
         batch.setProjectionMatrix(camera.combined);
 
         stage.act(delta);
-        stage.setDebugAll(true);
+        stage.setDebugAll(false);
         stage.draw();
     }
 

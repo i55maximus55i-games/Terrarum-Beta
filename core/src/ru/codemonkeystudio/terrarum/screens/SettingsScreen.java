@@ -169,14 +169,14 @@ class SettingsScreen implements Screen {
         tableTop.add(exit).size(72, 72).left();
         tableTop.add(label).center().expandX();
 
-        table.add(musicFx).expandX().padTop(10);
-        table.add(musicVolumeSlider).expandX().padTop(10);
+        table.add(musicFx).expandX().padTop(10).center();
+        table.add(musicVolumeSlider).expandX().padTop(10).center();
         table.row();
-        table.add(soundFx).expandX().padTop(10);
-        table.add(soundVolumeSlider).expandX().padTop(10);
+        table.add(soundFx).expandX().padTop(10).center();
+        table.add(soundVolumeSlider).expandX().padTop(10).center();
         table.row();
-        table.add(handle).expandX().padTop(10);
-        table.add(controlHeading).expandX().padTop(10);
+        table.add(handle).expandX().padTop(10).center();
+        table.add(controlHeading).padTop(10).center().expandX().width(98);
 
         stage.addActor(tableTop);
         stage.addActor(table);
@@ -193,6 +193,7 @@ class SettingsScreen implements Screen {
         batch.setProjectionMatrix(cam.combined);
 
         stage.act(delta);
+        stage.setDebugAll(true);
         stage.draw();
         stickControl = game.isStickControl();
     }
