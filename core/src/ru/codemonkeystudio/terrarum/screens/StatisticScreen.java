@@ -41,12 +41,14 @@ public class StatisticScreen implements Screen {
 
     private TextButton leftButton;
     private Label[] name, score, time;
+    private Label avgTime, avgScore, gameCount;
+
 
     private int cursor;
     private String[] gamemodes = {"Arcade", "Classic"};
     private Sound sound;
 
-    public StatisticScreen(final Terrarum game) {
+    StatisticScreen(final Terrarum game) {
         camera = new OrthographicCamera();
         stage = new Stage(new FitViewport(800,600, camera));
         Gdx.input.setInputProcessor(stage);
@@ -59,8 +61,12 @@ public class StatisticScreen implements Screen {
         font_32 = new BitmapFont(Gdx.files.internal("fonts/Terrarum_32.fnt"), Gdx.files.internal("fonts/Terrarum_32.png"), false);
 
         Table table = new Table();
-        table.center();
+        table.top();
         table.setFillParent(true);
+
+        Table table3 = new Table();
+        table3.bottom();
+        table3.setFillParent(true);
 
         skin = new Skin();
         atlas = new TextureAtlas(Gdx.files.internal("textures/textureUI.pack"));
@@ -69,6 +75,11 @@ public class StatisticScreen implements Screen {
         Label.LabelStyle labelStyle = new Label.LabelStyle();
         labelStyle.font = font_24;
         labelStyle.fontColor = Color.WHITE;
+
+        avgTime = new Label("", labelStyle);
+        avgScore = new Label("", labelStyle);
+        gameCount = new Label("", labelStyle);
+
 
         final Label label1 = new Label(gamemodes[gamemodes.length - 1], labelStyle);
         label1.setColor(Color.GRAY);
@@ -182,8 +193,21 @@ public class StatisticScreen implements Screen {
         table.add(label3).center().expandX();
         table.add(rightButton).padLeft(16).size(72, 72).right();
         table.row();
-
         table.add();
+
+//        table3.add(new Label("gameCount", labelStyle));
+//        table3.add(gameCount);
+//        table3.row();
+//        table3.add();
+//        table3.add(new Label("avgTime", labelStyle));
+//        table3.add(avgTime);
+//        table3.row();
+//        table3.add();
+//        table3.add(new Label("avgScore", labelStyle));
+//        table3.add(avgScore);
+//        table3.row();
+//        table3.add();
+
         table.add(new Label("name", labelStyle)).center().expandX();
         table.add(new Label("time", labelStyle)).center().expandX();
         table.add(new Label("score", labelStyle)).center().expandX();
@@ -202,6 +226,7 @@ public class StatisticScreen implements Screen {
         table.add(menuButton).size(260, 90).center().expandX();
 
         stage.addActor(table);
+        stage.addActor(table3);
 
         updateTable(gamemodes[cursor]);
     }
@@ -255,7 +280,7 @@ public class StatisticScreen implements Screen {
         font_32.dispose();
     }
 
-    public static void addRecord(String gamemode, String playerName, float time, int score) {
+    static void addRecord(String gamemode, String playerName, float time, int score) {
         Record[] records = new Record[11];
         Preferences preferences = Gdx.app.getPreferences("Terrarum records " + gamemode);
         for (int i = 0; i < 10; i++) {
@@ -291,8 +316,23 @@ public class StatisticScreen implements Screen {
         preferences.flush();
     }
 
-    public static Record[] getRecords (String gamemode) {
-        Record[] records = new Record[10];
+    public static void addResult(String gamemode, float time, int score) {
+        Preferences preferences = Gdx.app.getPreferences("Terrarum records " + gamemode);
+
+        long tm = preferences.getLong("time", 0);
+        tm += (int)(time);
+        preferences.putLong("time", tm);
+        long count = preferences.getLong("count", 0);
+        count++;
+        preferences.putLong("count", count);
+        long scr = preferences.getLong("score", 0);
+        scr += score;
+        preferences.putLong("score", scr);
+        preferences.flush();
+    }
+
+    static Record[] getRecords(String gamemode) {
+        Record[] records = new Record[13];
         Preferences preferences = Gdx.app.getPreferences("Terrarum records " + gamemode);
         for (int i = 0; i < 10; i++) {
             records[i] = new Record(preferences.getString("name" + i, ""), preferences.getFloat("time" + i, 0f), preferences.getInteger("score" + i, 0));
@@ -307,5 +347,20 @@ public class StatisticScreen implements Screen {
             time[i].setText(String.format("%02d", (int)(records[i].time) / 60) + ":" + (String.format("%02d", (int)(records[i].time) % 60)));
             score[i].setText(records[i].score + "");
         }
+        Preferences preferences = Gdx.app.getPreferences("Terrarum records " + gamemode);
+        gameCount.setText(preferences.getLong("count") + "");
+        if (preferences.getLong("count") == 0) {
+            avgTime.setText("00:00");
+            avgScore.setText("0");
+        }
+        else {
+            int avg;
+            avg = (int) (preferences.getLong("time") / preferences.getLong("count"));
+            avgTime.setText(String.format("%02d", avg / 60) + ":" + (String.format("%02d", avg % 60)));
+            avg = (int) (preferences.getLong("score") / preferences.getLong("count"));
+            avgScore.setText(avg + "");
+        }
     }
+
+
 }

@@ -120,6 +120,7 @@ public class ClassicGamemode implements Gamemode {
         if (timer < 150f && player.getLives() >= 0) {
             score = (int) ((150 - timer) * 50);
         }
+        StatisticScreen.addResult("Classic", timer, this.score + score);
         game.setScreen(new GameOverScreen("Classic", game, timer, this.score + score));
     }
 
