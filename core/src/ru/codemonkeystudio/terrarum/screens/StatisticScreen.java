@@ -22,7 +22,6 @@ import java.util.Arrays;
 import java.util.Comparator;
 
 import ru.codemonkeystudio.terrarum.Terrarum;
-import ru.codemonkeystudio.terrarum.gamemodes.LudumGamemode;
 import ru.codemonkeystudio.terrarum.objects.Record;
 
 /**
@@ -61,8 +60,8 @@ public class StatisticScreen implements Screen {
 
         TextButton.TextButtonStyle leftButtonStyle = new TextButton.TextButtonStyle();
         leftButtonStyle.font = font_24;
-        leftButtonStyle.up = skin.getDrawable("btn_play");
-        leftButtonStyle.down = skin.getDrawable("btn_play_pressed");
+        leftButtonStyle.up = skin.getDrawable("btn_left");
+        leftButtonStyle.down = skin.getDrawable("btn_left_pressed");
         leftButtonStyle.pressedOffsetX = 1;
         leftButtonStyle.pressedOffsetY = -1;
 
@@ -78,14 +77,12 @@ public class StatisticScreen implements Screen {
 
         TextButton.TextButtonStyle rightButtonStyle = new TextButton.TextButtonStyle();
         rightButtonStyle.font = font_24;
-        rightButtonStyle.up = skin.getDrawable("btn_play");
-        rightButtonStyle.down = skin.getDrawable("btn_play_pressed");
+        rightButtonStyle.up = skin.getDrawable("btn_right");
+        rightButtonStyle.down = skin.getDrawable("btn_right_pressed");
         rightButtonStyle.pressedOffsetX = 1;
         rightButtonStyle.pressedOffsetY = -1;
 
         rightButton = new TextButton("", rightButtonStyle);
-        rightButton.setSize(90, 90);
-        rightButton.setPosition(stage.getWidth()/2, (stage.getHeight()/6)*4, 1);
         rightButton.addListener(new ClickListener() {
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
@@ -119,15 +116,15 @@ public class StatisticScreen implements Screen {
             }
         });
 
-        table.add(leftButton).padRight(10);
-        table.add(label1);
-        table.add(label2);
-        table.add(label3);
-        table.add(rightButton).padLeft(10);
+        table.add(leftButton).padRight(16).size(72, 72).left();
+        table.add(label1).expandX();
+        table.add(label2).expandX();
+        table.add(label3).expandX();
+        table.add(rightButton).padLeft(16).size(72, 72).left();
         table.row();
         table.add();
         table.add();
-        table.add(menuButton).center();
+        table.add(menuButton).size(260, 90).center().expandX();
 
         stage.addActor(table);
     }
