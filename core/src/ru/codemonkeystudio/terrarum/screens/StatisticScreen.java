@@ -61,12 +61,22 @@ public class StatisticScreen implements Screen {
         font_32 = new BitmapFont(Gdx.files.internal("fonts/Terrarum_32.fnt"), Gdx.files.internal("fonts/Terrarum_32.png"), false);
 
         Table table = new Table();
-        table.top();
+        table.center();
         table.setFillParent(true);
+
+        Table table1 = new Table();
+        table1.top();
+        table1.setFillParent(true);
+
 
         Table table3 = new Table();
         table3.bottom();
         table3.setFillParent(true);
+
+        Table table2 = new Table();
+        table2.setPosition(0, 155);
+        table2.setFillParent(true);
+
 
         skin = new Skin();
         atlas = new TextureAtlas(Gdx.files.internal("textures/textureUI.pack"));
@@ -89,6 +99,13 @@ public class StatisticScreen implements Screen {
         final Label label3 = new Label(gamemodes[1], labelStyle);
         label3.setColor(Color.GRAY);
         label3.setAlignment(1);
+        final Label num = new Label("1234567890", labelStyle);
+        final Label labeln = new Label(game.bundle.get("nameRecLabel"), labelStyle);
+        labeln.setAlignment(1);
+        final Label labelt = new Label(game.bundle.get("timeRecLabel"), labelStyle);
+        labelt.setAlignment(1);
+        final Label labels = new Label(game.bundle.get("scoreRecLabel"), labelStyle);
+        labels.setAlignment(1);
 
         name = new Label[10];
         score = new Label[10];
@@ -187,46 +204,55 @@ public class StatisticScreen implements Screen {
             }
         });
 
-        table.add(leftButton).padRight(16).size(72, 72).left();
-        table.add(label1).center().expandX();
-        table.add(label2).center().expandX();
-        table.add(label3).center().expandX();
-        table.add(rightButton).padLeft(16).size(72, 72).right();
-        table.row();
-        table.add();
+        table1.add(leftButton).size(72, 72).left().expandX();
+        table1.add(label1).center().expandX();
+        table1.add(label2).center().expandX();
+        table1.add(label3).center().expandX();
+        table1.add(rightButton).size(72, 72).right().expandX();
+        table1.row();
 
-        table.add(new Label("gameCount", labelStyle));
-        table.add(gameCount);
-        table.row();
-        table.add();
-        table.add(new Label("avgTime", labelStyle));
-        table.add(avgTime);
-        table.row();
-        table.add();
-        table.add(new Label("avgScore", labelStyle));
-        table.add(avgScore);
-        table.row();
-        table.add();
+        table2.add(new Label("gameCount", labelStyle)).center().expandX();
+        table2.add(gameCount).center().expandX();
+        table2.row();
+        table2.add(new Label("avgTime", labelStyle)).center().expandX();
+        table2.add(avgTime).center().expandX();
+        table2.row();
+        table2.add(new Label("avgScore", labelStyle)).center().expandX();
+        table2.add(avgScore).center().expandX();
+        table2.row();
 
-        table.add(new Label("name", labelStyle)).center().expandX();
-        table.add(new Label("time", labelStyle)).center().expandX();
-        table.add(new Label("score", labelStyle)).center().expandX();
-        table.row();
+        table3.add().center().expandX();
+        table3.add(labeln).width(num.getWidth()).expandX().center();
+        table3.add(labelt).center().expandX();
+        table3.add(labels).width(num.getWidth()).expandX();
+        table3.add().expandX().center();
+        table3.row();
 
         for (int i = 0; i < 10; i++) {
-            table.add(new Label((i + 1) + ".", labelStyle)).center().expandX();
-            table.add(name[i]).center().expandX();
-            table.add(time[i]).center().expandX();
-            table.add(score[i]).center().expandX();
-            table.row();
+            table3.add(new Label((i + 1) + ".", labelStyle)).center().expandX();
+            table3.add(name[i]).center().expandX();
+            table3.add(time[i]).center();
+            table3.add(score[i]).center().expandX();
+            table3.add(new Label((i + 1) + ".", labelStyle)).center().expandX();
+            table3.row();
         }
 
-        table.add();
-        table.add();
-        table.add(menuButton).size(260, 90).center().expandX();
+        table3.add().center().expandX();
+        table3.add().center().expandX();
+        table3.add(menuButton).size(260, 90).center().expandX();
+        table3.add().center().expandX();
+        table3.add().center().expandX();
+
+
+        stage.addActor(table1);
+        stage.addActor(table2);
+        stage.addActor(table3);
+
+//        table.add(table1);
+//        table.add(table2);
+//        table.add(table3);
 
         stage.addActor(table);
-        stage.addActor(table3);
 
         updateTable(gamemodes[cursor]);
     }

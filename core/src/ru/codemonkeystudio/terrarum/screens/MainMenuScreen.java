@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -57,13 +58,18 @@ public class MainMenuScreen implements Screen {
 		stage = new Stage(new FitViewport(800,600, gamecam));
 		Gdx.input.setInputProcessor(stage);
 
-		Table table = new Table();
+		final Table table = new Table();
 		table.center();
 		table.setFillParent(true);
 
 		skin = new Skin();
 		atlas = new TextureAtlas(Gdx.files.internal("textures/textureUI.pack"));
 		skin.addRegions(atlas);
+
+        final Label.LabelStyle labelStyle = new Label.LabelStyle();
+        labelStyle.font = font_16;
+        final Label label = new Label("Are you sure left the game?", labelStyle);
+        label.setAlignment(1);
 
 		ImageButton.ImageButtonStyle iconstyle = new ImageButton.ImageButtonStyle();
 		iconstyle.up = skin.getDrawable("icon_terrarum");
@@ -151,13 +157,15 @@ public class MainMenuScreen implements Screen {
 			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
 				super.touchUp(event, x, y, pointer, button);
 				sound.play(game.getSoundVolume());
-//				stage.dispose();
-//				Gdx.app.exit();
+
 				Window.WindowStyle windowStyle = new Window.WindowStyle();
-				windowStyle.titleFont = font_24;
-				windowStyle.background = skin.getDrawable("btn_default");
-				final Dialog dialog = new Dialog("LOL",windowStyle);
-				dialog.setPosition(600, 250);
+				windowStyle.titleFont = font_16;
+				windowStyle.background = skin.getDrawable("btn_checkBox_out");
+
+				final Window dialog = new Window("",windowStyle);
+                dialog.center();
+                dialog.setWidth(400);
+                dialog.setHeight(400);
 				TextButton yes = new TextButton("yes", settingsStyle);
 				yes.addListener(new ClickListener() {
 					@Override
@@ -174,8 +182,13 @@ public class MainMenuScreen implements Screen {
 						dialog.remove();
 					}
 				});
-				dialog.add(yes);
-				dialog.add(no);
+
+                dialog.add();
+                dialog.add(label).center().row();
+                dialog.add();
+				dialog.add(yes).center();
+				dialog.add(no).center();
+
 				stage.addActor(dialog);
 			}
 		});
@@ -345,3 +358,4 @@ public class MainMenuScreen implements Screen {
 		font_32.dispose();
 	}
 }
+
