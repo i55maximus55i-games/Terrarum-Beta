@@ -66,11 +66,6 @@ public class MainMenuScreen implements Screen {
 		atlas = new TextureAtlas(Gdx.files.internal("textures/textureUI.pack"));
 		skin.addRegions(atlas);
 
-        final Label.LabelStyle labelStyle = new Label.LabelStyle();
-        labelStyle.font = font_16;
-        final Label label = new Label("Are you sure left the game?", labelStyle);
-        label.setAlignment(1);
-
 		ImageButton.ImageButtonStyle iconstyle = new ImageButton.ImageButtonStyle();
 		iconstyle.up = skin.getDrawable("icon_terrarum");
 
@@ -119,7 +114,7 @@ public class MainMenuScreen implements Screen {
 				super.touchUp(event, x, y, pointer, button);
 				stage.dispose();
 				sound.play(game.getSoundVolume());
-				game.setScreen(new GameScreen(game, new ArcadeGamemode(), false));
+				game.setScreen(new GamemodeSelection(game));
 			}
 		});
 
