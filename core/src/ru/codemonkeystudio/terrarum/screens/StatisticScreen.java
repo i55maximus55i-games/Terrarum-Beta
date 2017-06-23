@@ -91,12 +91,12 @@ public class StatisticScreen implements Screen {
         gameCount = new Label("", labelStyle);
 
 
-        final Label label1 = new Label(gamemodes[gamemodes.length - 1], labelStyle);
+        final Label label1 = new Label(game.bundle.get(gamemodes[gamemodes.length - 1]), labelStyle);
         label1.setColor(Color.GRAY);
         label1.setAlignment(1);
-        final Label label2 = new Label(gamemodes[0], labelStyle);
+        final Label label2 = new Label(game.bundle.get(gamemodes[0]), labelStyle);
         label2.setAlignment(1);
-        final Label label3 = new Label(gamemodes[1], labelStyle);
+        final Label label3 = new Label(game.bundle.get(gamemodes[1]), labelStyle);
         label3.setColor(Color.GRAY);
         label3.setAlignment(1);
         final Label num = new Label("1234567890", labelStyle);
@@ -134,18 +134,18 @@ public class StatisticScreen implements Screen {
                 if (cursor < 0) {
                     cursor = gamemodes.length - 1;
                 }
-                label2.setText(gamemodes[cursor]);
+                label2.setText(game.bundle.get(gamemodes[cursor]));
                 if (cursor <= 0) {
-                    label1.setText(gamemodes[gamemodes.length - 1]);
+                    label1.setText(game.bundle.get(gamemodes[gamemodes.length - 1]));
                 }
                 else {
-                    label1.setText(gamemodes[cursor - 1]);
+                    label1.setText(game.bundle.get(gamemodes[cursor - 1]));
                 }
                 if (cursor >= gamemodes.length - 1) {
-                    label3.setText(gamemodes[0]);
+                    label3.setText(game.bundle.get(gamemodes[0]));
                 }
                 else {
-                    label3.setText(gamemodes[cursor + 1]);
+                    label3.setText(game.bundle.get(gamemodes[cursor + 1]));
                 }
                 updateTable(gamemodes[cursor]);
                 sound.play(game.getSoundVolume());
@@ -168,18 +168,18 @@ public class StatisticScreen implements Screen {
                 if (cursor >= gamemodes.length) {
                     cursor = 0;
                 }
-                label2.setText(gamemodes[cursor]);
+                label2.setText(game.bundle.get(gamemodes[cursor]));
                 if (cursor <= 0) {
-                    label1.setText(gamemodes[gamemodes.length - 1]);
+                    label1.setText(game.bundle.get(gamemodes[gamemodes.length - 1]));
                 }
                 else {
-                    label1.setText(gamemodes[cursor - 1]);
+                    label1.setText(game.bundle.get(gamemodes[cursor - 1]));
                 }
                 if (cursor >= gamemodes.length - 1) {
-                    label3.setText(gamemodes[0]);
+                    label3.setText(game.bundle.get(gamemodes[0]));
                 }
                 else {
-                    label3.setText(gamemodes[cursor + 1]);
+                    label3.setText(game.bundle.get(gamemodes[cursor + 1]));
                 }
                 updateTable(gamemodes[cursor]);
                 sound.play(game.getSoundVolume());
@@ -211,13 +211,13 @@ public class StatisticScreen implements Screen {
         table1.add(rightButton).size(72, 72).right().expandX();
         table1.row();
 
-        table2.add(new Label("gameCount", labelStyle)).center().expandX();
+        table2.add(new Label(game.bundle.get("gameCount"), labelStyle)).center().expandX();
         table2.add(gameCount).center().expandX();
         table2.row();
-        table2.add(new Label("avgTime", labelStyle)).center().expandX();
+        table2.add(new Label(game.bundle.get("timeAvg"), labelStyle)).center().expandX();
         table2.add(avgTime).center().expandX();
         table2.row();
-        table2.add(new Label("avgScore", labelStyle)).center().expandX();
+        table2.add(new Label(game.bundle.get("scoreAvg"), labelStyle)).center().expandX();
         table2.add(avgScore).center().expandX();
         table2.row();
 

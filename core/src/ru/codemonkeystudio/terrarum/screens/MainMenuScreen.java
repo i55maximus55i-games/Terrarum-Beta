@@ -157,39 +157,7 @@ public class MainMenuScreen implements Screen {
 			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
 				super.touchUp(event, x, y, pointer, button);
 				sound.play(game.getSoundVolume());
-
-				Window.WindowStyle windowStyle = new Window.WindowStyle();
-				windowStyle.titleFont = font_16;
-				windowStyle.background = skin.getDrawable("btn_checkBox_out");
-
-				final Window dialog = new Window("",windowStyle);
-                dialog.center();
-                dialog.setWidth(400);
-                dialog.setHeight(400);
-				TextButton yes = new TextButton("yes", settingsStyle);
-				yes.addListener(new ClickListener() {
-					@Override
-					public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-						super.touchUp(event, x, y, pointer, button);
-						Gdx.app.exit();
-					}
-				});
-				TextButton no = new TextButton("no", settingsStyle);
-				no.addListener(new ClickListener() {
-					@Override
-					public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-						super.touchUp(event, x, y, pointer, button);
-						dialog.remove();
-					}
-				});
-
-                dialog.add();
-                dialog.add(label).center().row();
-                dialog.add();
-				dialog.add(yes).center();
-				dialog.add(no).center();
-
-				stage.addActor(dialog);
+				Gdx.app.exit();
 			}
 		});
 
