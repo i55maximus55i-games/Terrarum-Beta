@@ -11,10 +11,12 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
@@ -82,7 +84,7 @@ public class MainMenuScreen implements Screen {
 		statisticStyle.pressedOffsetX = 1;
 		statisticStyle.pressedOffsetY = -1;
 
-		TextButton.TextButtonStyle settingsStyle = new TextButton.TextButtonStyle();
+		final TextButton.TextButtonStyle settingsStyle = new TextButton.TextButtonStyle();
 		settingsStyle.font = font_24;
 		settingsStyle.up = skin.getDrawable("btn_default");
 		settingsStyle.over = skin.getDrawable("btn_active");
@@ -108,6 +110,7 @@ public class MainMenuScreen implements Screen {
 		newGame.addListener(new ClickListener() {
 			@Override
 			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+				super.touchUp(event, x, y, pointer, button);
 				stage.dispose();
 				sound.play(game.getSoundVolume());
 				game.setScreen(new GameScreen(game, new ArcadeGamemode(), false));
@@ -120,6 +123,7 @@ public class MainMenuScreen implements Screen {
 		statistic.addListener(new ClickListener() {
 			@Override
 			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+				super.touchUp(event, x, y, pointer, button);
 				stage.dispose();
 				sound.play(game.getSoundVolume());
 				game.setScreen(new StatisticScreen(game));
@@ -132,6 +136,7 @@ public class MainMenuScreen implements Screen {
 		settings.addListener(new ClickListener() {
 			@Override
 			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+				super.touchUp(event, x, y, pointer, button);
 				stage.dispose();
 				sound.play(game.getSoundVolume());
 				game.setScreen(new SettingsScreen(game));
@@ -144,9 +149,34 @@ public class MainMenuScreen implements Screen {
 		exit.addListener(new ClickListener() {
 			@Override
 			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+				super.touchUp(event, x, y, pointer, button);
 				sound.play(game.getSoundVolume());
-				stage.dispose();
-				Gdx.app.exit();
+//				stage.dispose();
+//				Gdx.app.exit();
+				Window.WindowStyle windowStyle = new Window.WindowStyle();
+				windowStyle.titleFont = font_24;
+				windowStyle.background = skin.getDrawable("btn_default");
+				final Dialog dialog = new Dialog("LOL",windowStyle);
+				dialog.setPosition(600, 250);
+				TextButton yes = new TextButton("yes", settingsStyle);
+				yes.addListener(new ClickListener() {
+					@Override
+					public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+						super.touchUp(event, x, y, pointer, button);
+						Gdx.app.exit();
+					}
+				});
+				TextButton no = new TextButton("no", settingsStyle);
+				no.addListener(new ClickListener() {
+					@Override
+					public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+						super.touchUp(event, x, y, pointer, button);
+						dialog.remove();
+					}
+				});
+				dialog.add(yes);
+				dialog.add(no);
+				stage.addActor(dialog);
 			}
 		});
 
@@ -278,7 +308,7 @@ public class MainMenuScreen implements Screen {
 		}
 
 		stage.act(delta);
-		stage.setDebugAll(false);
+		stage.setDebugAll(true);
 		stage.draw();
 	}
 

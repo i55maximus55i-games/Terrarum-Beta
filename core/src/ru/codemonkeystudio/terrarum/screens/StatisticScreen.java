@@ -195,18 +195,18 @@ public class StatisticScreen implements Screen {
         table.row();
         table.add();
 
-//        table3.add(new Label("gameCount", labelStyle));
-//        table3.add(gameCount);
-//        table3.row();
-//        table3.add();
-//        table3.add(new Label("avgTime", labelStyle));
-//        table3.add(avgTime);
-//        table3.row();
-//        table3.add();
-//        table3.add(new Label("avgScore", labelStyle));
-//        table3.add(avgScore);
-//        table3.row();
-//        table3.add();
+        table.add(new Label("gameCount", labelStyle));
+        table.add(gameCount);
+        table.row();
+        table.add();
+        table.add(new Label("avgTime", labelStyle));
+        table.add(avgTime);
+        table.row();
+        table.add();
+        table.add(new Label("avgScore", labelStyle));
+        table.add(avgScore);
+        table.row();
+        table.add();
 
         table.add(new Label("name", labelStyle)).center().expandX();
         table.add(new Label("time", labelStyle)).center().expandX();
@@ -244,7 +244,7 @@ public class StatisticScreen implements Screen {
         batch.setProjectionMatrix(camera.combined);
 
         stage.act(delta);
-        stage.setDebugAll(false);
+        stage.setDebugAll(true);
         stage.draw();
     }
 
