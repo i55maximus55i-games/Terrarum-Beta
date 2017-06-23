@@ -335,14 +335,14 @@ public class Hud implements Disposable {
         tableTop.add(exit).size(72, 72).left();
         tableTop.add(label).center().expandX();
 
-        table3.add(musicFx).expandX().padTop(10);
-        table3.add(musicVolumeSlider).expandX().padTop(10);
+        table3.add(musicFx).expandX().padTop(10).center();
+        table3.add(musicVolumeSlider).expandX().padTop(10).center();
         table3.row();
-        table3.add(soundFx).expandX().padTop(10);
-        table3.add(soundVolumeSlider).expandX().padTop(10);
+        table3.add(soundFx).expandX().padTop(10).center();
+        table3.add(soundVolumeSlider).expandX().padTop(10).center();
         table3.row();
-        table3.add(handle).expandX().padTop(10);
-        table3.add(controlHeading).expandX().padTop(10);
+        table3.add(handle).expandX().padTop(10).center();
+        table3.add(controlHeading).padTop(10).center().expandX().width(98).row();
 
         stage.addActor(tableTop);
         stage.addActor(table3);

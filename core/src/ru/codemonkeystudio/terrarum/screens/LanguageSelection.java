@@ -10,27 +10,25 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import ru.codemonkeystudio.terrarum.Terrarum;
-import ru.codemonkeystudio.terrarum.gamemodes.ArcadeGamemode;
-import ru.codemonkeystudio.terrarum.gamemodes.ClassicGamemode;
-import ru.codemonkeystudio.terrarum.gamemodes.LudumGamemode;
 
 /**
  * Created by 1 on 24.06.2017.
  */
 
-public class GamemodeSelection implements Screen {
-
+public class LanguageSelection implements Screen {
     private SpriteBatch batch;
     private OrthographicCamera gamecam;
 
@@ -40,10 +38,9 @@ public class GamemodeSelection implements Screen {
     private BitmapFont font_16,font_24,font_32;
     private TextureAtlas atlas;
     private Skin skin;
+    private Texture back;
 
-
-    public GamemodeSelection(final Terrarum game){
-
+    public LanguageSelection(final Terrarum game){
         stage = new Stage();
         batch = game.batch;
         gamecam = new OrthographicCamera();
@@ -69,7 +66,7 @@ public class GamemodeSelection implements Screen {
         atlas = new TextureAtlas(Gdx.files.internal("textures/textureUI.pack"));
         skin.addRegions(atlas);
 
-        final Label label = new Label(game.bundle.get("GSLabel"), new Label.LabelStyle(font_32, Color.WHITE));
+        final Label label = new Label(game.bundle.get("LSLabel"), new Label.LabelStyle(font_32, Color.WHITE));
 
         final Button.ButtonStyle exitStyle = new Button.ButtonStyle();
         exitStyle.up = skin.getDrawable("btn_left");
@@ -86,53 +83,24 @@ public class GamemodeSelection implements Screen {
             }
         });
 
-        final TextButton.TextButtonStyle buttonStyle = new TextButton.TextButtonStyle();
-        buttonStyle.font = font_24;
-        buttonStyle.up = skin.getDrawable("btn_default");
-        buttonStyle.over = skin.getDrawable("btn_active");
-        buttonStyle.down = skin.getDrawable("btn_pressed");
-        buttonStyle.pressedOffsetX = 1;
-        buttonStyle.pressedOffsetY = -1;
+        final List.ListStyle listStyle = new List.ListStyle();
+        listStyle.fontColorSelected = Color.WHITE;
+        listStyle.fontColorUnselected = Color.GRAY;
+        listStyle.font = font_24;
+        listStyle.selection = skin.getDrawable("knob");
 
-        final TextButton ClassicGM = new TextButton(game.bundle.get("Classic"), buttonStyle);
-        ClassicGM.addListener(new ClickListener() {
-            @Override
-            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                sound.play(game.getSoundVolume());
-                stage.dispose();
-                game.setScreen(new GameScreen(game, new ClassicGamemode(), false));
-            }
-        });
-
-        final TextButton ArcadeGM = new TextButton(game.bundle.get("Arcade"), buttonStyle);
-        ArcadeGM.addListener(new ClickListener() {
-            @Override
-            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                sound.play(game.getSoundVolume());
-                stage.dispose();
-                game.setScreen(new GameScreen(game, new ArcadeGamemode(), false));
-            }
-        });
-
-        final TextButton LudumGM = new TextButton("Ludum", buttonStyle);
-        LudumGM.addListener(new ClickListener(){
-            @Override
-            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                sound.play(game.getSoundVolume());
-                stage.dispose();
-                game.setScreen(new GameScreen(game, new LudumGamemode(), true));
-            }
-        });
+        List langList = new List(listStyle);
+        langList.setItems(new String[]{"English","Русский"});
 
         tableTop.add(exit).size(72, 72).left().expandX();
         tableTop.add(label).center().expandX();
         tableTop.add().size(72, 72).right().expandX();
 
-        table.add(ArcadeGM).size(260, 90).center().row();
-        table.add(ClassicGM).size(260, 90).center().row();
+        table.add(langList).center();
 
         stage.addActor(tableTop);
         stage.addActor(table);
+
     }
 
     @Override
@@ -151,7 +119,6 @@ public class GamemodeSelection implements Screen {
         stage.act(delta);
         stage.setDebugAll(true);
         stage.draw();
-
     }
 
     @Override

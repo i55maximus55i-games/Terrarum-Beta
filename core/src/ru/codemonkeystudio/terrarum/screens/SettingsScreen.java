@@ -19,11 +19,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import ru.codemonkeystudio.terrarum.Terrarum;
+import ru.codemonkeystudio.terrarum.gamemodes.ArcadeGamemode;
 
 /**
  * Экран настроек
@@ -168,6 +170,19 @@ class SettingsScreen implements Screen {
         Label musicFx = new Label(game.bundle.get("musicVolumeLabel"), new Label.LabelStyle(font_32, Color.WHITE));
         Label handle = new Label(game.bundle.get("controlLabel"), new Label.LabelStyle(font_32, Color.WHITE));
 
+        final TextButton.TextButtonStyle buttonStyle = new TextButton.TextButtonStyle();
+        buttonStyle.font = font_24;
+
+        final TextButton textButton = new TextButton(game.bundle.get("LSLabel"), buttonStyle);
+        textButton.addListener(new ClickListener(){
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                sound.play(game.getSoundVolume());
+                stage.dispose();
+                game.setScreen(new LanguageSelection(game));
+            }
+        });
+
         tableTop.add(exit).size(72, 72).left();
         tableTop.add(label).center().expandX();
 
@@ -178,7 +193,8 @@ class SettingsScreen implements Screen {
         table.add(soundVolumeSlider).expandX().padTop(10).center();
         table.row();
         table.add(handle).expandX().padTop(10).center();
-        table.add(controlHeading).padTop(10).center().expandX().width(98);
+        table.add(controlHeading).padTop(10).center().expandX().width(98).row();
+        table.add(textButton).size(260, 90).center();
 
         stage.addActor(tableTop);
         stage.addActor(table);
