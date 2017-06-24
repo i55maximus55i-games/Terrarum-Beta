@@ -6,8 +6,6 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -25,54 +23,53 @@ import ru.codemonkeystudio.terrarum.Terrarum;
  * Экран проигрыша
  */
 
-public class GameOverScreen implements Screen{
-
-    private SpriteBatch batch;
-    private Terrarum game;
-    private OrthographicCamera cam;
+public class GameOverScreen implements Screen {
+    //сцена содержащая элементы интерфейса
+    private OrthographicCamera camera;
     private Stage stage;
-    private TextureAtlas atlas;
-    private Skin skin;
-    private Table table;
-    private BitmapFont font_16,font_24,font_32;
 
+    //звуки
     private Sound sound;
 
-    private TextField textField;
-
     public GameOverScreen(final String gamemode, final Terrarum game, final float time, final int score){
-        stage = new Stage();
-        this.game = game;
-        this.batch = game.batch;
-        cam = new OrthographicCamera();
-
+        //инициализация звуков
         sound = Gdx.audio.newSound(Gdx.files.internal("sounds/select.wav"));
 
-        table = new Table();
+        //инициализания сцены, содержащей элементы интерфейса
+        camera = new OrthographicCamera();
+        stage = new Stage(new FitViewport(800, 600, camera));
+        Gdx.input.setInputProcessor(stage);
+
+        //создание разметки заголовка
+        Table table = new Table();
         table.center();
         table.setFillParent(true);
 
-        font_16 = new BitmapFont(Gdx.files.internal("fonts/Terrarum_16.fnt"), Gdx.files.internal("fonts/Terrarum_16.png"), false);
-        font_24 = new BitmapFont(Gdx.files.internal("fonts/Terrarum_24.fnt"), Gdx.files.internal("fonts/Terrarum_24.png"), false);
-        font_32 = new BitmapFont(Gdx.files.internal("fonts/Terrarum_32.fnt"), Gdx.files.internal("fonts/Terrarum_32.png"), false);
-
-        stage = new Stage(new FitViewport(960,540, cam));
-        Gdx.input.setInputProcessor(stage);
-
-        skin = new Skin();
-        atlas = new TextureAtlas(Gdx.files.internal("textures/textureUI.pack"));
-        skin.addRegions(atlas);
-
-        Label message = new Label(game.bundle.get("gameOverLabel"), new Label.LabelStyle(font_32, Color.GREEN));
-
+        //создание стиля для кнопки выхода в гланое меню
         TextButton.TextButtonStyle menuButtonStyle = new TextButton.TextButtonStyle();
-        menuButtonStyle.font = font_24;
-        menuButtonStyle.up = skin.getDrawable("btn_default");
-        menuButtonStyle.over = skin.getDrawable("btn_active");
-        menuButtonStyle.down = skin.getDrawable("btn_pressed");
+        menuButtonStyle.font = game.font24;
+        menuButtonStyle.up = game.skin.getDrawable("btn_default");
+        menuButtonStyle.over = game.skin.getDrawable("btn_active");
+        menuButtonStyle.down = game.skin.getDrawable("btn_pressed");
         menuButtonStyle.pressedOffsetX = 1;
         menuButtonStyle.pressedOffsetY = -1;
 
+        //создание стиля для поля ввода имени
+        TextField.TextFieldStyle textFieldStyle = new TextField.TextFieldStyle();
+        textFieldStyle.font = game.font24;
+        textFieldStyle.fontColor = Color.GRAY;
+        textFieldStyle.focusedFontColor = Color.WHITE;
+        textFieldStyle.cursor = game.skin.getDrawable("cursor");
+
+        //создание заголовка
+        Label message = new Label(game.bundle.get("gameOverLabel"), new Label.LabelStyle(game.font32, Color.GREEN));
+
+        //создание поля ввода имени
+        final TextField textField = new TextField("", textFieldStyle);
+        textField.setMessageText("Enter name");
+        textField.setMaxLength(10);
+
+        //создание кнопки выхода в гланое меню
         TextButton menuButton = new TextButton(game.bundle.get("menuLabel"), menuButtonStyle);
         menuButton.addListener(new ClickListener(){
             @Override
@@ -80,7 +77,8 @@ public class GameOverScreen implements Screen{
                 sound.play(game.getSoundVolume());
                 stage.dispose();
                 StatisticScreen.addRecord(gamemode, textField.getText(), time, score);
-                if (textField.getText().equals("ludum")) {
+                if (textField.getText().equals("old38")) {
+                    game.unlockLudum();
                     game.setScreen(new MainMenuScreen(game, true));
                 }
                 else {
@@ -89,20 +87,12 @@ public class GameOverScreen implements Screen{
             }
         });
 
-        TextField.TextFieldStyle textFieldStyle = new TextField.TextFieldStyle();
-        textFieldStyle.font = font_24;
-        textFieldStyle.fontColor = Color.GRAY;
-        textFieldStyle.focusedFontColor = Color.WHITE;
-        textFieldStyle.cursor = skin.getDrawable("cursor");
-
-        textField = new TextField("", textFieldStyle);
-        textField.setMessageText("Enter name");
-        textField.setMaxLength(10);
-
+        //создание надписей, отображающих время и очки
         int t = (int) time;
-        Label timerLabel = new Label(game.bundle.get("timeLabel") + " " + String.format("%02d", t / 60) + ":" + (String.format("%02d", t % 60)), new Label.LabelStyle(font_32, Color.WHITE));
-        Label scoreLabel = new Label(game.bundle.get("scoreLabel") + " " + score, new Label.LabelStyle(font_32, Color.WHITE));
+        Label timerLabel = new Label(game.bundle.get("timeLabel") + " " + String.format("%02d", t / 60) + ":" + (String.format("%02d", t % 60)), new Label.LabelStyle(game.font32, Color.WHITE));
+        Label scoreLabel = new Label(game.bundle.get("scoreLabel") + " " + score, new Label.LabelStyle(game.font32, Color.WHITE));
 
+        //добавление элементов в разметку
         table.add(message).expandX().padTop(32).row();
         table.add(timerLabel).expandX().row();
         table.add(scoreLabel).expandX().row();
@@ -111,6 +101,7 @@ public class GameOverScreen implements Screen{
         }
         table.add(menuButton).size(260, 90).expandX();
 
+        //добавление разметки в сцену
         stage.addActor(table);
     }
 
@@ -121,11 +112,14 @@ public class GameOverScreen implements Screen{
 
     @Override
     public void render(float delta) {
+        //очистка экрана
         Gdx.gl20.glClearColor(0, 0, 0, 1);
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        cam.update();
-        batch.setProjectionMatrix(cam.combined);
 
+        //обновление камеры
+        camera.update();
+
+        //обновление сцены
         stage.act(delta);
         stage.setDebugAll(true);
         stage.draw();
@@ -133,6 +127,7 @@ public class GameOverScreen implements Screen{
 
     @Override
     public void resize(int width, int height) {
+        //обновление интерфейса при изменении размера экрана
         stage.getViewport().update(width, height, true);
     }
 
@@ -154,12 +149,6 @@ public class GameOverScreen implements Screen{
     @Override
     public void dispose() {
         stage.dispose();
-        atlas.dispose();
-        skin.dispose();
         sound.dispose();
-
-        font_16.dispose();
-        font_24.dispose();
-        font_32.dispose();
     }
 }

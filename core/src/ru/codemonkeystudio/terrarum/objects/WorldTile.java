@@ -8,14 +8,14 @@ import com.badlogic.gdx.physics.box2d.World;
 import java.util.ArrayList;
 
 /**
- * Created by maximus on 01.06.2017.
+ * Тайл игрового мира
  */
 
 public class WorldTile {
     private int id;
     private ArrayList<Body> walls;
 
-    public WorldTile(World world, int id, int x, int y) {
+    WorldTile(World world, int id, int x, int y) {
         this.id = id;
         walls = new ArrayList<Body>();
         switch (id) {
@@ -85,7 +85,7 @@ public class WorldTile {
         walls.add(body);
     }
 
-    public void destroy(World world) {
+    void destroy(World world) {
         while (!walls.isEmpty()) {
             world.destroyBody(walls.get(0));
             walls.remove(0);

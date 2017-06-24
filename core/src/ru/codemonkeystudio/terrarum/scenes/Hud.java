@@ -34,7 +34,6 @@ import ru.codemonkeystudio.terrarum.screens.MainMenuScreen;
 public class Hud implements Disposable {
     public Stage stage;
 
-    private float timer;
     private Terrarum game;
     private Label timeLabel;
     private Label timerLabel;
@@ -66,7 +65,7 @@ public class Hud implements Disposable {
     public Hud(final Terrarum game, final GameScreen screen) {
         this.game = game;
         this.screen = screen;
-        Viewport viewport = new FitViewport(600, 800, new OrthographicCamera());
+        Viewport viewport = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), new OrthographicCamera());
         stage = new Stage(viewport);
         Gdx.input.setInputProcessor(stage);
 
@@ -104,8 +103,6 @@ public class Hud implements Disposable {
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 sound.play(game.getSoundVolume());
                 screen.pause();
-//                screen.musicPlayer.setPlaying(false);
-//                game.setScreen(new PauseScreen(game));
             }
         });
 
@@ -124,17 +121,11 @@ public class Hud implements Disposable {
     }
 
     public void update(float timer, int lives, int score) {
-        this.timer = timer;
         int t = (int) timer;
         timerLabel.setText(String.format("%02d", t / 60) + ":" + (String.format("%02d", t % 60)));
         livesLabel.setText(Integer.toString(lives));
         scoreLabel.setText(Integer.toString(score));
     }
-
-    public void resize(int width, int height) {
-        stage.getViewport().update(width, height, true);
-    }
-
 
     public void pause() {
         timeLabel.setColor(Color.GRAY);
@@ -221,8 +212,7 @@ public class Hud implements Disposable {
 
     }
 
-    public void settings(){
-
+    private void settings(){
         final Table table3 = new Table();
         table3.center();
         table3.setFillParent(true);
@@ -232,7 +222,7 @@ public class Hud implements Disposable {
         tableTop.setFillParent(true);
 
         Label label = new Label(game.bundle.get("settingsLabel"), new Label.LabelStyle(font_32, Color.WHITE));
-
+        label.setPosition(400, 600 - label.getHeight() / 2, 1);
 
         Button.ButtonStyle exitStyle = new Button.ButtonStyle();
         exitStyle.up = skin.getDrawable("btn_left");
@@ -241,7 +231,7 @@ public class Hud implements Disposable {
         exitStyle.pressedOffsetY = -1;
 
         Button exit = new Button(exitStyle);
-
+        exit.setSize(72, 72);
         exit.setPosition(exit.getWidth() / 2, stage.getHeight() - exit.getHeight() / 2, 1);
         exit.addListener(new ClickListener(){
             @Override
@@ -368,6 +358,8 @@ public class Hud implements Disposable {
         pauseStyle.pressedOffsetX = 1;
         pauseStyle.pressedOffsetY = -1;
         pause = new Button(pauseStyle);
+        pause.setSize(72, 72);
+        pause.setPosition(pause.getWidth()/2, stage.getHeight() - pause.getHeight()/2, 1);
         pause.addListener(new ClickListener(){
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
@@ -404,9 +396,5 @@ public class Hud implements Disposable {
         font_24.dispose();
         font_32.dispose();
         skin.dispose();
-    }
-
-    public float getTimer() {
-        return timer;
     }
 }

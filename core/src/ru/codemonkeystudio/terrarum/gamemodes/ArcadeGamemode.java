@@ -16,7 +16,7 @@ import ru.codemonkeystudio.terrarum.screens.StatisticScreen;
 import ru.codemonkeystudio.terrarum.tools.GameRenderer;
 
 /**
- * Created by maximus on 20.06.2017.
+ * Реализация аркадного игрового режима
  */
 
 public class ArcadeGamemode implements Gamemode {
@@ -42,6 +42,7 @@ public class ArcadeGamemode implements Gamemode {
     private int eaten;
     private boolean addFoodAndEnemy;
 
+    //инициализация игрового режима
     @Override
     public void init(Terrarum game, GameRenderer renderer, GameWorld gameWorld, Player player, ArrayList<Food> foods, ArrayList<Enemy> enemies) {
         this.game = game;
@@ -63,6 +64,7 @@ public class ArcadeGamemode implements Gamemode {
         addFoodAndEnemy = true;
     }
 
+    //обновление объектов
     @Override
     public void update(float delta) {
         timer += delta;
@@ -73,7 +75,7 @@ public class ArcadeGamemode implements Gamemode {
         iterator = foods.iterator();
         while (iterator.hasNext()) {
             foodO = (Food) iterator.next();
-            foodO.update(delta);
+            foodO.update(delta, 20);
             if (foodO.getDeathTime() > 10) {
                 foodO.destroy();
                 iterator.remove();
@@ -83,7 +85,7 @@ public class ArcadeGamemode implements Gamemode {
         iterator = enemies.iterator();
         while (iterator.hasNext()) {
             enemyO = (Enemy) iterator.next();
-            enemyO.update(delta);
+            enemyO.update(delta, 20);
             if (enemyO.getDeathTime() > 10) {
                 enemyO.destroy();
                 iterator.remove();
@@ -92,7 +94,6 @@ public class ArcadeGamemode implements Gamemode {
 
         int alive = 0;
         for (int i = 0; i < foods.size(); i++) {
-            foods.get(i).update(delta);
             if (foods.get(i).isAlive() && foods.get(i).getBody().getPosition().dst(player.getBody().getPosition()) < 10) {
                 foods.get(i).die(gameWorld.getWorld());
                 eatSound.play(game.getSoundVolume());
@@ -110,7 +111,6 @@ public class ArcadeGamemode implements Gamemode {
         }
 
         for (int i = 0; i < enemies.size(); i++) {
-            enemies.get(i).update(delta);
             if (enemies.get(i).isAlive() && enemies.get(i).getBody().getPosition().dst(player.getBody().getPosition()) < 10) {
                 enemies.get(i).die(gameWorld.getWorld());
                 enemySound.play(game.getSoundVolume());
@@ -133,6 +133,7 @@ public class ArcadeGamemode implements Gamemode {
         }
     }
 
+    //добавление жёлтых спор в игровой мир
     private void addFood() {
         for (int i = 0; i < gameWorld.WORLD_SIZE; i++) {
             foods.add(new Food(gameWorld.getWorld(), renderer.getRayHandler(), gameWorld.WORLD_SIZE * 64 - 16, i * 64 + 16));
@@ -142,6 +143,7 @@ public class ArcadeGamemode implements Gamemode {
         }
     }
 
+    //добавление синих спор в игровой мир
     private void addEnemy() {
         if (player.getBody().getPosition().dst(16, 16) > player.getBody().getPosition().dst(gameWorld.WORLD_SIZE * 64 - 16, gameWorld.WORLD_SIZE * 64 - 16)) {
             enemies.add(new Enemy(gameWorld.getWorld(), renderer.getRayHandler(), 16, 16));
@@ -151,6 +153,7 @@ public class ArcadeGamemode implements Gamemode {
         }
     }
 
+    //добавление жёлтых и синих спор в игровой мир
     private void addFoodAndEnemy() {
         for (int i = 0; i < gameWorld.WORLD_SIZE; i++) {
             foods.add(new Food(gameWorld.getWorld(), renderer.getRayHandler(), gameWorld.WORLD_SIZE * 64 - 16, i * 64 + 16));
@@ -162,11 +165,13 @@ public class ArcadeGamemode implements Gamemode {
         }
     }
 
+    //проверка на окончание игры
     @Override
     public boolean isGameOver() {
         return player.getLives() < 0;
     }
 
+    //действия при окочнании игры
     @Override
     public void endGame() {
         StatisticScreen.addResult("Arcade", timer, score);
@@ -190,6 +195,7 @@ public class ArcadeGamemode implements Gamemode {
 
     @Override
     public void dispose() {
+        //выгрузка объектов из памяти
         eatSound.dispose();
         enemySound.dispose();
     }

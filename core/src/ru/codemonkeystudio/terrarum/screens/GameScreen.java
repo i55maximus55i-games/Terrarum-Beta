@@ -22,12 +22,13 @@ import ru.codemonkeystudio.terrarum.tools.TerrarumContactListener;
 import ru.codemonkeystudio.terrarum.tools.TerrarumControlHandler;
 
 /**
- * Created by maximus on 05.06.2017.
+ * Экран игры
  */
 
 public class GameScreen implements Screen {
     private final Terrarum game;
 
+    //игровой режим
     private Gamemode gm;
 
     //вспомогательные объекты
@@ -65,7 +66,7 @@ public class GameScreen implements Screen {
         gm = gamemode;
 
         gameWorld = new GameWorld(gm.getWorldSize());
-        renderer = new GameRenderer(game.batch, gameWorld, tails, gameWorld.WORLD_SIZE);
+        renderer = new GameRenderer(game.batch, gameWorld, tails);
         player = new Player(gameWorld.getWorld(), controlHandler, game.isStickControl(), renderer.getRayHandler(), game.getSoundVolume());
         gameWorld.getWorld().setContactListener(new TerrarumContactListener(player));
 
@@ -112,7 +113,7 @@ public class GameScreen implements Screen {
 
         //обновление объектов
         musicPlayer.update();
-        player.update(delta);
+        player.update();
         gameWorld.update(delta, player.getBody().getPosition(), !ludum);
         renderer.update(delta, player.getBody().getPosition().x, player.getBody().getPosition().y, nearest != -1, (nearest == -1 ? new Vector2(0, 0) : controlHandler.vectorSinCos(foods.get(nearest).getBody().getPosition().sub(player.getBody().getPosition()))), game.isStickControl());
         hud.update(gm.getTimer(), player.getLives(), gm.getScore());
@@ -143,12 +144,11 @@ public class GameScreen implements Screen {
     public void resize(int width, int height) {
         renderer.resize(width, height);
         controlHandler.resize();
-        hud.resize(width, height);
     }
 
     @Override
     public void pause() {
-        if (!paused) {
+        if (!paused && !ludum) {
             paused = true;
             hud.pause();
             musicPlayer.pause();

@@ -10,19 +10,19 @@ import ru.codemonkeystudio.terrarum.objects.Player;
 import ru.codemonkeystudio.terrarum.tools.GameRenderer;
 
 /**
- * Created by maximus on 20.06.2017.
+ * Интерфейс реализующий методы игрового режима
  */
 
 public interface Gamemode {
     void init(Terrarum game, GameRenderer renderer, GameWorld gameWorld, Player player, ArrayList<Food> foods, ArrayList<Enemy> enemies);
 
-    public void update(float delta);
-    public boolean isGameOver();
-    public void endGame();
+    void update(float delta);
+    boolean isGameOver();
+    void endGame();
 
-    public int getScore();
-    public float getTimer();
-    public int getWorldSize();
+    int getScore();
+    float getTimer();
+    int getWorldSize();
 
-    public void dispose();
+    void dispose();
 }

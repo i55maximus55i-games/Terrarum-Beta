@@ -57,7 +57,7 @@ public class Player implements Disposable{
         hitSound = Gdx.audio.newSound(Gdx.files.internal("sounds/hit.wav"));
     }
 
-    public void update(float delta) {
+    public void update() {
         control();
         friction();
 

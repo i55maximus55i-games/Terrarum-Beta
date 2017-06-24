@@ -1,7 +1,5 @@
 package ru.codemonkeystudio.terrarum.objects;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -46,19 +44,19 @@ public class Food implements Disposable {
         isAlive = true;
     }
 
-    public void update(float delta) {
+    public void update(float delta, float speed) {
         if (isAlive) {
             if (body.getLinearVelocity().x < 0) {
-                body.setLinearVelocity(-20, body.getLinearVelocity().y);
+                body.setLinearVelocity(-speed, body.getLinearVelocity().y);
             }
             else {
-                body.setLinearVelocity(20, body.getLinearVelocity().y);
+                body.setLinearVelocity(speed, body.getLinearVelocity().y);
             }
             if (body.getLinearVelocity().y < 0) {
-                body.setLinearVelocity(body.getLinearVelocity().x, -20);
+                body.setLinearVelocity(body.getLinearVelocity().x, -speed);
             }
             else {
-                body.setLinearVelocity(body.getLinearVelocity().x, 20);
+                body.setLinearVelocity(body.getLinearVelocity().x, speed);
             }
             light.setPosition(body.getPosition());
         }
@@ -97,14 +95,5 @@ public class Food implements Disposable {
     public void destroy() {
         light.setActive(false);
         dispose();
-    }
-
-    public void update(float delta, boolean stopped) {
-        if (!isAlive) {
-            if (light.getDistance() > 5) {
-                light.setDistance(light.getDistance() - 3);
-            }
-            deathTime += delta;
-        }
     }
 }

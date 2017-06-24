@@ -6,17 +6,12 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -25,156 +20,126 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import ru.codemonkeystudio.terrarum.Terrarum;
-import ru.codemonkeystudio.terrarum.gamemodes.ArcadeGamemode;
 
 /**
  * Экран настроек
  */
-class SettingsScreen implements Screen {
 
-    private Texture back;
-    private Terrarum game;
+class SettingsScreen implements Screen {
+    //сцена содержащая элементы интерфейса
     private Stage stage;
-    private SpriteBatch batch;
-    private BitmapFont font_16, font_24, font_32;
-    private TextureAtlas atlas;
-    private Skin skin;
-    private Slider musicVolumeSlider;
-    private Slider soundVolumeSlider;
+    private OrthographicCamera camera;
+
+    //звуки
     private Sound sound;
 
-    private float musicVolume;
-    private float soundVolume;
-    private boolean stickControl;
-
-    private OrthographicCamera cam;
-    private CheckBox controlHeading;
-
-    SettingsScreen(Terrarum game) {
-        this.game = game;
-        cam = new OrthographicCamera();
-        this.batch = game.batch;
-        font_16 = new BitmapFont(Gdx.files.internal("fonts/Terrarum_16.fnt"), Gdx.files.internal("fonts/Terrarum_16.png"), false);
-        font_24 = new BitmapFont(Gdx.files.internal("fonts/Terrarum_24.fnt"), Gdx.files.internal("fonts/Terrarum_24.png"), false);
-        font_32 = new BitmapFont(Gdx.files.internal("fonts/Terrarum_32.fnt"), Gdx.files.internal("fonts/Terrarum_32.png"), false);
+    SettingsScreen(final Terrarum game) {
+        //инициализация звуков
         sound = Gdx.audio.newSound(Gdx.files.internal("sounds/select.wav"));
-        back = new Texture("textures/back.jpg");
-    }
 
-    @Override
-    public void show () {
-        stage = new Stage(new FitViewport(800, 600, cam));
+        //инициализания сцены, содержащей элементы интерфейса
+        camera = new OrthographicCamera();
+        stage = new Stage(new FitViewport(800, 600, camera));
         Gdx.input.setInputProcessor(stage);
 
-        Table table = new Table();
-        table.center();
-        table.setFillParent(true);
-
+        //создание разметки заголовка
         Table tableTop = new Table();
         tableTop.top();
         tableTop.setFillParent(true);
 
-        skin = new Skin();
-        atlas = new TextureAtlas("textures/textureUI.pack");
-        skin.addRegions(atlas);
+        //создание разметки настроек
+        Table table = new Table();
+        table.center();
+        table.setFillParent(true);
 
-        Label label = new Label(game.bundle.get("settingsLabel"), new Label.LabelStyle(font_32, Color.WHITE));
-        label.setPosition(400, 600 - label.getHeight() / 2, 1);
+        //создание стиля для надписей
+        Label.LabelStyle labelStyle = new Label.LabelStyle();
+        labelStyle.font = game.font32;
+        labelStyle.fontColor = Color.WHITE;
 
+        //создание стиля для кнопки выхода в гланое меню
         Button.ButtonStyle exitStyle = new Button.ButtonStyle();
-        exitStyle.up = skin.getDrawable("btn_left");
-        exitStyle.down = skin.getDrawable("btn_left_pressed");
+        exitStyle.up = game.skin.getDrawable("btn_left");
+        exitStyle.down = game.skin.getDrawable("btn_left_pressed");
         exitStyle.pressedOffsetX = 1;
         exitStyle.pressedOffsetY = -1;
 
+        //создание стиля для настройки управления
+        CheckBox.CheckBoxStyle checkBoxStyle = new CheckBox.CheckBoxStyle();
+        checkBoxStyle.font = game.font32;
+
+        //создание стиля кнопки выбора языка
+        final TextButton.TextButtonStyle buttonStyle = new TextButton.TextButtonStyle();
+        buttonStyle.font = game.font24;
+
+        //создание стиля для слайдеров громкости
+        Slider.SliderStyle sliderStyle = new Slider.SliderStyle();
+        sliderStyle.background = game.skin.getDrawable("slide");
+        sliderStyle.knob = game.skin.getDrawable("knob");
+
+        //создание кнопки выхода в главное меню
         Button exit = new Button(exitStyle);
-        exit.setSize(72, 72);
-        exit.setPosition(exit.getWidth() / 2, stage.getHeight() - exit.getHeight() / 2, 1);
-        exit.addListener(new ClickListener(){
+        exit.addListener(new ClickListener() {
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                super.touchUp(event, x, y, pointer, button);
                 sound.play(game.getSoundVolume());
+                stage.dispose();
                 game.setScreen(new MainMenuScreen(game));
             }
         });
+        //создание заголовочной надписи
+        Label logo = new Label(game.bundle.get("settingsLabel"), labelStyle);
 
-
-        Slider.SliderStyle musicVolumeSliderStyle = new Slider.SliderStyle();
-        musicVolumeSliderStyle.background = skin.getDrawable("slide");
-        musicVolumeSliderStyle.knob = skin.getDrawable("knob");
-
-        musicVolumeSlider = new Slider(0, 1f, 0.005f, false, musicVolumeSliderStyle);
+        //создание слайдера громкости музыки
+        final Slider musicVolumeSlider = new Slider(0f, 1f, 0.005f, false, sliderStyle);
         musicVolumeSlider.setValue(game.getMusicVolume());
         musicVolumeSlider.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                game.updatePref(musicVolumeSlider.getValue(), game.getSoundVolume(), stickControl);
+                game.setMusicVolume(musicVolumeSlider.getValue());
             }
         });
         musicVolumeSlider.addListener(new ClickListener() {
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 super.touchUp(event, x, y, pointer, button);
-                sound.play(musicVolumeSlider.getValue());
+                sound.play(game.getMusicVolume());
             }
         });
 
-        sound.play(soundVolume);
-        Slider.SliderStyle soundVolumeSliderStyle = new Slider.SliderStyle();
-        soundVolumeSliderStyle.background = skin.getDrawable("slide");
-        soundVolumeSliderStyle.knob = skin.getDrawable("knob");
-
-
-        soundVolumeSlider = new Slider(0, 1f, 0.005f, false, soundVolumeSliderStyle);
+        //создание слайдера громкости звуков
+        final Slider soundVolumeSlider = new Slider(0f, 1f, 0.005f, false, sliderStyle);
         soundVolumeSlider.setValue(game.getSoundVolume());
         soundVolumeSlider.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                game.updatePref(game.getMusicVolume(), soundVolumeSlider.getValue(), stickControl);
+                game.setSoundVolume(soundVolumeSlider.getValue());
             }
         });
         soundVolumeSlider.addListener(new ClickListener() {
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 super.touchUp(event, x, y, pointer, button);
-                sound.play(soundVolumeSlider.getValue());
+                sound.play(game.getSoundVolume());
             }
         });
 
-        CheckBox.CheckBoxStyle controlHeadingStyle = new CheckBox.CheckBoxStyle();
-        controlHeadingStyle.font = font_32;
-
-        controlHeading = new CheckBox(game.isStickControl() ? game.bundle.get("stickLabel") : game.bundle.get("touchLabel"), controlHeadingStyle);
-        controlHeading.addListener(new ClickListener() {
+        //создание переключателя метода управления
+        final CheckBox controlSelect = new CheckBox(game.isStickControl() ? game.bundle.get("stickLabel") : game.bundle.get("touchLabel"), checkBoxStyle);
+        controlSelect.addListener(new ClickListener() {
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 super.touchUp(event, x, y, pointer, button);
-                musicVolume = game.getMusicVolume();
-                soundVolume = game.getSoundVolume();
-                stickControl = game.isStickControl();
-                sound.play(soundVolume);
-                if (stickControl) {
-                    stickControl = false;
-                    controlHeading.setText(game.bundle.get("touchLabel"));
-                    game.updatePref(musicVolume, soundVolume, false);
-                }
-                else {
-                    stickControl = true;
-                    controlHeading.setText(game.bundle.get("stickLabel"));
-                    game.updatePref(musicVolume, soundVolume, true);
-                }
+                game.setStickControl(!game.isStickControl());
+                controlSelect.setText(game.isStickControl() ? game.bundle.get("stickLabel") : game.bundle.get("touchLabel"));
+                sound.play(game.getSoundVolume());
             }
         });
 
-        Label soundFx = new Label(game.bundle.get("soundVolumeLabel"), new Label.LabelStyle(font_32, Color.WHITE));
-        Label musicFx = new Label(game.bundle.get("musicVolumeLabel"), new Label.LabelStyle(font_32, Color.WHITE));
-        Label handle = new Label(game.bundle.get("controlLabel"), new Label.LabelStyle(font_32, Color.WHITE));
-
-        final TextButton.TextButtonStyle buttonStyle = new TextButton.TextButtonStyle();
-        buttonStyle.font = font_24;
-
-        final TextButton textButton = new TextButton(game.bundle.get("LSLabel"), buttonStyle);
-        textButton.addListener(new ClickListener(){
+        //создание кнопки выбора языка
+        final TextButton langButton = new TextButton(game.bundle.get("LSLabel"), buttonStyle);
+        langButton.addListener(new ClickListener(){
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 sound.play(game.getSoundVolume());
@@ -183,9 +148,16 @@ class SettingsScreen implements Screen {
             }
         });
 
-        tableTop.add(exit).size(72, 72).left();
-        tableTop.add(label).center().expandX();
+        //создание надписей настроек
+        Label soundFx = new Label(game.bundle.get("soundVolumeLabel"), labelStyle);
+        Label musicFx = new Label(game.bundle.get("musicVolumeLabel"), labelStyle);
+        Label handle = new Label(game.bundle.get("controlLabel"), labelStyle);
 
+        //добавление элементов в заголовочную разметку
+        tableTop.add(exit).size(72).left();
+        tableTop.add(logo).center().expandX();
+
+        //добавление элементов в разметку настроек
         table.add(musicFx).expandX().padTop(10).center();
         table.add(musicVolumeSlider).expandX().padTop(10).center();
         table.row();
@@ -193,59 +165,60 @@ class SettingsScreen implements Screen {
         table.add(soundVolumeSlider).expandX().padTop(10).center();
         table.row();
         table.add(handle).expandX().padTop(10).center();
-        table.add(controlHeading).padTop(10).center().expandX().width(98).row();
-        table.add(textButton).size(260, 90).center();
+        table.add(controlSelect).padTop(10).center().expandX().width(98);
+        table.row();
+        table.add(langButton).size(260, 90).center();
 
+        //добавление разметок в сцену
         stage.addActor(tableTop);
         stage.addActor(table);
     }
 
     @Override
-    public void render ( float delta){
-        Gdx.gl.glClearColor(0,0,0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        batch.begin();
-        batch.draw(back, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        batch.end();
-        cam.update();
-        batch.setProjectionMatrix(cam.combined);
+    public void show() {
 
-        stage.act(delta);
-        stage.setDebugAll(true);
-        stage.draw();
-        stickControl = game.isStickControl();
     }
 
     @Override
-    public void resize ( int width, int height){
+    public void render(float delta) {
+        //очистка экрана
+        Gdx.gl.glClearColor(0,0,0, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        //обновление камеры
+        camera.update();
+
+        //обновление сцены
+        stage.act(delta);
+        stage.setDebugAll(true);
+        stage.draw();
+    }
+
+    @Override
+    public void resize(int width, int height) {
+        //обновление интерфейса при изменении размера экрана
         stage.getViewport().update(width, height, true);
     }
 
     @Override
-    public void pause () {
+    public void pause() {
 
     }
 
     @Override
-    public void resume () {
+    public void resume() {
 
     }
 
     @Override
-    public void hide () {
+    public void hide() {
 
     }
 
     @Override
-    public void dispose () {
-        back.dispose();
-        stage.dispose();
-        atlas.dispose();
-        skin.dispose();
+    public void dispose() {
+        //выгрузка объектов из памяти
         sound.dispose();
-
-        font_16.dispose();
-        font_24.dispose();
-        font_32.dispose();
+        stage.dispose();
     }
 }

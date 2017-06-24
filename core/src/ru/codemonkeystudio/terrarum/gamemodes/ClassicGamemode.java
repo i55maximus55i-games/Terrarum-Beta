@@ -16,7 +16,7 @@ import ru.codemonkeystudio.terrarum.screens.StatisticScreen;
 import ru.codemonkeystudio.terrarum.tools.GameRenderer;
 
 /**
- * Created by maximus on 21.06.2017.
+ * Классический игровой режим
  */
 
 public class ClassicGamemode implements Gamemode {
@@ -39,6 +39,7 @@ public class ClassicGamemode implements Gamemode {
     private float timer;
     private int score;
 
+    //инициализация игрового режима
     @Override
     public void init(Terrarum game, GameRenderer renderer, GameWorld gameWorld, Player player, ArrayList<Food> foods, ArrayList<Enemy> enemies) {
         this.game = game;
@@ -58,6 +59,7 @@ public class ClassicGamemode implements Gamemode {
         addFoodAndEnemy();
     }
 
+    //обновление объектов
     @Override
     public void update(float delta) {
         timer += delta;
@@ -67,18 +69,18 @@ public class ClassicGamemode implements Gamemode {
         iterator = foods.iterator();
         while (iterator.hasNext()) {
             foodO = (Food) iterator.next();
-            foodO.update(delta);
+            foodO.update(delta, 20);
         }
         Enemy enemyO;
         iterator = enemies.iterator();
         while (iterator.hasNext()) {
             enemyO = (Enemy) iterator.next();
-            enemyO.update(delta);
+            enemyO.update(delta, 20);
         }
 
 
         for (int i = 0; i < foods.size(); i++) {
-            foods.get(i).update(delta);
+            foods.get(i).update(delta, 20);
             if (foods.get(i).isAlive() && foods.get(i).getBody().getPosition().dst(player.getBody().getPosition()) < 10) {
                 foods.get(i).die(gameWorld.getWorld());
                 eatSound.play(game.getSoundVolume());
@@ -87,7 +89,7 @@ public class ClassicGamemode implements Gamemode {
         }
 
         for (int i = 0; i < enemies.size(); i++) {
-            enemies.get(i).update(delta);
+            enemies.get(i).update(delta, 20);
             if (enemies.get(i).isAlive() && enemies.get(i).getBody().getPosition().dst(player.getBody().getPosition()) < 10) {
                 enemies.get(i).die(gameWorld.getWorld());
                 enemySound.play(game.getSoundVolume());
@@ -96,6 +98,7 @@ public class ClassicGamemode implements Gamemode {
         }
     }
 
+    //проверка на окончание игры
     @Override
     public boolean isGameOver() {
         boolean isOver = false;
@@ -114,6 +117,7 @@ public class ClassicGamemode implements Gamemode {
         return isOver;
     }
 
+    //действия при окочнании игры
     @Override
     public void endGame() {
         int score = 0;
@@ -139,12 +143,7 @@ public class ClassicGamemode implements Gamemode {
         return 8;
     }
 
-    @Override
-    public void dispose() {
-        eatSound.dispose();
-        enemySound.dispose();
-    }
-
+    //добавление жёлтых и синих спор в игровой мир
     private void addFoodAndEnemy() {
         for (int i = 0; i < gameWorld.WORLD_SIZE; i++) {
             foods.add(new Food(gameWorld.getWorld(), renderer.getRayHandler(), gameWorld.WORLD_SIZE * 64 - 16, i * 64 + 16));
@@ -154,5 +153,12 @@ public class ClassicGamemode implements Gamemode {
             foods.add(new Food(gameWorld.getWorld(), renderer.getRayHandler(), i * 64 + 16, gameWorld.WORLD_SIZE * 64 - 16));
             enemies.add(new Enemy(gameWorld.getWorld(), renderer.getRayHandler(), i * 64 + 48, gameWorld.WORLD_SIZE * 64 - 16));
         }
+    }
+
+    @Override
+    public void dispose() {
+        //выгрузка объектов из памяти
+        eatSound.dispose();
+        enemySound.dispose();
     }
 }

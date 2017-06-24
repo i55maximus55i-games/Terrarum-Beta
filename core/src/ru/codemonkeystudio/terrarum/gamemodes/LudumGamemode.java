@@ -10,12 +10,11 @@ import ru.codemonkeystudio.terrarum.objects.Enemy;
 import ru.codemonkeystudio.terrarum.objects.Food;
 import ru.codemonkeystudio.terrarum.objects.GameWorld;
 import ru.codemonkeystudio.terrarum.objects.Player;
-import ru.codemonkeystudio.terrarum.screens.GameOverScreen;
 import ru.codemonkeystudio.terrarum.screens.MainMenuScreen;
 import ru.codemonkeystudio.terrarum.tools.GameRenderer;
 
 /**
- * Created by maximus on 21.06.2017.
+ * OLD38 easter egg
  */
 
 public class LudumGamemode implements Gamemode {
@@ -38,6 +37,7 @@ public class LudumGamemode implements Gamemode {
     private float timer;
     private boolean destroyed;
 
+    //инициализация игрового режима
     @Override
     public void init(Terrarum game, GameRenderer renderer, GameWorld gameWorld, Player player, ArrayList<Food> foods, ArrayList<Enemy> enemies) {
         this.game = game;
@@ -60,13 +60,14 @@ public class LudumGamemode implements Gamemode {
         foods.add(new Food(gameWorld.getWorld(), renderer.getRayHandler(), 64 * gameWorld.WORLD_SIZE - 16, 64 * gameWorld.WORLD_SIZE - 16));
     }
 
+    //обновление объектов
     @Override
     public void update(float delta) {
         timer += delta;
         renderer.setLives(player.getLives());
 
         for (int i = 0; i < foods.size(); i++) {
-            foods.get(i).update(delta, false);
+            foods.get(i).update(delta, 0);
             if (foods.get(i).isAlive() && foods.get(i).getBody().getPosition().dst(player.getBody().getPosition()) < 10) {
                 foods.get(i).die(gameWorld.getWorld());
                 if (i == 0) {
@@ -81,6 +82,7 @@ public class LudumGamemode implements Gamemode {
         }
     }
 
+    //проверка на окончание игры
     @Override
     public boolean isGameOver() {
         boolean isOver = false;
@@ -93,6 +95,7 @@ public class LudumGamemode implements Gamemode {
         return isOver;
     }
 
+    //действия при окочнании игры
     @Override
     public void endGame() {
         if (player.getLives() < 0) {
@@ -121,6 +124,7 @@ public class LudumGamemode implements Gamemode {
 
     @Override
     public void dispose() {
+        //выгрузка объектов из памяти
         eatSound.dispose();
         winSound.dispose();
         loseSound.dispose();

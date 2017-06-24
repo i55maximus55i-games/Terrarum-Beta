@@ -6,15 +6,10 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -26,57 +21,56 @@ import ru.codemonkeystudio.terrarum.gamemodes.ClassicGamemode;
 import ru.codemonkeystudio.terrarum.gamemodes.LudumGamemode;
 
 /**
- * Created by 1 on 24.06.2017.
+ * Экран выбора режима игры
  */
 
-public class GamemodeSelection implements Screen {
-
-    private SpriteBatch batch;
-    private OrthographicCamera gamecam;
-
-    //menu assets
-    private Sound sound;
+class GamemodeSelection implements Screen {
+    //сцена содержащая элементы интерфейса
+    private OrthographicCamera camera;
     private Stage stage;
-    private BitmapFont font_16,font_24,font_32;
-    private TextureAtlas atlas;
-    private Skin skin;
 
+    //звуки
+    private Sound sound;
 
-    public GamemodeSelection(final Terrarum game){
-
-        stage = new Stage();
-        batch = game.batch;
-        gamecam = new OrthographicCamera();
-
+    GamemodeSelection(final Terrarum game){
+        //инициализация звуков
         sound = Gdx.audio.newSound(Gdx.files.internal("sounds/select.wav"));
 
-        font_16 = new BitmapFont(Gdx.files.internal("fonts/Terrarum_16.fnt"), Gdx.files.internal("fonts/Terrarum_16.png"), false);
-        font_24 = new BitmapFont(Gdx.files.internal("fonts/Terrarum_24.fnt"), Gdx.files.internal("fonts/Terrarum_24.png"), false);
-        font_32 = new BitmapFont(Gdx.files.internal("fonts/Terrarum_32.fnt"), Gdx.files.internal("fonts/Terrarum_32.png"), false);
-
-        stage = new Stage(new FitViewport(800,600, gamecam));
+        //инициализания сцены, содержащей элементы интерфейса
+        camera = new OrthographicCamera();
+        stage = new Stage(new FitViewport(800,600, camera));
         Gdx.input.setInputProcessor(stage);
 
+        //создание разметки с режимами игры
         final Table table = new Table();
         table.center();
         table.setFillParent(true);
 
+        //создание разметки заголовка
         final Table tableTop = new Table();
         tableTop.top();
         tableTop.setFillParent(true);
 
-        skin = new Skin();
-        atlas = new TextureAtlas(Gdx.files.internal("textures/textureUI.pack"));
-        skin.addRegions(atlas);
-
-        final Label label = new Label(game.bundle.get("GSLabel"), new Label.LabelStyle(font_32, Color.WHITE));
-
+        //создание стиля для кнопки выхода в главное меню
         final Button.ButtonStyle exitStyle = new Button.ButtonStyle();
-        exitStyle.up = skin.getDrawable("btn_left");
-        exitStyle.down = skin.getDrawable("btn_left_pressed");
+        exitStyle.up = game.skin.getDrawable("btn_left");
+        exitStyle.down = game.skin.getDrawable("btn_left_pressed");
         exitStyle.pressedOffsetX = 1;
         exitStyle.pressedOffsetY = -1;
 
+        //создание стиля для кнопок выбора режима
+        final TextButton.TextButtonStyle buttonStyle = new TextButton.TextButtonStyle();
+        buttonStyle.font = game.font24;
+        buttonStyle.up = game.skin.getDrawable("btn_default");
+        buttonStyle.over = game.skin.getDrawable("btn_active");
+        buttonStyle.down = game.skin.getDrawable("btn_pressed");
+        buttonStyle.pressedOffsetX = 1;
+        buttonStyle.pressedOffsetY = -1;
+
+        //создание надписи заголовка
+        final Label label = new Label(game.bundle.get("GSLabel"), new Label.LabelStyle(game.font32, Color.WHITE));
+
+        //создание кнопки выхода в главное меню
         final Button exit = new Button(exitStyle);
         exit.addListener(new ClickListener(){
             @Override
@@ -86,14 +80,7 @@ public class GamemodeSelection implements Screen {
             }
         });
 
-        final TextButton.TextButtonStyle buttonStyle = new TextButton.TextButtonStyle();
-        buttonStyle.font = font_24;
-        buttonStyle.up = skin.getDrawable("btn_default");
-        buttonStyle.over = skin.getDrawable("btn_active");
-        buttonStyle.down = skin.getDrawable("btn_pressed");
-        buttonStyle.pressedOffsetX = 1;
-        buttonStyle.pressedOffsetY = -1;
-
+        //создание кнопок выбора режима
         final TextButton ClassicGM = new TextButton(game.bundle.get("Classic"), buttonStyle);
         ClassicGM.addListener(new ClickListener() {
             @Override
@@ -103,7 +90,6 @@ public class GamemodeSelection implements Screen {
                 game.setScreen(new GameScreen(game, new ClassicGamemode(), false));
             }
         });
-
         final TextButton ArcadeGM = new TextButton(game.bundle.get("Arcade"), buttonStyle);
         ArcadeGM.addListener(new ClickListener() {
             @Override
@@ -113,8 +99,7 @@ public class GamemodeSelection implements Screen {
                 game.setScreen(new GameScreen(game, new ArcadeGamemode(), false));
             }
         });
-
-        final TextButton LudumGM = new TextButton("Ludum", buttonStyle);
+        final TextButton LudumGM = new TextButton("OLD38", buttonStyle);
         LudumGM.addListener(new ClickListener(){
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
@@ -124,13 +109,19 @@ public class GamemodeSelection implements Screen {
             }
         });
 
+        //добавление элементов интерфейса в разметку заголовка
         tableTop.add(exit).size(72, 72).left().expandX();
         tableTop.add(label).center().expandX();
         tableTop.add().size(72, 72).right().expandX();
 
+        //добавление элементов интерфейса в разметку выбора режима
         table.add(ArcadeGM).size(260, 90).center().row();
         table.add(ClassicGM).size(260, 90).center().row();
+        if (game.isLudumUnlocked()) {
+            table.add(LudumGM).size(260, 90).center().row();
+        }
 
+        //добавление разметок на сцену
         stage.addActor(tableTop);
         stage.addActor(table);
     }
@@ -142,20 +133,22 @@ public class GamemodeSelection implements Screen {
 
     @Override
     public void render(float delta) {
-
+        //очистка экрана
         Gdx.gl20.glClearColor(0, 0, 0, 1);
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        gamecam.update();
-        batch.setProjectionMatrix(gamecam.combined);
 
+        //обновление камеры
+        camera.update();
+
+        //обновление сцены
         stage.act(delta);
         stage.setDebugAll(true);
         stage.draw();
-
     }
 
     @Override
     public void resize(int width, int height) {
+        //обновление интерфейса при изменении размера экрана
         stage.getViewport().update(width, height, true);
     }
 

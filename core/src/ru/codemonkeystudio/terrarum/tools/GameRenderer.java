@@ -48,7 +48,7 @@ public class GameRenderer implements Disposable {
     private int wr, wb;
     private int lives;
 
-    public GameRenderer(SpriteBatch batch, GameWorld gameWorld, ArrayList tail, int worldSize) {
+    public GameRenderer(SpriteBatch batch, GameWorld gameWorld, ArrayList tail) {
         this.world = gameWorld;
         this.batch = batch;
 
@@ -59,7 +59,6 @@ public class GameRenderer implements Disposable {
         cam = new OrthographicCamera();
         cam.setToOrtho(true);
         cam.zoom = 7;
-//        cam.zoom = 35;
         debugRenderer = new Box2DDebugRenderer();
         initAssets();
 
@@ -70,8 +69,7 @@ public class GameRenderer implements Disposable {
         rayHandler.setBlurNum(1);
         rayHandler.setShadows(true);
         rayHandler.setCulling(true);
-		rayHandler.setAmbientLight(0);
-//        rayHandler.setAmbientLight(0.3f);
+        rayHandler.setAmbientLight(0);
 
         healthBar = new ShapeRenderer();
         width = Gdx.graphics.getWidth();
@@ -161,8 +159,6 @@ public class GameRenderer implements Disposable {
     public void update(float delta, float camX, float camY, boolean isNear, Vector2 near, boolean isStickControl) {
         this.isNear = isNear;
         this.near = near;
-//        camX = GameWorld.WORLD_SIZE * 32;
-//        camY = GameWorld.WORLD_SIZE * 32;
         cam.position.x = camX;
         cam.position.y = camY;
         rayHandler.setCombinedMatrix(cam);

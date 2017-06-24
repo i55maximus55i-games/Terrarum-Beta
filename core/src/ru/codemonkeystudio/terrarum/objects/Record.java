@@ -1,7 +1,7 @@
 package ru.codemonkeystudio.terrarum.objects;
 
 /**
- * Created by maximus on 21.06.2017.
+ * объект содержащий в себе рекорд
  */
 
 public class Record {
