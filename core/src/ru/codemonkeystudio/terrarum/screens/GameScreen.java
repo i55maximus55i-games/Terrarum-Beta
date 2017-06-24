@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import ru.codemonkeystudio.terrarum.Terrarum;
-import ru.codemonkeystudio.terrarum.gamemodes.ArcadeGamemode;
 import ru.codemonkeystudio.terrarum.gamemodes.Gamemode;
 import ru.codemonkeystudio.terrarum.objects.Enemy;
 import ru.codemonkeystudio.terrarum.objects.Food;
@@ -144,6 +143,7 @@ public class GameScreen implements Screen {
     public void resize(int width, int height) {
         renderer.resize(width, height);
         controlHandler.resize();
+        hud.resize(width, height);
     }
 
     @Override
