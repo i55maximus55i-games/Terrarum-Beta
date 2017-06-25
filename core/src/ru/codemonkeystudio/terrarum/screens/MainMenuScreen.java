@@ -3,11 +3,13 @@ package ru.codemonkeystudio.terrarum.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -42,6 +44,15 @@ public class MainMenuScreen implements Screen {
         table.center();
         table.setFillParent(true);
 
+        Table tableB = new Table();
+        tableB.bottom().right();
+        tableB.setFillParent(true);
+
+        //инициализация стиля для текста
+        Label.LabelStyle labelStyle = new Label.LabelStyle();
+        labelStyle.font = game.font16;
+        labelStyle.fontColor = Color.GRAY;
+
         //инициализация стиля для логотипа
         ImageButton.ImageButtonStyle logoStyle = new ImageButton.ImageButtonStyle();
         logoStyle.up = game.skin.getDrawable("icon_terrarum");
@@ -54,6 +65,11 @@ public class MainMenuScreen implements Screen {
         textButtonStyle.down = game.skin.getDrawable("btn_pressed");
         textButtonStyle.pressedOffsetX = 1;
         textButtonStyle.pressedOffsetY = -1;
+
+        //создание текста о текущей версии
+        Label verLabel = new Label(game.bundle.get("VersionLabel") ,labelStyle);
+        verLabel.setAlignment(1);
+
 
         //создание логотипа
         ImageButton logo = new ImageButton(logoStyle);
@@ -107,8 +123,11 @@ public class MainMenuScreen implements Screen {
         table.add(settings).size(260, 90).row();
         table.add(exit).size(260, 90).row();
 
+        tableB.add(verLabel).right();
+
         //добавление разметки в сцену
         stage.addActor(table);
+        stage.addActor(tableB);
     }
 
     //old38 easter egg
