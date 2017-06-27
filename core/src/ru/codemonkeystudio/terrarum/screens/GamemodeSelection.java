@@ -142,7 +142,7 @@ class GamemodeSelection implements Screen {
 
         //обновление сцены
         stage.act(delta);
-        stage.setDebugAll(true);
+        stage.setDebugAll(false);
         stage.draw();
     }
 

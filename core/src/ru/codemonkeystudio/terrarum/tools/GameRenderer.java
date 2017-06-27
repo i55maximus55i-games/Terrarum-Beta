@@ -112,7 +112,7 @@ public class GameRenderer implements Disposable {
             shapeRenderer.circle(cam.position.x + near.x * 10, cam.position.y + near.y * 10, 0.5f);
         }
         shapeRenderer.end();
-        debugRenderer.render(world.getWorld(), cam.combined);
+//        debugRenderer.render(world.getWorld(), cam.combined);
         if (isStickControl) {
             controlHandler.stickControl();
         }
