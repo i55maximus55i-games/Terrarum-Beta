@@ -35,7 +35,7 @@ public class GameOverScreen implements Screen {
 
         //инициализания сцены, содержащей элементы интерфейса
         camera = new OrthographicCamera();
-        stage = new Stage(new FitViewport(800, 600, camera));
+        stage = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), camera));
         Gdx.input.setInputProcessor(stage);
 
         //создание разметки заголовка
@@ -98,7 +98,7 @@ public class GameOverScreen implements Screen {
         if (StatisticScreen.getRecords(gamemode)[9].score < score) {
             table.add(textField).expandX().center().width(160).row();
         }
-        table.add(menuButton).size(260, 90).expandX();
+        table.add(menuButton).size(Gdx.graphics.getHeight() * 13 / 36, Gdx.graphics.getHeight() / 8).expandX();
 
         //добавление разметки в сцену
         stage.addActor(table);

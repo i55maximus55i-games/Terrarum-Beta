@@ -36,7 +36,7 @@ public class MainMenuScreen implements Screen {
 
         //инициализания сцены, содержащей элементы интерфейса
         camera = new OrthographicCamera();
-        stage = new Stage(new FitViewport(800, 600, camera));
+        stage = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), camera));
         Gdx.input.setInputProcessor(stage);
 
         //создание разметки
@@ -117,11 +117,11 @@ public class MainMenuScreen implements Screen {
         });
 
         //добавление элементов интерфейса в разметку
-        table.add(logo).size(364, 126).row();
-        table.add(newGame).size(260, 90).row();
-        table.add(statistic).size(260, 90).row();
-        table.add(settings).size(260, 90).row();
-        table.add(exit).size(260, 90).row();
+        table.add(logo).size(Gdx.graphics.getHeight() * 91 / 180, Gdx.graphics.getHeight() * 7 / 40).row();
+        table.add(newGame).size(Gdx.graphics.getHeight() * 13 / 36, Gdx.graphics.getHeight() / 8).row();
+        table.add(statistic).size(Gdx.graphics.getHeight() * 13 / 36, Gdx.graphics.getHeight() / 8).row();
+        table.add(settings).size(Gdx.graphics.getHeight() * 13 / 36, Gdx.graphics.getHeight() / 8).row();
+        table.add(exit).size(Gdx.graphics.getHeight() * 13 / 36, Gdx.graphics.getHeight() / 8).row();
 
         tableB.add(verLabel).right();
 
@@ -137,7 +137,7 @@ public class MainMenuScreen implements Screen {
 
         sound = Gdx.audio.newSound(Gdx.files.internal("sounds/select.wav"));
 
-        stage = new Stage(new FitViewport(800,600, camera));
+        stage = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), camera));
         Gdx.input.setInputProcessor(stage);
 
         Table table = new Table();
@@ -176,11 +176,9 @@ public class MainMenuScreen implements Screen {
         exitStyle.pressedOffsetY = -1;
 
         ImageButton icon = new ImageButton(iconstyle);
-        icon.setSize(364, 126);
-        icon.setPosition(stage.getWidth()/2, (stage.getHeight()/6)*5, 1);
 
         TextButton newGame = new TextButton("", newGameStyle);
-        newGame.setSize(260, 90);
+        newGame.setSize(Gdx.graphics.getHeight() * 13 / 36, Gdx.graphics.getHeight() / 8);
         newGame.setPosition(stage.getWidth()/2, (stage.getHeight()/6)*4, 1);
         newGame.addListener(new ClickListener() {
             @Override
@@ -192,15 +190,12 @@ public class MainMenuScreen implements Screen {
         });
 
         TextButton statistic = new TextButton("", statisticStyle);
-        statistic.setSize(260, 90);
+        statistic.setSize(Gdx.graphics.getHeight() * 13 / 36, Gdx.graphics.getHeight() / 8);
         statistic.setPosition(stage.getWidth() / 2, (stage.getHeight() / 6) * 3, 1);
 
         TextButton settings = new TextButton("", settingsStyle);
-        settings.setSize(260, 90);
-        settings.setPosition(stage.getWidth()/2, (stage.getHeight()/6)*2, 1);
 
         TextButton exit = new TextButton("", exitStyle);
-        exit.setSize(260, 90);
         exit.setPosition(stage.getWidth()/2, (stage.getHeight()/6)*1, 1);
         exit.addListener(new ClickListener() {
             @Override
@@ -211,11 +206,11 @@ public class MainMenuScreen implements Screen {
             }
         });
 
-        table.add(icon).size(364, 126).row();
-        table.add(newGame).size(260, 90).row();
-        table.add(statistic).size(260, 90).row();
-        table.add(settings).size(260, 90).row();
-        table.add(exit).size(260, 90).row();
+        table.add(icon).size(Gdx.graphics.getHeight() * 91 / 180, Gdx.graphics.getHeight() * 7 / 40).row();
+        table.add(newGame).size(Gdx.graphics.getHeight() * 13 / 36, Gdx.graphics.getHeight() / 8).row();
+        table.add(statistic).size(Gdx.graphics.getHeight() * 13 / 36, Gdx.graphics.getHeight() / 8).row();
+        table.add(settings).size(Gdx.graphics.getHeight() * 13 / 36, Gdx.graphics.getHeight() / 8).row();
+        table.add(exit).size(Gdx.graphics.getHeight() * 13 / 36, Gdx.graphics.getHeight() / 8).row();
 
         stage.addActor(table);
     }

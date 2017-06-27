@@ -52,7 +52,7 @@ public class StatisticScreen implements Screen {
 
         //инициализания сцены, содержащей элементы интерфейса
         camera = new OrthographicCamera();
-        stage = new Stage(new FitViewport(800,600, camera));
+        stage = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), camera));
         Gdx.input.setInputProcessor(stage);
 
         //создание разметки с выбором режима
@@ -176,11 +176,11 @@ public class StatisticScreen implements Screen {
         });
 
         //добавление элементов интерфейса в разметку выбора режима
-        table1.add(leftButton).size(72, 72).left().expandX();
+        table1.add(leftButton).size(Gdx.graphics.getHeight() / 8).left().expandX();
         table1.add(label1).center().expandX();
         table1.add(label2).center().expandX();
         table1.add(label3).center().expandX();
-        table1.add(rightButton).size(72, 72).right().expandX();
+        table1.add(rightButton).size(Gdx.graphics.getHeight() / 8).right().expandX();
         table1.row();
 
         //добавление элементов интерфейса в разметку статистики
@@ -211,7 +211,7 @@ public class StatisticScreen implements Screen {
         }
         table3.add().center().expandX();
         table3.add().center().expandX();
-        table3.add(menuButton).size(260, 90).center().expandX();
+        table3.add(menuButton).size(Gdx.graphics.getHeight() * 13 / 36, Gdx.graphics.getHeight() / 8).center().expandX();
         table3.add().center().expandX();
         table3.add().center().expandX();
 

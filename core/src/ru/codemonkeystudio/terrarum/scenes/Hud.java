@@ -96,8 +96,6 @@ public class Hud implements Disposable {
         pauseStyle.pressedOffsetY = -1;
 
         pause = new Button(pauseStyle);
-        pause.setSize(72, 142);
-        pause.setPosition(pause.getWidth()/2, stage.getHeight() - pause.getHeight()/2, 1);
         pause.addListener(new ClickListener(){
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
@@ -107,7 +105,7 @@ public class Hud implements Disposable {
         });
 
 
-        table.add(pause).expandX().padTop(10).size(72, 72);
+        table.add(pause).expandX().padTop(10).size(Gdx.graphics.getHeight() / 8);
         table.add(liveLabel).expandX().padTop(10);
         table.add(timeLabel).expandX().padTop(10);
         table.add(scoresLabel).expandX().padTop(10);
@@ -144,9 +142,6 @@ public class Hud implements Disposable {
         ImageButton.ImageButtonStyle iconstyle = new ImageButton.ImageButtonStyle();
         iconstyle.up = skin.getDrawable("icon_paused");
         icon = new ImageButton(iconstyle);
-        icon.setSize(364, 126);
-        icon.setPosition(stage.getWidth()/2, (stage.getHeight()/6)*5, 1);
-
 
         TextButton.TextButtonStyle continueStyle = new TextButton.TextButtonStyle();
         continueStyle.font = font_24;
@@ -203,10 +198,10 @@ public class Hud implements Disposable {
             }
         });
 
-        table2.add(icon).size(364, 126).row();
-        table2.add(continueButton).size(260, 90).row();
-        table2.add(settingsButton).size(260, 90).row();
-        table2.add(mainMenuButton).size(260, 90).row();
+        table2.add(icon).size(Gdx.graphics.getHeight() * 91 / 180, Gdx.graphics.getHeight() * 7 / 40).row();
+        table2.add(continueButton).size(Gdx.graphics.getHeight() * 13 / 36, Gdx.graphics.getHeight() / 8).row();
+        table2.add(settingsButton).size(Gdx.graphics.getHeight() * 13 / 36, Gdx.graphics.getHeight() / 8).row();
+        table2.add(mainMenuButton).size(Gdx.graphics.getHeight() * 13 / 36, Gdx.graphics.getHeight() / 8).row();
 
         stage.addActor(table2);
 
@@ -222,7 +217,6 @@ public class Hud implements Disposable {
         tableTop.setFillParent(true);
 
         Label label = new Label(game.bundle.get("settingsLabel"), new Label.LabelStyle(font_32, Color.WHITE));
-        label.setPosition(400, 600 - label.getHeight() / 2, 1);
 
         Button.ButtonStyle exitStyle = new Button.ButtonStyle();
         exitStyle.up = skin.getDrawable("btn_left");
@@ -231,8 +225,6 @@ public class Hud implements Disposable {
         exitStyle.pressedOffsetY = -1;
 
         Button exit = new Button(exitStyle);
-        exit.setSize(72, 72);
-        exit.setPosition(exit.getWidth() / 2, stage.getHeight() - exit.getHeight() / 2, 1);
         exit.addListener(new ClickListener(){
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
@@ -243,10 +235,10 @@ public class Hud implements Disposable {
                 table3.clear();
                 table3.remove();
 
-                table2.add(icon).size(364, 126).row();
-                table2.add(continueButton).size(260, 90).row();
-                table2.add(settingsButton).size(260, 90).row();
-                table2.add(mainMenuButton).size(260, 90).row();
+                table2.add(icon).size(Gdx.graphics.getHeight() * 91 / 180, Gdx.graphics.getHeight() * 7 / 40).row();
+                table2.add(continueButton).size(Gdx.graphics.getHeight() * 13 / 36, Gdx.graphics.getHeight() / 8).row();
+                table2.add(settingsButton).size(Gdx.graphics.getHeight() * 13 / 36, Gdx.graphics.getHeight() / 8).row();
+                table2.add(mainMenuButton).size(Gdx.graphics.getHeight() * 13 / 36, Gdx.graphics.getHeight() / 8).row();
                 stage.addActor(table2);
 
             }
@@ -327,7 +319,7 @@ public class Hud implements Disposable {
         Label musicFx = new Label(game.bundle.get("musicVolumeLabel"), new Label.LabelStyle(font_32, Color.WHITE));
         Label handle = new Label(game.bundle.get("controlLabel"), new Label.LabelStyle(font_32, Color.WHITE));
 
-        tableTop.add(exit).size(72, 72).left();
+        tableTop.add(exit).size(Gdx.graphics.getHeight() / 8).left();
         tableTop.add(label).center().expandX();
 
         table3.add(musicFx).expandX().padTop(10).center();
@@ -358,8 +350,6 @@ public class Hud implements Disposable {
         pauseStyle.pressedOffsetX = 1;
         pauseStyle.pressedOffsetY = -1;
         pause = new Button(pauseStyle);
-        pause.setSize(72, 72);
-        pause.setPosition(pause.getWidth()/2, stage.getHeight() - pause.getHeight()/2, 1);
         pause.addListener(new ClickListener(){
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
@@ -370,7 +360,7 @@ public class Hud implements Disposable {
 
         table.clear();
         table.remove();
-        table.add(pause).expandX().padTop(10).size(72);
+        table.add(pause).expandX().padTop(10).size(Gdx.graphics.getHeight() / 8);
         table.add(liveLabel).expandX().padTop(10);
         table.add(timeLabel).expandX().padTop(10);
         table.add(scoresLabel).expandX().padTop(10);

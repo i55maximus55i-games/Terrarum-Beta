@@ -39,7 +39,7 @@ class SettingsScreen implements Screen {
 
         //инициализания сцены, содержащей элементы интерфейса
         camera = new OrthographicCamera();
-        stage = new Stage(new FitViewport(800, 600, camera));
+        stage = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), camera));
         Gdx.input.setInputProcessor(stage);
 
         //создание разметки заголовка
@@ -144,7 +144,7 @@ class SettingsScreen implements Screen {
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 sound.play(game.getSoundVolume());
                 stage.dispose();
-                game.setScreen(new LanguageSelection(game));
+                game.setScreen(new LanguageSelectionScreen(game));
             }
         });
 
@@ -154,7 +154,7 @@ class SettingsScreen implements Screen {
         Label handle = new Label(game.bundle.get("controlLabel"), labelStyle);
 
         //добавление элементов в заголовочную разметку
-        tableTop.add(exit).size(72).left();
+        tableTop.add(exit).size(Gdx.graphics.getHeight() / 8).left();
         tableTop.add(logo).center().expandX();
 
         //добавление элементов в разметку настроек
@@ -167,7 +167,7 @@ class SettingsScreen implements Screen {
         table.add(handle).expandX().padTop(10).center();
         table.add(controlSelect).padTop(10).center().expandX().width(98);
         table.row();
-        table.add(langButton).size(260, 90).center();
+        table.add(langButton).size(Gdx.graphics.getHeight() * 13 / 36, Gdx.graphics.getHeight() / 8).center();
 
         //добавление разметок в сцену
         stage.addActor(tableTop);

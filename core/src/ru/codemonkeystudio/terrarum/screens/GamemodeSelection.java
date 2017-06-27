@@ -38,7 +38,7 @@ class GamemodeSelection implements Screen {
 
         //инициализания сцены, содержащей элементы интерфейса
         camera = new OrthographicCamera();
-        stage = new Stage(new FitViewport(800,600, camera));
+        stage = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), camera));
         Gdx.input.setInputProcessor(stage);
 
         //создание разметки с режимами игры
@@ -110,15 +110,15 @@ class GamemodeSelection implements Screen {
         });
 
         //добавление элементов интерфейса в разметку заголовка
-        tableTop.add(exit).size(72, 72).left().expandX();
+        tableTop.add(exit).size(Gdx.graphics.getHeight() / 8).left().expandX();
         tableTop.add(label).center().expandX();
-        tableTop.add().size(72, 72).right().expandX();
+        tableTop.add().size(Gdx.graphics.getHeight() / 8).right().expandX();
 
         //добавление элементов интерфейса в разметку выбора режима
-        table.add(ArcadeGM).size(260, 90).center().row();
-        table.add(ClassicGM).size(260, 90).center().row();
+        table.add(ArcadeGM).size(Gdx.graphics.getHeight() * 13 / 36, Gdx.graphics.getHeight() / 8).center().row();
+        table.add(ClassicGM).size(Gdx.graphics.getHeight() * 13 / 36, Gdx.graphics.getHeight() / 8).center().row();
         if (game.isLudumUnlocked()) {
-            table.add(LudumGM).size(260, 90).center().row();
+            table.add(LudumGM).size(Gdx.graphics.getHeight() * 13 / 36, Gdx.graphics.getHeight() / 8).center().row();
         }
 
         //добавление разметок на сцену
