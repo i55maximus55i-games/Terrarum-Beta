@@ -45,7 +45,7 @@ public class GameOverScreen implements Screen {
 
         //создание стиля для кнопки выхода в гланое меню
         TextButton.TextButtonStyle menuButtonStyle = new TextButton.TextButtonStyle();
-        menuButtonStyle.font = game.font24;
+        menuButtonStyle.font = game.font32;
         menuButtonStyle.up = game.skin.getDrawable("btn_default");
         menuButtonStyle.over = game.skin.getDrawable("btn_active");
         menuButtonStyle.down = game.skin.getDrawable("btn_pressed");
@@ -54,7 +54,7 @@ public class GameOverScreen implements Screen {
 
         //создание стиля для поля ввода имени
         TextField.TextFieldStyle textFieldStyle = new TextField.TextFieldStyle();
-        textFieldStyle.font = game.font24;
+        textFieldStyle.font = game.font32;
         textFieldStyle.fontColor = Color.GRAY;
         textFieldStyle.focusedFontColor = Color.WHITE;
         textFieldStyle.cursor = game.skin.getDrawable("cursor");

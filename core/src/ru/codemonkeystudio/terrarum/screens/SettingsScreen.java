@@ -70,7 +70,7 @@ class SettingsScreen implements Screen {
 
         //создание стиля кнопки выбора языка
         final TextButton.TextButtonStyle buttonStyle = new TextButton.TextButtonStyle();
-        buttonStyle.font = game.font24;
+        buttonStyle.font = game.font32;
 
         //создание стиля для слайдеров громкости
         Slider.SliderStyle sliderStyle = new Slider.SliderStyle();

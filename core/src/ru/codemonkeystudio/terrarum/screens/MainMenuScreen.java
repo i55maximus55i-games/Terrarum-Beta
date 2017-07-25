@@ -50,7 +50,7 @@ public class MainMenuScreen implements Screen {
 
         //инициализация стиля для текста
         Label.LabelStyle labelStyle = new Label.LabelStyle();
-        labelStyle.font = game.font16;
+        labelStyle.font = game.font24;
         labelStyle.fontColor = Color.GRAY;
 
         //инициализация стиля для логотипа
@@ -59,7 +59,7 @@ public class MainMenuScreen implements Screen {
 
         //инициализация стиля для кнопок
         TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
-        textButtonStyle.font = game.font24;
+        textButtonStyle.font = game.font32;
         textButtonStyle.up = game.skin.getDrawable("btn_default");
         textButtonStyle.over = game.skin.getDrawable("btn_active");
         textButtonStyle.down = game.skin.getDrawable("btn_pressed");

@@ -60,7 +60,7 @@ class GamemodeSelection implements Screen {
 
         //создание стиля для кнопок выбора режима
         final TextButton.TextButtonStyle buttonStyle = new TextButton.TextButtonStyle();
-        buttonStyle.font = game.font24;
+        buttonStyle.font = game.font32;
         buttonStyle.up = game.skin.getDrawable("btn_default");
         buttonStyle.over = game.skin.getDrawable("btn_active");
         buttonStyle.down = game.skin.getDrawable("btn_pressed");
