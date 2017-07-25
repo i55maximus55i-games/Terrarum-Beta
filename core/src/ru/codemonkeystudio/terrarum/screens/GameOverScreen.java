@@ -54,7 +54,7 @@ public class GameOverScreen implements Screen {
 
         //создание стиля для поля ввода имени
         TextField.TextFieldStyle textFieldStyle = new TextField.TextFieldStyle();
-        textFieldStyle.font = game.font32;
+        textFieldStyle.font = game.font24;
         textFieldStyle.fontColor = Color.GRAY;
         textFieldStyle.focusedFontColor = Color.WHITE;
         textFieldStyle.cursor = game.skin.getDrawable("cursor");
